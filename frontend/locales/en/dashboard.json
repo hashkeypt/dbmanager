@@ -1,0 +1,136 @@
+{
+  "title": "Dashboard",
+  "tabs": {
+    "overview": "Overview",
+    "myPermissions": "My Permissions",
+    "myRequests": "My Requests"
+  },
+  "cards": {
+    "users": {
+      "title": "Users",
+      "totalUsers": "Total Users",
+      "manageButton": "Manage Users"
+    },
+    "databases": {
+      "title": "Databases",
+      "connectedDatabases": "Connected Databases",
+      "manageButton": "Manage Databases",
+      "newCount": "+{{count}} new"
+    },
+    "requests": {
+      "title": "Access Requests",
+      "pendingRequests": "Pending Requests",
+      "viewButton": "View Requests"
+    },
+    "approvalRate": {
+      "title": "Approval Rate",
+      "period": "Last 30 days",
+      "viewReports": "View Reports"
+    },
+    "discrepancyHistory": {
+      "title": "Discrepancy History",
+      "thisMonth": "This month"
+    },
+    "requestDistribution": {
+      "title": "Request Distribution",
+      "thisMonth": "This month",
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    }
+  },
+  "recentActivity": {
+    "title": "Recent Activity",
+    "operations": "Operations",
+    "noActivity": "No recent activity"
+  },
+  "systemStatus": {
+    "title": "System Status",
+    "status": "Status",
+    "uptime": "Uptime",
+    "version": "Version",
+    "license": "License",
+    "licenseExpiresIn": "Expires in",
+    "serverLimit": "Server Limit",
+    "userLimit": "User Limit",
+    "serverUsage": "Servers in Use",
+    "userUsage": "Users in Use",
+    "requests": "Requests"
+  },
+  "requester": {
+    "lastLogin": "Last login",
+    "cards": {
+      "permissions": {
+        "title": "My Permissions",
+        "total": "Total active permissions",
+        "viewButton": "View Permissions"
+      },
+      "requests": {
+        "title": "My Requests",
+        "pending": "Pending requests",
+        "approved": "Approved requests",
+        "viewButton": "View Requests"
+      },
+      "newRequest": {
+        "title": "New Request",
+        "description": "Request database access",
+        "button": "Create New Request"
+      }
+    },
+    "requestStats": {
+      "title": "Request Statistics",
+      "pending": "Pending Requests",
+      "approved": "Approved Requests",
+      "rejected": "Rejected Requests",
+      "total": "Total Requests",
+      "totalRequests": "Total Requests",
+      "approvalRate": "Approval Rate"
+    },
+    "recentActivity": {
+      "title": "Recent Activity",
+      "operations": "Operations",
+      "noActivity": "No recent activity",
+      "realTime": "Real time"
+    },
+    "permissionsByDatabase": {
+      "title": "Permissions by Database",
+      "noData": "No permissions found"
+    },
+    "expiringPermissions": {
+      "title": "Expiring Permissions",
+      "expires": "Expires on",
+      "days": "days",
+      "noData": "No permissions expiring in the next 30 days"
+    },
+    "myRequests": {
+      "title": "My Access Requests",
+      "newRequest": "New Request",
+      "noRequests": "No requests found",
+      "viewAll": "View All Requests"
+    },
+    "credentials": {
+      "configureButton": "Configure Credentials",
+      "notConfigured": {
+        "title": "Universal Credentials Not Configured",
+        "message": "Configure your universal database credentials to properly manage permissions and synchronization."
+      },
+      "outdated": {
+        "title": "Outdated Universal Credentials",
+        "message": "Your universal credentials were updated {{months}} months ago. For security purposes, we recommend updating them."
+      }
+    }
+  },
+  "pendingApproval": "Awaiting approval",
+  "growthTrends": "Growth Trends",
+  "credentialsOutdated": "Outdated Credentials",
+  "passwordsUpdated": "Passwords Updated",
+  "live": "Live",
+  "active": "Active",
+  "subtitle": "System overview",
+  "loading": "Loading...",
+  "discrepancies": {
+    "unmanagedUser": "Unmanaged Users",
+    "permissionMismatch": "Permission Mismatch",
+    "missingPermission": "Missing Permissions"
+  }
+}

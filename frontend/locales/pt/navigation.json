@@ -1,0 +1,15 @@
+{
+  "dashboard": "Painel",
+  "servers": "Servidores",
+  "databases": "Bancos de Dados",
+  "users": "Usuários",
+  "permissions": "Permissões",
+  "requests": "Solicitações de Acesso",
+  "logs": "Logs",
+  "reports": "Relatórios",
+  "sync": "Sincronização",
+  "settings": "Configurações",
+  "profile": "Perfil",
+  "documentation": "Documentação",
+  "logout": "Sair"
+}

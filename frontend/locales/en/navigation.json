@@ -1,0 +1,15 @@
+{
+  "dashboard": "Dashboard",
+  "servers": "Servers",
+  "databases": "Databases",
+  "users": "Users",
+  "permissions": "Permissions",
+  "requests": "Access Requests",
+  "logs": "Logs",
+  "reports": "Reports",
+  "sync": "Synchronization",
+  "settings": "Settings",
+  "profile": "Profile",
+  "documentation": "Documentation",
+  "logout": "Logout"
+}

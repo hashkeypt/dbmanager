@@ -1,0 +1,15 @@
+{
+  "title": "Notifications",
+  "viewAll": "View all notifications",
+  "markAsRead": "Mark as read",
+  "markAllAsRead": "Mark all as read",
+  "empty": "No notifications",
+  "loading": "Loading notifications...",
+  "types": {
+    "access_request": "Access Request",
+    "approval": "Approval",
+    "rejection": "Rejection",
+    "system": "System",
+    "alert": "Alert"
+  }
+}

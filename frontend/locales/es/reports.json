@@ -1,0 +1,32 @@
+{
+  "title": "Reportes de Consultas de Usuario",
+  "subtitle": "Vea y analice la actividad de consultas de usuarios en todas las bases de datos",
+  "generateReport": "Generar Reporte",
+  "export": "Exportar",
+  "totalUsers": "Total de Usuarios",
+  "totalQueries": "Total de Consultas",
+  "avgQueriesPerUser": "Promedio Consultas/Usuario",
+  "mostActiveUser": "Usuario Más Activo",
+  "onServer": "En servidor",
+  "filterByServer": "Filtrar por Servidor",
+  "filterByUser": "Filtrar por Usuario",
+  "usernamePlaceholder": "Nombre de usuario",
+  "user": "Usuario",
+  "server": "Servidor",
+  "date": "Fecha",
+  "queryBreakdown": "Desglose de Consultas",
+  "avgTime": "Tiempo Promedio",
+  "slowQueries": "Consultas Lentas",
+  "failedQueries": "Consultas Fallidas",
+  "noReportsFound": "No se encontraron reportes para los criterios seleccionados",
+  "errors": {
+    "generateFailed": "Error al generar el reporte"
+  },
+  "exportError": "Error al exportar el reporte como PDF",
+  "filters": "Filtros",
+  "showAdvancedFilters": "Mostrar Filtros Avanzados",
+  "hideAdvancedFilters": "Ocultar Filtros Avanzados",
+  "filterByQueryType": "Filtrar por Tipo de Consulta",
+  "minQueries": "Consultas Mínimas",
+  "minQueriesPlaceholder": "ej., 100"
+}

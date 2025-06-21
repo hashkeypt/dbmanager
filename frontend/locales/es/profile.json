@@ -1,0 +1,137 @@
+{
+  "title": "Perfil de Usuario",
+  "generalInfo": "Información General",
+  "securitySettings": "Configuración de Seguridad",
+  "databaseCredentials": "Credenciales de Base de Datos",
+  "error": {
+    "loadingUser": "Error al cargar el perfil de usuario"
+  },
+  "avatar": {
+    "sizeError": "La imagen del avatar debe ser menor a 5MB",
+    "typeError": "El archivo debe ser una imagen",
+    "success": "Avatar actualizado exitosamente",
+    "error": "Error al cargar el avatar"
+  },
+  "personalInfo": {
+    "title": "Información Personal",
+    "username": "Nombre de usuario",
+    "email": "Correo electrónico",
+    "role": "Rol",
+    "status": "Estado",
+    "lastLogin": "Último Inicio de Sesión"
+  },
+  "security": {
+    "title": "Configuración de Seguridad",
+    "changePassword": "Cambiar Contraseña",
+    "currentPassword": "Contraseña Actual",
+    "newPassword": "Nueva Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "saveButton": "Cambiar Contraseña",
+    "passwordSuccess": "¡Contraseña cambiada exitosamente!",
+    "passwordError": "Error al cambiar la contraseña"
+  },
+  "settings": {
+    "title": "Configuración",
+    "language": "Idioma",
+    "theme": "Tema",
+    "saveButton": "Guardar Configuración",
+    "saveSuccess": "¡Configuración guardada exitosamente!",
+    "saveError": "Error al guardar la configuración"
+  },
+  "universalCredentials": "Credenciales Universales de Base de Datos",
+  "universalCredentialsDescription": "Gestione sus credenciales universales de conexión a base de datos. Estas credenciales se utilizarán para todas las conexiones de base de datos, proporcionando un único conjunto de detalles de autenticación para la sincronización de permisos.",
+  "noUniversalCredentials": "Aún no tiene credenciales universales de base de datos configuradas.",
+  "universalCredentialDetails": "Detalles de Credenciales Universales",
+  "universalCredentialsForm": {
+    "addTitle": "Establecer Credenciales Universales",
+    "updateTitle": "Actualizar Credenciales Universales",
+    "description": "Estas credenciales se utilizarán para todas las conexiones de base de datos. Asegúrese de tener el mismo nombre de usuario y contraseña en todos sus servidores de base de datos."
+  },
+  "requiredCredentials": {
+    "title": "Credenciales de Base de Datos Requeridas",
+    "warning": "Debe configurar sus credenciales de base de datos antes de usar el sistema",
+    "description": "Para garantizar la sincronización adecuada y el acceso a los recursos de base de datos, necesita configurar sus credenciales universales de base de datos. Estas se utilizarán para todas las operaciones en el sistema."
+  },
+  "credentialsForm": {
+    "username": "Nombre de Usuario",
+    "password": "Contraseña",
+    "usernameHelp": "Su nombre de usuario se utilizará en todas las bases de datos",
+    "passwordHelp": "La contraseña debe ser fuerte y segura",
+    "updateButton": "Actualizar Credenciales",
+    "saveButton": "Guardar Credenciales",
+    "addButton": "Establecer Credenciales",
+    "error": {
+      "fieldsRequired": "Todos los campos son requeridos",
+      "invalidPassword": "La contraseña no cumple con los requisitos de seguridad"
+    },
+    "passwordRequirements": "Requisitos de contraseña:",
+    "title": "Credenciales Universales de Base de Datos",
+    "updateTitle": "Actualizar Credenciales Universales",
+    "addTitle": "Establecer Credenciales Universales",
+    "description": "Estas credenciales se utilizarán para todas las conexiones de base de datos. Asegúrese de tener el mismo nombre de usuario y contraseña en todos sus servidores de base de datos."
+  },
+  "noDatabases": "Aún no hay bases de datos conectadas",
+  "credentialsDescription": "Gestione sus credenciales de conexión a base de datos. Estas credenciales se utilizan para la sincronización de usuarios y permisos entre DB-Manager y sus servidores de base de datos.",
+  "noCredentials": "No tiene ninguna credencial de base de datos configurada.",
+  "activity": "Actividad Reciente",
+  "permissions": {
+    "title": "Mis Permisos de Base de Datos",
+    "noPermissions": "Aún no tiene ningún permiso de base de datos."
+  },
+  "databaseCredentialsForm": {
+    "title": "Credenciales de Base de Datos",
+    "description": "Gestione sus credenciales de base de datos para sincronización",
+    "add": "Agregar Credenciales",
+    "edit": "Editar Credenciales",
+    "database": "Base de Datos",
+    "type": "Tipo",
+    "username": "Nombre de Usuario",
+    "password": "Contraseña",
+    "test": "Probar Conexión",
+    "save": "Guardar Credenciales",
+    "empty": "No se encontraron credenciales de base de datos. Agregue credenciales para habilitar la sincronización de usuarios.",
+    "lastUpdated": "Última Actualización"
+  },
+  "form": {
+    "username": "Nombre de Usuario",
+    "email": "Correo Electrónico",
+    "fullName": "Nombre Completo",
+    "role": "Rol",
+    "status": "Estado",
+    "lastLogin": "Último Inicio de Sesión",
+    "currentPassword": "Contraseña Actual",
+    "newPassword": "Nueva Contraseña",
+    "confirmPassword": "Confirmar Nueva Contraseña",
+    "changePassword": "Cambiar Contraseña",
+    "enable2FA": "Habilitar Autenticación de Dos Factores",
+    "disable2FA": "Deshabilitar Autenticación de Dos Factores",
+    "setup2FA": "Configurar Autenticación de Dos Factores",
+    "backupCodes": "Códigos de Respaldo"
+  },
+  "passwordSuccess": "¡Contraseña cambiada exitosamente!",
+  "passwordError": "Error al cambiar la contraseña",
+  "2FASuccess": "¡Configuración de autenticación de dos factores exitosa!",
+  "2FAError": "Error al configurar la autenticación de dos factores",
+  "credentialsTable": {
+    "database": "Base de Datos",
+    "type": "Tipo",
+    "username": "Nombre de Usuario",
+    "lastUpdated": "Última Actualización",
+    "connectedDatabases": "Se utilizará para todas las bases de datos",
+    "actions": "Acciones"
+  },
+  "legacyCredentialsForm": {
+    "title": "Actualizar Credenciales de Base de Datos",
+    "database": "Base de Datos",
+    "username": "Nombre de Usuario",
+    "password": "Contraseña de Base de Datos",
+    "updateButton": "Actualizar Credenciales",
+    "saveButton": "Guardar Credenciales",
+    "addButton": "Establecer Credenciales",
+    "error": {
+      "fieldsRequired": "Todos los campos son requeridos"
+    }
+  },
+  "credentialsSuccess": "¡Credenciales universales actualizadas exitosamente!",
+  "credentialsError": "Error al actualizar las credenciales"
+}

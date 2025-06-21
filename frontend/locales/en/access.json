@@ -1,0 +1,28 @@
+{
+  "readOnly": "Read Only",
+  "readWrite": "Read & Write",
+  "admin": "Admin Access",
+  "access": {
+    "readOnlyDesc": "Permission to view data only, without making changes",
+    "readWriteDesc": "Permission to view and modify data, but not delete",
+    "adminDesc": "Full access to all operations including deletion",
+    "readData": "Read Data",
+    "readDataDesc": "View table contents and query data",
+    "modifyData": "Modify Data",
+    "modifyDataDesc": "Update existing records in tables",
+    "insertData": "Insert Data",
+    "insertDataDesc": "Add new records to tables",
+    "deleteData": "Delete Data",
+    "deleteDataDesc": "Remove records from tables",
+    "selectPrivilege": "SELECT privilege",
+    "selectPrivilegeDesc": "Query and view table data",
+    "readWritePrivileges": "Read & Write privileges",
+    "readWritePrivilegesDesc": "Query, insert, and update data",
+    "adminPrivileges": "Administrative privileges",
+    "adminPrivilegesDesc": "Manage table structure and data",
+    "allPrivileges": "All privileges",
+    "allPrivilegesDesc": "Complete control over tables",
+    "detailedPermissions": "Detailed Permissions",
+    "adminWarning": "⚠️ Admin access grants full control. Use with caution."
+  }
+}

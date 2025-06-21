@@ -1,0 +1,32 @@
+{
+  "title": "User Query Reports",
+  "subtitle": "View and analyze user query activity across all databases",
+  "generateReport": "Generate Report",
+  "export": "Export",
+  "totalUsers": "Total Users",
+  "totalQueries": "Total Queries",
+  "avgQueriesPerUser": "Avg Queries/User",
+  "mostActiveUser": "Most Active User",
+  "onServer": "On server",
+  "filterByServer": "Filter by Server",
+  "filterByUser": "Filter by User",
+  "usernamePlaceholder": "Username",
+  "user": "User",
+  "server": "Server",
+  "date": "Date",
+  "queryBreakdown": "Query Breakdown",
+  "avgTime": "Avg Time",
+  "slowQueries": "Slow Queries",
+  "failedQueries": "Failed Queries",
+  "noReportsFound": "No reports found for the selected criteria",
+  "errors": {
+    "generateFailed": "Failed to generate report"
+  },
+  "exportError": "Failed to export report as PDF",
+  "filters": "Filters",
+  "showAdvancedFilters": "Show Advanced Filters",
+  "hideAdvancedFilters": "Hide Advanced Filters",
+  "filterByQueryType": "Filter by Query Type",
+  "minQueries": "Minimum Queries",
+  "minQueriesPlaceholder": "e.g., 100"
+}

@@ -1,0 +1,28 @@
+{
+  "readOnly": "Somente Leitura",
+  "readWrite": "Leitura e Escrita",
+  "admin": "Acesso Administrativo",
+  "access": {
+    "readOnlyDesc": "Permissão para visualizar dados apenas, sem fazer alterações",
+    "readWriteDesc": "Permissão para visualizar e modificar dados, mas não deletar",
+    "adminDesc": "Acesso completo a todas as operações incluindo exclusão",
+    "readData": "Ler Dados",
+    "readDataDesc": "Visualizar conteúdo de tabelas e consultar dados",
+    "modifyData": "Modificar Dados",
+    "modifyDataDesc": "Atualizar registros existentes nas tabelas",
+    "insertData": "Inserir Dados",
+    "insertDataDesc": "Adicionar novos registros às tabelas",
+    "deleteData": "Deletar Dados",
+    "deleteDataDesc": "Remover registros das tabelas",
+    "selectPrivilege": "Privilégio SELECT",
+    "selectPrivilegeDesc": "Consultar e visualizar dados da tabela",
+    "readWritePrivileges": "Privilégios de leitura e escrita",
+    "readWritePrivilegesDesc": "Consultar, inserir e atualizar dados",
+    "adminPrivileges": "Privilégios administrativos",
+    "adminPrivilegesDesc": "Gerenciar estrutura e dados da tabela",
+    "allPrivileges": "Todos os privilégios",
+    "allPrivilegesDesc": "Controle completo sobre as tabelas",
+    "detailedPermissions": "Permissões Detalhadas",
+    "adminWarning": "⚠️ Acesso administrativo concede controle total. Use com cautela."
+  }
+}

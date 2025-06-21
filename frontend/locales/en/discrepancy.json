@@ -1,0 +1,52 @@
+{
+  "dashboard": "Discrepancy Dashboard",
+  "timeRange": "Time Range",
+  "last7Days": "Last 7 days",
+  "last30Days": "Last 30 days", 
+  "last90Days": "Last 90 days",
+  "allTime": "All time",
+  "totalDiscrepancies": "Total Discrepancies",
+  "affectedServers": "Affected Servers",
+  "correctedDiscrepancies": "Corrected",
+  "unmanagedUsers": "Unmanaged Users",
+  "resolved": "resolved",
+  "accepted": "accepted",
+  "pending": "Pending",
+  "discrepanciesByType": "By Type",
+  "discrepanciesByStatus": "By Status",
+  "topServersWithDiscrepancies": "Top Servers",
+  "allTypes": "All Types",
+  "recentActivity": "Recent Activity",
+  "noRecentActivity": "No recent activity",
+  "noDiscrepanciesFound": "No discrepancies found in the selected time range",
+  "serverOverview": "Server Overview",
+  "noServersWithDiscrepancies": "No servers with discrepancies",
+  "allServersInSync": "All servers are in sync",
+  "types": {
+    "extra_permission": "Extra Permission",
+    "missing_permission": "Missing Permission",
+    "unmanaged_user": "Unmanaged User"
+  },
+  "status": {
+    "pending": "Pending",
+    "corrected": "Corrected",
+    "accepted": "Accepted",
+    "error": "Error"
+  },
+  "errors": {
+    "fetchDiscrepanciesFailed": "Failed to fetch discrepancies"
+  },
+  "analyticsOverview": "Analytics Overview",
+  "modern": "Modern",
+  "classic": "Classic",
+  "statusDistribution": "Status Distribution",
+  "serverDistribution": "Server Distribution",
+  "24HourActivity": "24 Hour Activity",
+  "detectedDiscrepancies": "Detected Discrepancies",
+  "total": "Total",
+  "typeBreakdown": "Type Breakdown",
+  "statusBreakdown": "Status Breakdown",
+  "count": "Count",
+  "currentStatus": "Current Status",
+  "discrepancies": "Discrepancies"
+}

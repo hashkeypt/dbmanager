@@ -1,0 +1,32 @@
+{
+  "activateAccount": "Ative sua conta",
+  "welcome": "Bem-vindo! Complete seu perfil para ativar sua conta.",
+  "invitedEmail": "E-mail do convite:",
+  "username": "Nome de usuário:",
+  "fullName": "Nome completo",
+  "password": "Criar senha",
+  "confirmPassword": "Confirmar senha",
+  "activationError": "Erro ao ativar conta",
+  "tokenError": "Erro ao validar token de ativação",
+  "tokenInvalid": "Link de ativação inválido",
+  "tokenMissing": "Token de ativação não encontrado",
+  "invalidToken": "Token de ativação inválido ou expirado",
+  "passwordRequirements": {
+    "minLength": "Pelo menos 12 caracteres",
+    "uppercase": "Pelo menos uma letra maiúscula",
+    "number": "Pelo menos um número",
+    "strength": "Força da senha:",
+    "weak": "Fraca",
+    "medium": "Média",
+    "strong": "Forte",
+    "mismatch": "As senhas não coincidem",
+    "requirementsNotMet": "A senha não atende a todos os requisitos"
+  },
+  "activating": "Ativando...",
+  "activate": "Ativar Conta",
+  "checkingToken": "Validando o link de ativação...",
+  "backToLogin": "Ir para o Login",
+  "success": "Conta Ativada!",
+  "successMessage": "Sua conta foi ativada com sucesso. Você será redirecionado para a página de login em alguns segundos.",
+  "goToLogin": "Ir para o Login Agora"
+}

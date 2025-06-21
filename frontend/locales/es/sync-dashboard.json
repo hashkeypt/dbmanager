@@ -1,0 +1,213 @@
+{
+  "sync": {
+    "title": "Panel de Sincronización",
+    "trigger": "Ejecutar Sincronización",
+    "inProgress": "Sincronizando...",
+    "refresh": "Actualizar",
+    "viewResults": "Ver Historial de Resultados",
+    "databaseStatus": "Estado del Servidor",
+    "noDatabases": "No se encontraron servidores de base de datos",
+    "noUnmanagedUsersToShow": "No hay usuarios no gestionados para mostrar",
+    "noDiscrepanciesToShow": "No hay discrepancias para mostrar",
+    "allServers": "Todos los Servidores",
+    "lastSync": "Última Sincronización",
+    "userExistsInDatabase": "El usuario existe en la base de datos pero no es gestionado por el sistema",
+    
+    "summary": {
+      "totalDatabases": "Total de Servidores",
+      "compliant": "Conformes",
+      "compliantDetails": "Servidores Conformes",
+      "nonCompliant": "Con Discrepancias",
+      "nonCompliantDetails": "Servidores con Discrepancias",
+      "discrepancies": "Total de Discrepancias",
+      "unmanagedUsers": "Usuarios No Gestionados",
+      "neverSynced": "Nunca Sincronizado",
+      "neverSyncedDetails": "Servidores Nunca Sincronizados"
+    },
+    
+    "status": {
+      "compliant": "Conforme",
+      "nonCompliant": "Con Discrepancias",
+      "neverSynced": "Nunca Sincronizado",
+      "syncing": "Sincronizando...",
+      "failed": "Sincronización Fallida",
+      "completedWithErrors": "Completado con Errores",
+      "lastSync": "Última Sincronización",
+      "never": "Nunca"
+    },
+    
+    "discrepancy": {
+      "extraPermission": "Permiso Extra",
+      "missingPermission": "Permiso Faltante",
+      "expiredPermission": "Permiso Expirado",
+      "unmanagedUser": "Usuario No Gestionado",
+      "accept": "Aceptar"
+    },
+    
+    "unmanagedUsers": {
+      "title": "Usuarios No Gestionados",
+      "accept": "Aceptar Usuario",
+      "acceptConfirm": "¿Aceptar permanentemente este usuario no gestionado?",
+      "remove": "Eliminar de la Base de Datos",
+      "removeConfirm": "¿Eliminar este usuario de la base de datos?",
+      "removeWarning": "Esta acción eliminará al usuario de la base de datos y es irreversible.",
+      "userAccepted": "Usuario aceptado exitosamente",
+      "userRemoved": "Usuario eliminado exitosamente"
+    },
+    
+    "unmanagedUsersDialog": {
+      "title": "Usuarios No Gestionados - {{database}}",
+      "noUsers": "No se encontraron usuarios no gestionados"
+    },
+    
+    "acceptedUsers": {
+      "title": "Usuarios No Gestionados Aceptados",
+      "titleWithDb": "Usuarios Aceptados - {{database}}",
+      "remove": "Eliminar de la Lista",
+      "removeConfirm": "¿Eliminar este usuario de la lista de aceptados?",
+      "removeQuestion": "¿Está seguro de que desea eliminar este usuario?",
+      "confirmRemove": "¿Está seguro de que desea eliminar este usuario de la lista de aceptados?",
+      "username": "Nombre de Usuario",
+      "server": "Servidor",
+      "database": "Base de Datos",
+      "acceptedAt": "Aceptado el",
+      "acceptedBy": "Aceptado por",
+      "addedAt": "Agregado el",
+      "addedBy": "Agregado por",
+      "note": "Nota",
+      "actions": "Acciones",
+      "removeError": "Error al eliminar usuario: {{error}}",
+      "noUsers": "No se encontraron usuarios aceptados",
+      "unknownDate": "Fecha desconocida",
+      "viewAccepted": "Ver Aceptados"
+    },
+    
+    "results": {
+      "title": "Historial de Resultados",
+      "noResults": "No se encontraron resultados",
+      "startTime": "Hora de Inicio",
+      "duration": "Duración",
+      "status": "Estado",
+      "usersFound": "Usuarios",
+      "permissionsFound": "Permisos",
+      "unmanagedUsers": "No Gestionados",
+      "discrepancies": "Discrepancias",
+      "correctionsApplied": "Correcciones",
+      "viewDetails": "Ver Detalles",
+      "success": "Éxito",
+      "inProgress": "En Progreso",
+      "failed": "Fallido"
+    },
+    
+    "details": {
+      "title": "Detalles de Discrepancia",
+      "user": "Usuario",
+      "server": "Servidor",
+      "table": "Tabla",
+      "type": "Tipo",
+      "reason": "Razón",
+      "details": "Detalles",
+      "status": "Estado",
+      "createdAt": "Detectado el",
+      "operations": "Operaciones",
+      "pending": "Pendiente",
+      "corrected": "Corregido"
+    },
+    
+    "type": "Tipo",
+    "server": "Servidor",
+    "username": "Nombre de Usuario",
+    "table": "Tabla",
+    "details": "Detalles",
+    "statusLabel": "Estado",
+    "discrepancies": "Discrepancias",
+    "unmanagedUsers": "Usuarios No Gestionados",
+    "correctAll": "Corregir Todo",
+    "results": "Historial de Resultados",
+    "noResults": "No se encontraron resultados",
+    "database": "Base de Datos",
+    "startTime": "Hora de Inicio",
+    "pending": "Pendiente",
+    "corrected": "Corregido",
+    "noDiscrepancies": "No se encontraron discrepancias",
+    "dateNotAvailable": "Fecha no disponible",
+    "viewDetails": "Ver Detalles",
+    "viewDiscrepancies": "Ver Discrepancias",
+    "syncNow": "Sincronizar Ahora",
+    "never": "Nunca",
+    "acceptUser": "Aceptar Usuario",
+    "accepted": "Aceptado",
+    "correct": "Corregir",
+    
+    "acceptUserDirectly": {
+      "info": "Este usuario será aceptado permanentemente y no aparecerá más en la lista de usuarios no gestionados",
+      "confirmMessage": "¿Aceptar usuario {{username}} de {{database}}?",
+      "noteLabel": "Razón de aceptación",
+      "notePlaceholder": "Ingrese la razón para aceptar este usuario no gestionado (opcional)"
+    },
+    
+    "removeUser": {
+      "title": "Eliminar Usuario",
+      "warning": "Esta acción eliminará al usuario de la base de datos y no se puede deshacer",
+      "confirmMessage": "¿Está seguro de que desea eliminar al usuario {{username}} de la base de datos?",
+      "confirm": "Eliminar Usuario",
+      "action": "Eliminar"
+    },
+    
+    "errors": {
+      "fetchStatusFailed": "Error al cargar el estado de sincronización",
+      "fetchResultsFailed": "Error al cargar los resultados de sincronización",
+      "fetchDiscrepanciesFailed": "Error al cargar las discrepancias",
+      "fetchAcceptedUsersFailed": "Error al cargar los usuarios aceptados",
+      "listUnmanagedUsersFailed": "Error al listar usuarios no gestionados",
+      "triggerSyncFailed": "Error al ejecutar la sincronización",
+      "syncDatabaseFailed": "Error al sincronizar el servidor",
+      "correctAllDiscrepanciesFailed": "Error al corregir todas las discrepancias",
+      "correctDiscrepancyFailed": "Error al corregir la discrepancia",
+      "acceptUserFailed": "Error al aceptar el usuario",
+      "removeUserFailed": "Error al eliminar el usuario",
+      "noSyncResults": "No se encontraron resultados de sincronización",
+      "tooManyResults_one": "Límite de {{count}} resultado de sincronización alcanzado. Mostrando solo el más reciente.",
+      "tooManyResults_other": "Límite de {{count}} resultados de sincronización alcanzado. Mostrando solo los más recientes."
+    },
+    
+    "actions": {
+      "syncNow": "Sincronizar Ahora",
+      "viewDiscrepancies": "Ver Discrepancias",
+      "correctAll": "Corregir Todo",
+      "correctThis": "Corregir Esto",
+      "viewAcceptedUsers": "Ver Usuarios Aceptados",
+      "viewUnmanagedUsers": "Ver Usuarios No Gestionados"
+    },
+    
+    "messages": {
+      "idNotFound": "ID de servidor no encontrado",
+      "noPermissionsMatch": "Los permisos de base de datos no coinciden con los permisos gestionados por el sistema",
+      "schemaPermission": "Permiso a nivel de esquema ({{schema}}) afecta a todas las tablas",
+      "unknown": "Desconocido",
+      "system": "Sistema",
+      "accept": "Aceptar",
+      "correctPermission": "Corregir Permiso",
+      "acceptUser": "Aceptar Usuario",
+      "removeUser": "Eliminar Usuario"
+    },
+    
+    "fields": {
+      "database": "Base de Datos",
+      "startTime": "Hora de Inicio",
+      "endTime": "Hora de Fin",
+      "user": "Usuario",
+      "date": "Fecha",
+      "createdBy": "Creado por",
+      "reason": "Razón"
+    }
+  },
+  
+  "common": {
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "actions": "Acciones"
+  },
+  
+  "serverConnectionUser": "Usuario de conexión del servidor - aceptado automáticamente"
+}

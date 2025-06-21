@@ -1,0 +1,258 @@
+{
+  "title": "Permisos",
+  "searchPlaceholder": "Buscar por servidor o usuario...",
+  "addPermission": "Agregar Permiso",
+  "server": {
+    "users": "{{count}} usuarios",
+    "permissions": "{{count}} permisos"
+  },
+  "user": {
+    "servers": "{{count}} servidores",
+    "permissions": "{{count}} permisos"
+  },
+  "noPermissions": "No hay permisos configurados",
+  "modal": {
+    "title": "Permisos",
+    "close": "Cerrar"
+  },
+  "database": "Base de Datos",
+  "notSpecified": "No especificado",
+  "permissionsIn": "Permisos en {{database}}",
+  "addButton": "Agregar Permiso",
+  "addTitle": "Agregar Nuevo Permiso",
+  "editTitle": "Editar Permiso",
+  "addSuccess": "¡Permiso agregado exitosamente!",
+  "updateSuccess": "¡Permiso actualizado exitosamente!",
+  "deleteSuccess": "¡Permiso eliminado exitosamente!",
+  "bulkDeleteSuccess": "¡Permisos eliminados exitosamente!",
+  "bulkUpdateSuccess": "¡Permisos actualizados exitosamente!",
+  "permanent": "Permanente",
+  "deleteConfirmTitle": "Eliminar Permiso",
+  "deleteConfirmMessage": "¿Está seguro de que desea eliminar este permiso? Esta acción no se puede deshacer.",
+  "addError": "Error al agregar permiso",
+  "updateError": "Error al actualizar permiso",
+  "deleteError": "Error al eliminar permiso",
+  "fetchError": "Error al obtener permisos",
+  "dialog": {
+    "revokeTitle": "Revocar Permiso",
+    "revokeMessage": "Esta acción revocará el permiso {operations} para la tabla {table}. El permiso se marcará como revocado pero permanecerá en el sistema para fines de auditoría. ¿Desea continuar?",
+    "deleteTitle": "Eliminar Permiso Permanentemente",
+    "deleteMessage": "Esta acción eliminará permanentemente el permiso {operations} para la tabla {table}. Esta acción no se puede deshacer. ¿Desea continuar?"
+  },
+  "messages": {
+    "revokeSuccess": "Permiso revocado exitosamente",
+    "revokeError": "Error al revocar permiso",
+    "deleteSuccess": "Permiso eliminado exitosamente",
+    "deleteError": "Error al eliminar permiso"
+  },
+  "detailedPermissions": "Permisos Detallados",
+  "selectPrivilege": "Seleccionar Privilegio",
+  "readDataDesc": "Permite leer datos de las tablas seleccionadas",
+  "readData": "Leer Datos",
+  "enhancedManagement": "Gestión Mejorada de Permisos",
+  "grantRevoke": "Otorgar/Revocar Permisos",
+  "currentPermissions": "Permisos Actuales",
+  "synchronization": "Sincronización",
+  "autoSync": "Sincronización Automática",
+  "syncInterval": "Intervalo de Sincronización",
+  "preferdbmanager": "Preferir dbmanager en conflictos",
+  "importNew": "Importar nuevos permisos de la base de datos",
+  "exportNew": "Exportar nuevos permisos a la base de datos",
+  "notifyConflicts": "Notificar administradores sobre conflictos",
+  "conflictResolution": "Resolución de Conflictos",
+  "conflictResolutions": {
+    "manual": "Resolución Manual",
+    "dbmanager": "Usar Permisos dbmanager",
+    "database": "Usar Permisos de Base de Datos"
+  },
+  "imported": "Importados",
+  "applied": "Aplicados",
+  "conflicts": "Conflictos",
+  "time": "Hora de Sincronización",
+  "lastSync": "Última Sincronización",
+  "importFromDb": "Importar",
+  "exportToDb": "Exportar",
+  "syncBoth": "Sincronizar Ambos",
+  "level": "Nivel de Permiso",
+  "levels": {
+    "database": "Nivel de Base de Datos",
+    "schema": "Nivel de Esquema",
+    "table": "Nivel de Tabla",
+    "column": "Nivel de Columna"
+  },
+  "help": {
+    "intro": "La gestión mejorada de permisos permite un control detallado sobre el acceso a la base de datos y la sincronización con bases de datos gestionadas.",
+    "levels": {
+      "title": "Niveles de Permisos",
+      "description": "Los permisos se pueden otorgar en diferentes niveles: base de datos (ej., CONNECT), esquema (ej., CREATE), tabla (ej., SELECT, INSERT), o nivel de columna para casos de uso avanzados."
+    },
+    "sync": {
+      "title": "Sincronización",
+      "description": "Puede importar permisos de bases de datos gestionadas, exportar permisos a bases de datos, o realizar sincronización bidireccional para mantener los permisos sincronizados."
+    }
+  },
+  "tabs": {
+    "enhanced": "Gestión Mejorada",
+    "search": "Buscar Permisos",
+    "bulkActions": "Acciones Masivas",
+    "byServer": "Por Servidor",
+    "byUser": "Por Usuario"
+  },
+  "userPermissions": {
+    "title": "Mis Permisos de Base de Datos",
+    "description": "Vea y gestione sus permisos de acceso a base de datos. Cada tarjeta representa una base de datos a la que tiene acceso. Haga clic en una tarjeta para ver información detallada sobre sus niveles de acceso."
+  },
+  "table": {
+    "user": "Usuario",
+    "database": "Base de Datos",
+    "table": "Tabla",
+    "tables": "Tablas",
+    "operations": "Operaciones",
+    "createdAt": "Creado En",
+    "expiresAt": "Expira En",
+    "expiration": "Expiración",
+    "status": "Estado",
+    "actions": "Acciones"
+  },
+  "status": {
+    "active": "Activo",
+    "expired": "Expirado",
+    "permanent": "Permanente",
+    "pending": "Pendiente",
+    "approved": "Aprobado",
+    "rejected": "Rechazado",
+    "revoked": "Revocado"
+  },
+  "operations": {
+    "title": "Operaciones",
+    "select": "SELECT",
+    "insert": "INSERT",
+    "update": "UPDATE",
+    "delete": "DELETE",
+    "all": "TODAS",
+    "read": "LECTURA",
+    "write": "ESCRITURA",
+    "admin": "ADMIN"
+  },
+  "operationDescription": {
+    "read": "Permiso para ver datos únicamente",
+    "write": "Permiso para agregar o modificar datos",
+    "admin": "Acceso administrativo completo incluyendo eliminación"
+  },
+  "databaseSyncConfigHelp": "Seleccione una base de datos para configurar sus ajustes de sincronización. Cada base de datos tiene su propia configuración.",
+  "form": {
+    "user": "Usuario",
+    "database": "Base de Datos",
+    "table": "Tabla",
+    "schema": "Esquema",
+    "operations": "Operaciones",
+    "expiresAt": "Expira En",
+    "isPermanent": "Acceso Permanente"
+  },
+  "actions": {
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "extend": "Extender",
+    "revoke": "Revocar",
+    "details": "Detalles",
+    "history": "Historial"
+  },
+  "deleteConfirmation": {
+    "title": "Eliminar Permiso",
+    "message": "¿Está seguro de que desea eliminar este permiso? Esta acción no se puede deshacer.",
+    "confirmButton": "Eliminar",
+    "cancelButton": "Cancelar"
+  },
+  "filters": {
+    "title": "Filtros",
+    "clear": "Limpiar Filtros",
+    "apply": "Aplicar Filtros",
+    "user": "Filtrar por Usuario",
+    "database": "Filtrar por Base de Datos",
+    "status": "Filtrar por Estado",
+    "operations": "Filtrar por Operaciones"
+  },
+  "search": {
+    "title": "Buscar Permisos",
+    "quickSearch": "Búsqueda rápida...",
+    "username": "Nombre de Usuario",
+    "database": "Base de Datos",
+    "table": "Tabla",
+    "operation": "Operación",
+    "status": "Estado",
+    "expirationBefore": "Expiración Antes de",
+    "expirationAfter": "Expiración Después de",
+    "savedSearches": "Búsquedas Guardadas",
+    "saveSearch": "Guardar Búsqueda",
+    "deleteSearch": "Eliminar Búsqueda",
+    "saveSearchAs": "Guardar Búsqueda Como",
+    "searchName": "Nombre de Búsqueda",
+    "history": "Historial",
+    "recentSearches": "Búsquedas Recientes",
+    "noRecentSearches": "No hay búsquedas recientes",
+    "allPermissions": "Todos los Permisos"
+  },
+  "bulkActions": {
+    "title": "Acciones Masivas",
+    "delete": "Eliminar Seleccionados",
+    "extend": "Extender Seleccionados",
+    "changeOperations": "Cambiar Operaciones",
+    "makePermament": "Hacer Permanente",
+    "selectAll": "Seleccionar Todo",
+    "selectedCount": "Seleccionados: {{count}}",
+    "selected": "seleccionados",
+    "action": "Acción",
+    "revoke": "Revocar",
+    "changeExpiration": "Cambiar Expiración",
+    "export": "Exportar",
+    "import": "Importar",
+    "newExpirationDate": "Nueva Fecha de Expiración",
+    "apply": "Aplicar",
+    "noSelection": "Seleccione permisos en la tabla para realizar acciones masivas",
+    "allOperationsTooltip": "Otorga todos los permisos disponibles",
+    "confirm": {
+      "revoke": {
+        "title": "Revocar Permisos",
+        "message": "¿Está seguro de que desea revocar los permisos seleccionados?"
+      },
+      "changeExpiration": {
+        "title": "Cambiar Fecha de Expiración",
+        "message": "¿Está seguro de que desea cambiar la fecha de expiración a"
+      },
+      "changeOperations": {
+        "title": "Cambiar Operaciones",
+        "message": "¿Está seguro de que desea actualizar las operaciones permitidas a"
+      }
+    },
+    "success": {
+      "revoke": "Permisos revocados exitosamente",
+      "changeExpiration": "Fecha de expiración cambiada exitosamente"
+    },
+    "error": "Error al realizar acción masiva",
+    "exportTitle": "Exportar Permisos",
+    "exportDescription": "Elija el formato para exportar los permisos seleccionados",
+    "exportFormat": "Formato de Exportación",
+    "exportButton": "Exportar",
+    "importTitle": "Importar Permisos",
+    "importDescription": "Seleccione un archivo para importar permisos",
+    "importFormatInfo": "Soportamos archivos CSV, JSON o XLSX",
+    "selectFile": "Seleccionar Archivo",
+    "selectedFile": "Archivo seleccionado",
+    "importButton": "Importar"
+  },
+  "managedDatabases": "Bases de Datos Gestionadas",
+  "selectDatabaseHelp": "Haga clic en una base de datos para ver usuarios con permisos",
+  "selectUserHelp": "Seleccione un usuario para ver y gestionar sus permisos",
+  "noUsersWithPermissions": "Ningún usuario tiene permisos para esta base de datos aún",
+  "userPermissionsInDatabase": "Permisos para {{user}} en {{database}}",
+  "noReadOperations": "No se han otorgado permisos de lectura",
+  "noWriteOperations": "No se han otorgado permisos de escritura",
+  "noAdminOperations": "No se han otorgado permisos administrativos",
+  "noPermissionsForUser": "Este usuario no tiene ningún permiso para esta base de datos aún",
+  "addReadPermission": "Agregar Permiso de Lectura",
+  "addWritePermission": "Agregar Permiso de Escritura",
+  "addAdminPermission": "Agregar Permiso Admin",
+  "addFirstPermission": "Agregar Primer Permiso",
+  "permissionDetails": "Detalles del Permiso",
+  "expiresAt": "Expira en"
+}

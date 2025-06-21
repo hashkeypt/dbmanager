@@ -1,0 +1,213 @@
+{
+  "sync": {
+    "title": "Synchronization Dashboard",
+    "trigger": "Run Synchronization",
+    "inProgress": "Synchronizing...",
+    "refresh": "Refresh",
+    "viewResults": "View Results History",
+    "databaseStatus": "Server Status",
+    "noDatabases": "No database servers found",
+    "noUnmanagedUsersToShow": "No unmanaged users to show",
+    "noDiscrepanciesToShow": "No discrepancies to show",
+    "allServers": "All Servers",
+    "lastSync": "Last Sync",
+    "userExistsInDatabase": "User exists in database but is not managed by the system",
+    
+    "summary": {
+      "totalDatabases": "Total Servers",
+      "compliant": "Compliant",
+      "compliantDetails": "Compliant Servers",
+      "nonCompliant": "With Discrepancies",
+      "nonCompliantDetails": "Servers with Discrepancies",
+      "discrepancies": "Total Discrepancies",
+      "unmanagedUsers": "Unmanaged Users",
+      "neverSynced": "Never Synchronized",
+      "neverSyncedDetails": "Servers Never Synchronized"
+    },
+    
+    "status": {
+      "compliant": "Compliant",
+      "nonCompliant": "With Discrepancies",
+      "neverSynced": "Never Synchronized",
+      "syncing": "Synchronizing...",
+      "failed": "Synchronization Failed",
+      "completedWithErrors": "Completed with Errors",
+      "lastSync": "Last Synchronization",
+      "never": "Never"
+    },
+    
+    "discrepancy": {
+      "extraPermission": "Extra Permission",
+      "missingPermission": "Missing Permission",
+      "expiredPermission": "Expired Permission",
+      "unmanagedUser": "Unmanaged User",
+      "accept": "Accept"
+    },
+    
+    "unmanagedUsers": {
+      "title": "Unmanaged Users",
+      "accept": "Accept User",
+      "acceptConfirm": "Permanently accept this unmanaged user?",
+      "remove": "Remove from Database",
+      "removeConfirm": "Remove this user from the database?",
+      "removeWarning": "This action will remove the user from the database and is irreversible.",
+      "userAccepted": "User successfully accepted",
+      "userRemoved": "User successfully removed"
+    },
+    
+    "unmanagedUsersDialog": {
+      "title": "Unmanaged Users - {{database}}",
+      "noUsers": "No unmanaged users found"
+    },
+    
+    "acceptedUsers": {
+      "title": "Accepted Unmanaged Users",
+      "titleWithDb": "Accepted Users - {{database}}",
+      "remove": "Remove from List",
+      "removeConfirm": "Remove this user from the accepted list?",
+      "removeQuestion": "Are you sure you want to remove this user?",
+      "confirmRemove": "Are you sure you want to remove this user from the accepted list?",
+      "username": "Username",
+      "server": "Server",
+      "database": "Database",
+      "acceptedAt": "Accepted at",
+      "acceptedBy": "Accepted by",
+      "addedAt": "Added at",
+      "addedBy": "Added by",
+      "note": "Note",
+      "actions": "Actions",
+      "removeError": "Error removing user: {{error}}",
+      "noUsers": "No accepted users found",
+      "unknownDate": "Unknown date",
+      "viewAccepted": "View Accepted"
+    },
+    
+    "results": {
+      "title": "Results History",
+      "noResults": "No results found",
+      "startTime": "Start Time",
+      "duration": "Duration",
+      "status": "Status",
+      "usersFound": "Users",
+      "permissionsFound": "Permissions",
+      "unmanagedUsers": "Unmanaged",
+      "discrepancies": "Discrepancies",
+      "correctionsApplied": "Corrections",
+      "viewDetails": "View Details",
+      "success": "Success",
+      "inProgress": "In Progress",
+      "failed": "Failed"
+    },
+    
+    "details": {
+      "title": "Discrepancy Details",
+      "user": "User",
+      "server": "Server",
+      "table": "Table",
+      "type": "Type",
+      "reason": "Reason",
+      "details": "Details",
+      "status": "Status",
+      "createdAt": "Detected at",
+      "operations": "Operations",
+      "pending": "Pending",
+      "corrected": "Corrected"
+    },
+    
+    "type": "Type",
+    "server": "Server",
+    "username": "Username",
+    "table": "Table",
+    "details": "Details",
+    "statusLabel": "Status",
+    "discrepancies": "Discrepancies",
+    "unmanagedUsers": "Unmanaged Users",
+    "correctAll": "Correct All",
+    "results": "Results History",
+    "noResults": "No results found",
+    "database": "Database",
+    "startTime": "Start Time",
+    "pending": "Pending",
+    "corrected": "Corrected",
+    "noDiscrepancies": "No discrepancies found",
+    "dateNotAvailable": "Date not available",
+    "viewDetails": "View Details",
+    "viewDiscrepancies": "View Discrepancies",
+    "syncNow": "Sync Now",
+    "never": "Never",
+    "acceptUser": "Accept User",
+    "accepted": "Accepted",
+    "correct": "Correct",
+    
+    "acceptUserDirectly": {
+      "info": "This user will be permanently accepted and will no longer appear in the unmanaged users list",
+      "confirmMessage": "Accept user {{username}} from {{database}}?",
+      "noteLabel": "Reason for acceptance",
+      "notePlaceholder": "Enter the reason for accepting this unmanaged user (optional)"
+    },
+    
+    "removeUser": {
+      "title": "Remove User",
+      "warning": "This action will remove the user from the database and cannot be undone",
+      "confirmMessage": "Are you sure you want to remove user {{username}} from the database?",
+      "confirm": "Remove User",
+      "action": "Remove"
+    },
+    
+    "errors": {
+      "fetchStatusFailed": "Error loading synchronization status",
+      "fetchResultsFailed": "Error loading synchronization results",
+      "fetchDiscrepanciesFailed": "Error loading discrepancies",
+      "fetchAcceptedUsersFailed": "Error loading accepted users",
+      "listUnmanagedUsersFailed": "Error listing unmanaged users",
+      "triggerSyncFailed": "Error running synchronization",
+      "syncDatabaseFailed": "Error synchronizing server",
+      "correctAllDiscrepanciesFailed": "Error correcting all discrepancies",
+      "correctDiscrepancyFailed": "Error correcting discrepancy",
+      "acceptUserFailed": "Error accepting user",
+      "removeUserFailed": "Error removing user",
+      "noSyncResults": "No synchronization results found",
+      "tooManyResults_one": "Limit of {{count}} sync result reached. Showing only the most recent.",
+      "tooManyResults_other": "Limit of {{count}} sync results reached. Showing only the most recent."
+    },
+    
+    "actions": {
+      "syncNow": "Sync Now",
+      "viewDiscrepancies": "View Discrepancies",
+      "correctAll": "Correct All",
+      "correctThis": "Correct This",
+      "viewAcceptedUsers": "View Accepted Users",
+      "viewUnmanagedUsers": "View Unmanaged Users"
+    },
+    
+    "messages": {
+      "idNotFound": "Server ID not found",
+      "noPermissionsMatch": "Database permissions do not match system-managed permissions",
+      "schemaPermission": "Schema-level permission ({{schema}}) affects all tables",
+      "unknown": "Unknown",
+      "system": "System",
+      "accept": "Accept",
+      "correctPermission": "Correct Permission",
+      "acceptUser": "Accept User",
+      "removeUser": "Remove User"
+    },
+    
+    "fields": {
+      "database": "Database",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "user": "User",
+      "date": "Date",
+      "createdBy": "Created by",
+      "reason": "Reason"
+    }
+  },
+  
+  "common": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "actions": "Actions"
+  },
+  
+  "serverConnectionUser": "Server connection user - automatically accepted"
+}

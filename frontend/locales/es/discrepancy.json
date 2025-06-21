@@ -1,0 +1,52 @@
+{
+  "dashboard": "Panel de Discrepancias",
+  "timeRange": "Período de Tiempo",
+  "last7Days": "Últimos 7 días",
+  "last30Days": "Últimos 30 días",
+  "last90Days": "Últimos 90 días",
+  "allTime": "Todo el período",
+  "totalDiscrepancies": "Total de Discrepancias",
+  "affectedServers": "Servidores Afectados",
+  "correctedDiscrepancies": "Corregidas",
+  "unmanagedUsers": "Usuarios No Gestionados",
+  "resolved": "resueltas",
+  "accepted": "aceptadas",
+  "pending": "Pendiente",
+  "discrepanciesByType": "Por Tipo",
+  "discrepanciesByStatus": "Por Estado",
+  "topServersWithDiscrepancies": "Principales Servidores",
+  "allTypes": "Todos los Tipos",
+  "recentActivity": "Actividad Reciente",
+  "noRecentActivity": "Sin actividad reciente",
+  "noDiscrepanciesFound": "No se encontraron discrepancias en el período seleccionado",
+  "serverOverview": "Vista General de Servidores",
+  "noServersWithDiscrepancies": "Ningún servidor con discrepancias",
+  "allServersInSync": "Todos los servidores están sincronizados",
+  "types": {
+    "extra_permission": "Permiso Extra",
+    "missing_permission": "Permiso Faltante",
+    "unmanaged_user": "Usuario No Gestionado"
+  },
+  "status": {
+    "pending": "Pendiente",
+    "corrected": "Corregida",
+    "accepted": "Aceptada",
+    "error": "Error"
+  },
+  "errors": {
+    "fetchDiscrepanciesFailed": "Error al obtener discrepancias"
+  },
+  "analyticsOverview": "Vista Analítica",
+  "modern": "Moderno",
+  "classic": "Clásico",
+  "statusDistribution": "Distribución por Estado",
+  "serverDistribution": "Distribución por Servidor",
+  "24HourActivity": "Actividad en las Últimas 24 Horas",
+  "detectedDiscrepancies": "Discrepancias Detectadas",
+  "total": "Total",
+  "typeBreakdown": "Distribución por Tipo",
+  "statusBreakdown": "Distribución por Estado",
+  "count": "Cantidad",
+  "currentStatus": "Estado Actual",
+  "discrepancies": "Discrepancias"
+}

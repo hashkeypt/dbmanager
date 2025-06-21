@@ -1,0 +1,60 @@
+{
+  "title": "Configuração de Sincronização",
+  "description": "Configure a sincronização automática entre o sistema e os bancos de dados",
+  "pageDescription": "Configure os parâmetros de sincronização de permissões entre o sistema e os bancos de dados gerenciados.",
+  "serverSettings": "Configurações do Servidor",
+  "notificationSettings": "Notificações de Sincronização",
+  "triggerSync": "Iniciar Sincronização Manual",
+  "enabledRequired": "A sincronização automática está desabilitada. Você ainda pode iniciar sincronizações manualmente.",
+  "settings": {
+    "enabled": "Habilitar Sincronização Automática",
+    "enabledDescription": "Ativa a sincronização automática de permissões entre o sistema e os bancos de dados conectados.",
+    "interval": "Intervalo de Sincronização",
+    "retryCount": "Número de Tentativas",
+    "retryCountDescription": "Número de tentativas de sincronização antes de reportar falha",
+    "autoCorrect": "Correção Automática",
+    "autoCorrectDescription": "Corrige automaticamente discrepâncias encontradas durante a sincronização",
+    "autoRemoveUsers": "Remoção Automática de Usuários",
+    "autoRemoveUsersDescription": "Remove automaticamente usuários não gerenciados encontrados nos bancos de dados",
+    "autoRemoveUsersWarning": "ATENÇÃO: Esta opção remove automaticamente usuários não gerenciados dos bancos de dados. Use com extrema cautela pois isso pode interromper outros aplicativos que dependem desses usuários.",
+    "notifyOnDiscrepancy": "Notificar em Discrepâncias",
+    "notifyOnDiscrepancyDescription": "Enviar notificação quando forem encontradas discrepâncias durante a sincronização",
+    "notifyOnUnmanaged": "Notificar Usuários Não Gerenciados",
+    "notifyOnUnmanagedDescription": "Enviar notificação quando forem encontrados usuários não gerenciados nos bancos de dados",
+    "notificationEmail": "E-mail para Notificações",
+    "notificationEmailDescription": "E-mail do responsável por receber alertas de discrepâncias e usuários não gerenciados. Se não informado, serão notificados os administradores do sistema.",
+    "notificationEmailHelp": "Deixe em branco para notificar os administradores do sistema.",
+    "notificationEmailPlaceholder": "Email do responsável (ex: admin@example.com)"
+  },
+  "triggerSyncDialog": {
+    "title": "Iniciar Sincronização Manual",
+    "message": "Selecione um banco de dados e a direção da sincronização:",
+    "database": "Banco de Dados",
+    "direction": "Direção",
+    "start": "Iniciar Sincronização"
+  },
+  "directions": {
+    "both": "Ambas Direções",
+    "import": "Importar para o Sistema",
+    "export": "Exportar para o Banco de Dados"
+  },
+  "intervals": {
+    "minutes": "{{value}} minutos",
+    "hours": "{{value}} horas"
+  },
+  "alerts": {
+    "smtpWarning": "ATENÇÃO: A verificação de configuração de SMTP foi temporariamente desativada. As notificações podem não funcionar corretamente se o SMTP não estiver configurado. Recomenda-se configurar o SMTP em Configurações > SMTP assim que possível."
+  },
+  "errors": {
+    "intervalRequired": "O intervalo de sincronização deve ser maior que zero",
+    "retryCountRequired": "O número de tentativas deve ser maior que zero",
+    "loadError": "Erro ao carregar configurações de sincronização",
+    "saveError": "Erro ao salvar configuração de sincronização",
+    "triggerError": "Erro ao iniciar processo de sincronização",
+    "databaseRequired": "Selecione um banco de dados para sincronização"
+  },
+  "success": {
+    "saved": "Configuração de sincronização salva com sucesso",
+    "triggered": "Processo de sincronização iniciado com sucesso"
+  }
+}

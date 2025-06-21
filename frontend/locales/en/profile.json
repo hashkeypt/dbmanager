@@ -1,0 +1,137 @@
+{
+  "title": "User Profile",
+  "generalInfo": "General Information",
+  "securitySettings": "Security Settings",
+  "databaseCredentials": "Database Credentials",
+  "error": {
+    "loadingUser": "Error loading user profile"
+  },
+  "avatar": {
+    "sizeError": "Avatar image must be less than 5MB",
+    "typeError": "File must be an image",
+    "success": "Avatar updated successfully",
+    "error": "Failed to upload avatar"
+  },
+  "personalInfo": {
+    "title": "Personal Information",
+    "username": "Username",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "lastLogin": "Last Login"
+  },
+  "security": {
+    "title": "Security Settings",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "saveButton": "Change Password",
+    "passwordSuccess": "Password changed successfully!",
+    "passwordError": "Failed to change password"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "saveButton": "Save Settings",
+    "saveSuccess": "Settings saved successfully!",
+    "saveError": "Failed to save settings"
+  },
+  "universalCredentials": "Universal Database Credentials",
+  "universalCredentialsDescription": "Manage your universal database connection credentials. These credentials will be used for all database connections, providing a single set of authentication details for permissions synchronization.",
+  "noUniversalCredentials": "You don't have universal database credentials configured yet.",
+  "universalCredentialDetails": "Universal Credential Details",
+  "universalCredentialsForm": {
+    "addTitle": "Set Universal Credentials",
+    "updateTitle": "Update Universal Credentials",
+    "description": "These credentials will be used for all database connections. Make sure you have the same username and password across all your database servers."
+  },
+  "requiredCredentials": {
+    "title": "Database Credentials Required",
+    "warning": "You must set up your database credentials before using the system",
+    "description": "To ensure proper synchronization and access to database resources, you need to set up your universal database credentials. These will be used for all operations across the system."
+  },
+  "credentialsForm": {
+    "username": "Username",
+    "password": "Password",
+    "usernameHelp": "Your username will be used across all databases",
+    "passwordHelp": "Password must be strong and secure",
+    "updateButton": "Update Credentials",
+    "saveButton": "Save Credentials",
+    "addButton": "Set Credentials",
+    "error": {
+      "fieldsRequired": "All fields are required",
+      "invalidPassword": "Password does not meet security requirements"
+    },
+    "passwordRequirements": "Password requirements:",
+    "title": "Universal Database Credentials",
+    "updateTitle": "Update Universal Credentials",
+    "addTitle": "Set Universal Credentials",
+    "description": "These credentials will be used for all database connections. Make sure you have the same username and password across all your database servers."
+  },
+  "noDatabases": "No databases connected yet",
+  "credentialsDescription": "Manage your database connection credentials. These credentials are used for user and permission synchronization between DB-Manager and your database servers.",
+  "noCredentials": "You don't have any database credentials configured.",
+  "activity": "Recent Activity",
+  "permissions": {
+    "title": "My Database Permissions",
+    "noPermissions": "You do not have any database permissions yet."
+  },
+  "databaseCredentialsForm": {
+    "title": "Database Credentials",
+    "description": "Manage your database credentials for synchronization",
+    "add": "Add Credentials",
+    "edit": "Edit Credentials",
+    "database": "Database",
+    "type": "Type",
+    "username": "Username",
+    "password": "Password",
+    "test": "Test Connection",
+    "save": "Save Credentials",
+    "empty": "No database credentials found. Add credentials to enable user synchronization.",
+    "lastUpdated": "Last Updated"
+  },
+  "form": {
+    "username": "Username",
+    "email": "Email",
+    "fullName": "Full Name",
+    "role": "Role",
+    "status": "Status",
+    "lastLogin": "Last Login",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "changePassword": "Change Password",
+    "enable2FA": "Enable Two-Factor Authentication",
+    "disable2FA": "Disable Two-Factor Authentication",
+    "setup2FA": "Setup Two-Factor Authentication",
+    "backupCodes": "Backup Codes"
+  },
+  "passwordSuccess": "Password changed successfully!",
+  "passwordError": "Failed to change password",
+  "2FASuccess": "Two-factor authentication setup successful!",
+  "2FAError": "Failed to setup two-factor authentication",
+  "credentialsTable": {
+    "database": "Database",
+    "type": "Type",
+    "username": "Username",
+    "lastUpdated": "Last Updated",
+    "connectedDatabases": "Will be used for all databases",
+    "actions": "Actions"
+  },
+  "legacyCredentialsForm": {
+    "title": "Update Database Credentials",
+    "database": "Database",
+    "username": "Username",
+    "password": "Database Password",
+    "updateButton": "Update Credentials",
+    "saveButton": "Save Credentials",
+    "addButton": "Set Credentials",
+    "error": {
+      "fieldsRequired": "All fields are required"
+    }
+  },
+  "credentialsSuccess": "Universal credentials updated successfully!",
+  "credentialsError": "Failed to update credentials"
+}

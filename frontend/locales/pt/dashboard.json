@@ -1,0 +1,136 @@
+{
+  "title": "Painel",
+  "tabs": {
+    "overview": "Visão Geral",
+    "myPermissions": "Minhas Permissões",
+    "myRequests": "Minhas Solicitações"
+  },
+  "cards": {
+    "users": {
+      "title": "Usuários",
+      "totalUsers": "Total de Usuários",
+      "manageButton": "Gerenciar Usuários"
+    },
+    "databases": {
+      "title": "Bancos de Dados",
+      "connectedDatabases": "Bancos Conectados",
+      "manageButton": "Gerenciar Bancos",
+      "newCount": "+{{count}} novos"
+    },
+    "requests": {
+      "title": "Solicitações de Acesso",
+      "pendingRequests": "Solicitações Pendentes",
+      "viewButton": "Ver Solicitações"
+    },
+    "approvalRate": {
+      "title": "Taxa de Aprovação",
+      "period": "Últimos 30 dias",
+      "viewReports": "Ver Relatórios"
+    },
+    "discrepancyHistory": {
+      "title": "Histórico de Discrepâncias",
+      "thisMonth": "Este mês"
+    },
+    "requestDistribution": {
+      "title": "Distribuição de Solicitações",
+      "thisMonth": "Este mês",
+      "approved": "Aprovadas",
+      "pending": "Pendentes",
+      "rejected": "Rejeitadas"
+    }
+  },
+  "recentActivity": {
+    "title": "Atividade Recente",
+    "operations": "Operações",
+    "noActivity": "Nenhuma atividade recente"
+  },
+  "systemStatus": {
+    "title": "Status do Sistema",
+    "status": "Status",
+    "uptime": "Tempo de Atividade",
+    "version": "Versão",
+    "license": "Licença",
+    "licenseExpiresIn": "Expira em",
+    "serverLimit": "Limite de Servidores",
+    "userLimit": "Limite de Usuários",
+    "serverUsage": "Servidores em Uso",
+    "userUsage": "Usuários em Uso",
+    "requests": "Solicitações"
+  },
+  "requester": {
+    "lastLogin": "Último acesso",
+    "cards": {
+      "permissions": {
+        "title": "Minhas Permissões",
+        "total": "Total de permissões ativas",
+        "viewButton": "Ver Permissões"
+      },
+      "requests": {
+        "title": "Minhas Solicitações",
+        "pending": "Solicitações pendentes",
+        "approved": "Solicitações aprovadas",
+        "viewButton": "Ver Solicitações"
+      },
+      "newRequest": {
+        "title": "Nova Solicitação",
+        "description": "Solicitar acesso a banco de dados",
+        "button": "Criar Nova Solicitação"
+      }
+    },
+    "requestStats": {
+      "title": "Estatísticas de Solicitações",
+      "pending": "Solicitações Pendentes",
+      "approved": "Solicitações Aprovadas",
+      "rejected": "Solicitações Rejeitadas",
+      "total": "Total de Solicitações",
+      "totalRequests": "Total de Solicitações",
+      "approvalRate": "Taxa de Aprovação"
+    },
+    "recentActivity": {
+      "title": "Atividade Recente",
+      "operations": "Operações",
+      "noActivity": "Nenhuma atividade recente",
+      "realTime": "Tempo real"
+    },
+    "permissionsByDatabase": {
+      "title": "Permissões por Banco de Dados",
+      "noData": "Nenhuma permissão encontrada"
+    },
+    "expiringPermissions": {
+      "title": "Permissões a Expirar",
+      "expires": "Expira em",
+      "days": "dias",
+      "noData": "Nenhuma permissão a expirar nos próximos 30 dias"
+    },
+    "myRequests": {
+      "title": "Minhas Solicitações de Acesso",
+      "newRequest": "Nova Solicitação",
+      "noRequests": "Nenhuma solicitação encontrada",
+      "viewAll": "Ver Todas as Solicitações"
+    },
+    "credentials": {
+      "configureButton": "Configurar Credenciais",
+      "notConfigured": {
+        "title": "Credenciais Universais Não Configuradas",
+        "message": "Configure suas credenciais universais de banco de dados para gerenciar permissões e sincronização de forma adequada."
+      },
+      "outdated": {
+        "title": "Credenciais Universais Desatualizadas",
+        "message": "Suas credenciais universais foram atualizadas há {{months}} meses. Por segurança, recomendamos que você as atualize."
+      }
+    }
+  },
+  "pendingApproval": "Aguardando aprovação",
+  "growthTrends": "Tendências de Crescimento",
+  "credentialsOutdated": "Credenciais Desatualizadas",
+  "passwordsUpdated": "Senhas Atualizadas",
+  "live": "Ao vivo",
+  "active": "Ativas",
+  "subtitle": "Visão geral do sistema",
+  "loading": "Carregando...",
+  "discrepancies": {
+    "unmanagedUser": "Usuários Não Gerenciados",
+    "permissionMismatch": "Conflito de Permissões",
+    "missingPermission": "Permissões Ausentes"
+  }
+}

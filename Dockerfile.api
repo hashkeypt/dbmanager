@@ -1,0 +1,43 @@
+FROM ubuntu:24.04
+
+WORKDIR /app
+
+# Install runtime dependencies including Oracle client
+RUN apt-get update && apt-get install -y \
+    ca-certificates tzdata wget libaio1t64 unzip && \
+    rm -rf /var/lib/apt/lists/*
+
+# Download minimal Oracle Instant Client
+RUN mkdir -p /opt/oracle && cd /opt/oracle && \
+    wget -q https://download.oracle.com/otn_software/linux/instantclient/2110000/instantclient-basiclite-linux.x64-21.10.0.0.0dbru.zip && \
+    unzip -q instantclient-basiclite-linux.x64-21.10.0.0.0dbru.zip && \
+    rm -f *.zip && \
+    echo /opt/oracle/instantclient_21_10 > /etc/ld.so.conf.d/oracle-instantclient.conf && \
+    ldconfig
+
+# Create non-root user
+RUN groupadd -r dbmanager && useradd -r -g dbmanager dbmanager
+
+# Create necessary directories
+RUN mkdir -p /app/{data,logs,upload/avatars}
+
+# Copy binary
+COPY dbmanager-api /app/
+
+# Copy frontend
+COPY frontend /app/frontend
+
+# Set permissions
+RUN chown -R dbmanager:dbmanager /app
+
+USER dbmanager
+
+ENV LD_LIBRARY_PATH=/opt/oracle/instantclient_21_10
+ENV ORACLE_HOME=/opt/oracle/instantclient_21_10
+
+EXPOSE 8082
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD wget -qO- http://localhost:8082/api/health || exit 1
+
+CMD ["./dbmanager-api"]

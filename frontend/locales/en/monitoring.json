@@ -1,0 +1,54 @@
+{
+  "title": "System Monitoring",
+  "realtime": "Real-time Monitoring",
+  "historical": "Historical Data",
+  "metrics": {
+    "cpu": "CPU Usage",
+    "memory": "Memory Usage",
+    "disk": "Disk Usage",
+    "network": "Network Traffic",
+    "connections": "Active Connections",
+    "queries": "Queries per Second",
+    "responseTime": "Average Response Time",
+    "errorRate": "Error Rate"
+  },
+  "status": {
+    "healthy": "Healthy",
+    "warning": "Warning",
+    "critical": "Critical"
+  },
+  "charts": {
+    "timeRange": "Time Range",
+    "lastHour": "Last Hour",
+    "last6Hours": "Last 6 Hours",
+    "last24Hours": "Last 24 Hours",
+    "last7Days": "Last 7 Days",
+    "custom": "Custom Range"
+  },
+  "alerts": {
+    "title": "Recent Alerts",
+    "table": {
+      "timestamp": "Timestamp",
+      "level": "Level",
+      "message": "Message",
+      "source": "Source"
+    },
+    "level": {
+      "info": "Info",
+      "warning": "Warning",
+      "error": "Error",
+      "critical": "Critical"
+    }
+  },
+  "databases": {
+    "title": "Database Health",
+    "table": {
+      "name": "Name",
+      "status": "Status",
+      "uptime": "Uptime",
+      "connections": "Connections",
+      "queriesPerSecond": "Queries/Sec",
+      "responseTime": "Response Time"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "title": "Sync Configuration",
+  "description": "Configure automatic synchronization between the system and databases",
+  "pageDescription": "Configure permission synchronization parameters between the system and managed databases.",
+  "serverSettings": "Server Settings",
+  "notificationSettings": "Sync Notifications",
+  "triggerSync": "Start Manual Sync",
+  "enabledRequired": "Automatic synchronization is disabled. You can still start manual synchronizations.",
+  "settings": {
+    "enabled": "Enable Automatic Sync",
+    "enabledDescription": "Activates automatic permission synchronization between the system and connected databases.",
+    "interval": "Sync Interval",
+    "retryCount": "Retry Count",
+    "retryCountDescription": "Number of sync attempts before reporting failure",
+    "autoCorrect": "Auto Correction",
+    "autoCorrectDescription": "Automatically corrects discrepancies found during synchronization",
+    "autoRemoveUsers": "Auto Remove Users",
+    "autoRemoveUsersDescription": "Automatically removes unmanaged users found in databases",
+    "autoRemoveUsersWarning": "WARNING: This option automatically removes unmanaged users from databases. Use with extreme caution as this can disrupt other applications that depend on these users.",
+    "notifyOnDiscrepancy": "Notify on Discrepancies",
+    "notifyOnDiscrepancyDescription": "Send notification when discrepancies are found during synchronization",
+    "notifyOnUnmanaged": "Notify Unmanaged Users",
+    "notifyOnUnmanagedDescription": "Send notification when unmanaged users are found in databases",
+    "notificationEmail": "Notification Email",
+    "notificationEmailDescription": "Email of the person responsible for receiving alerts about discrepancies and unmanaged users. If not provided, system administrators will be notified.",
+    "notificationEmailHelp": "Leave blank to notify system administrators.",
+    "notificationEmailPlaceholder": "Responsible email (e.g. admin@example.com)"
+  },
+  "triggerSyncDialog": {
+    "title": "Start Manual Sync",
+    "message": "Select a database and sync direction:",
+    "database": "Database",
+    "direction": "Direction",
+    "start": "Start Sync"
+  },
+  "directions": {
+    "both": "Both Directions",
+    "import": "Import to System",
+    "export": "Export to Database"
+  },
+  "intervals": {
+    "minutes": "{{value}} minutes",
+    "hours": "{{value}} hours"
+  },
+  "alerts": {
+    "smtpWarning": "WARNING: SMTP configuration check has been temporarily disabled. Notifications may not work properly if SMTP is not configured. It is recommended to configure SMTP in Settings > SMTP as soon as possible."
+  },
+  "errors": {
+    "intervalRequired": "Sync interval must be greater than zero",
+    "retryCountRequired": "Retry count must be greater than zero",
+    "loadError": "Error loading sync configuration",
+    "saveError": "Error saving sync configuration",
+    "triggerError": "Error starting synchronization process",
+    "databaseRequired": "Select a database for synchronization"
+  },
+  "success": {
+    "saved": "Sync configuration saved successfully",
+    "triggered": "Synchronization process started successfully"
+  }
+}

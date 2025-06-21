@@ -1,0 +1,259 @@
+{
+  "title": "Permissions",
+  "searchPlaceholder": "Search by server or user...",
+  "addPermission": "Add Permission",
+  "server": {
+    "users": "{{count}} users",
+    "permissions": "{{count}} permissions"
+  },
+  "user": {
+    "servers": "{{count}} servers",
+    "permissions": "{{count}} permissions"
+  },
+  "noPermissions": "No permissions configured",
+  "modal": {
+    "title": "Permissions",
+    "close": "Close"
+  },
+  "database": "Database",
+  "notSpecified": "Not specified",
+  "permissionsIn": "Permissions in {{database}}",
+  "addButton": "Add Permission",
+  "addTitle": "Add New Permission",
+  "editTitle": "Edit Permission",
+  "addSuccess": "Permission added successfully!",
+  "updateSuccess": "Permission updated successfully!",
+  "deleteSuccess": "Permission deleted successfully!",
+  "bulkDeleteSuccess": "Permissions deleted successfully!",
+  "bulkUpdateSuccess": "Permissions updated successfully!",
+  "permanent": "Permanent",
+  "deleteConfirmTitle": "Delete Permission",
+  "deleteConfirmMessage": "Are you sure you want to delete this permission? This action cannot be undone.",
+  "addError": "Error adding permission",
+  "updateError": "Error updating permission",
+  "deleteError": "Error deleting permission",
+  "fetchError": "Error fetching permissions",
+  "dialog": {
+    "revokeTitle": "Revoke Permission",
+    "revokeMessage": "This action will revoke the permission {operations} for the table {table}. The permission will be marked as revoked but will remain in the system for audit purposes. Do you want to continue?",
+    "deleteTitle": "Delete Permission Permanently",
+    "deleteMessage": "This action will permanently delete the permission {operations} for the table {table}. This action cannot be undone. Do you want to continue?"
+  },
+  "messages": {
+    "revokeSuccess": "Permission revoked successfully",
+    "revokeError": "Error revoking permission",
+    "deleteSuccess": "Permission deleted successfully",
+    "deleteError": "Error deleting permission"
+  },
+  "detailedPermissions": "Detailed Permissions",
+  "selectPrivilege": "Select Privilege",
+  "readDataDesc": "Allows reading data from the selected tables",
+  "readData": "Read Data",
+  "enhancedManagement": "Enhanced Permission Management",
+  "grantRevoke": "Grant/Revoke Permissions",
+  "currentPermissions": "Current Permissions",
+  "noPermissions": "No permissions granted",
+  "synchronization": "Synchronization",
+  "autoSync": "Automatic Synchronization",
+  "syncInterval": "Sync Interval",
+  "preferdbmanager": "Prefer dbmanager in conflicts",
+  "importNew": "Import new permissions from database",
+  "exportNew": "Export new permissions to database",
+  "notifyConflicts": "Notify administrators on conflicts",
+  "conflictResolution": "Conflict Resolution",
+  "conflictResolutions": {
+    "manual": "Manual Resolution",
+    "dbmanager": "Use dbmanager Permissions",
+    "database": "Use Database Permissions"
+  },
+  "imported": "Imported",
+  "applied": "Applied",
+  "conflicts": "Conflicts",
+  "time": "Sync Time",
+  "lastSync": "Last Synchronization",
+  "importFromDb": "Import",
+  "exportToDb": "Export",
+  "syncBoth": "Sync Both",
+  "level": "Permission Level",
+  "levels": {
+    "database": "Database Level",
+    "schema": "Schema Level",
+    "table": "Table Level",
+    "column": "Column Level"
+  },
+  "help": {
+    "intro": "Enhanced permission management allows fine-grained control over database access and synchronization with managed databases.",
+    "levels": {
+      "title": "Permission Levels",
+      "description": "Permissions can be granted at different levels: database (e.g., CONNECT), schema (e.g., CREATE), table (e.g., SELECT, INSERT), or column level for advanced use cases."
+    },
+    "sync": {
+      "title": "Synchronization",
+      "description": "You can import permissions from managed databases, export permissions to databases, or perform bidirectional synchronization to keep permissions in sync."
+    }
+  },
+  "tabs": {
+    "enhanced": "Enhanced Management",
+    "search": "Search Permissions",
+    "bulkActions": "Bulk Actions",
+    "byServer": "By Server",
+    "byUser": "By User"
+  },
+  "userPermissions": {
+    "title": "My Database Permissions",
+    "description": "View and manage your database access permissions. Each card represents a database you have access to. Click on a card to see detailed information about your access levels."
+  },
+  "table": {
+    "user": "User",
+    "database": "Database",
+    "table": "Table",
+    "tables": "Tables",
+    "operations": "Operations",
+    "createdAt": "Created At",
+    "expiresAt": "Expires At",
+    "expiration": "Expiration",
+    "status": "Status",
+    "actions": "Actions"
+  },
+  "status": {
+    "active": "Active",
+    "expired": "Expired",
+    "permanent": "Permanent",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "revoked": "Revoked"
+  },
+  "operations": {
+    "title": "Operations",
+    "select": "SELECT",
+    "insert": "INSERT",
+    "update": "UPDATE",
+    "delete": "DELETE",
+    "all": "ALL",
+    "read": "READ",
+    "write": "WRITE",
+    "admin": "ADMIN"
+  },
+  "operationDescription": {
+    "read": "Permission to view data only",
+    "write": "Permission to add or modify data",
+    "admin": "Full administrative access including deletion"
+  },
+  "databaseSyncConfigHelp": "Select a database to configure its synchronization settings. Each database has its own settings.",
+  "form": {
+    "user": "User",
+    "database": "Database",
+    "table": "Table",
+    "schema": "Schema",
+    "operations": "Operations",
+    "expiresAt": "Expires At",
+    "isPermanent": "Permanent Access"
+  },
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "extend": "Extend",
+    "revoke": "Revoke",
+    "details": "Details",
+    "history": "History"
+  },
+  "deleteConfirmation": {
+    "title": "Delete Permission",
+    "message": "Are you sure you want to delete this permission? This action cannot be undone.",
+    "confirmButton": "Delete",
+    "cancelButton": "Cancel"
+  },
+  "filters": {
+    "title": "Filters",
+    "clear": "Clear Filters",
+    "apply": "Apply Filters",
+    "user": "Filter by User",
+    "database": "Filter by Database",
+    "status": "Filter by Status",
+    "operations": "Filter by Operations"
+  },
+  "search": {
+    "title": "Search Permissions",
+    "quickSearch": "Quick search...",
+    "username": "Username",
+    "database": "Database",
+    "table": "Table",
+    "operation": "Operation",
+    "status": "Status",
+    "expirationBefore": "Expiration Before",
+    "expirationAfter": "Expiration After",
+    "savedSearches": "Saved Searches",
+    "saveSearch": "Save Search",
+    "deleteSearch": "Delete Search",
+    "saveSearchAs": "Save Search As",
+    "searchName": "Search Name",
+    "history": "History",
+    "recentSearches": "Recent Searches",
+    "noRecentSearches": "No recent searches",
+    "allPermissions": "All Permissions"
+  },
+  "bulkActions": {
+    "title": "Bulk Actions",
+    "delete": "Delete Selected",
+    "extend": "Extend Selected",
+    "changeOperations": "Change Operations",
+    "makePermament": "Make Permanent",
+    "selectAll": "Select All",
+    "selectedCount": "Selected: {{count}}",
+    "selected": "selected",
+    "action": "Action",
+    "revoke": "Revoke",
+    "changeExpiration": "Change Expiration",
+    "export": "Export",
+    "import": "Import",
+    "newExpirationDate": "New Expiration Date",
+    "apply": "Apply",
+    "noSelection": "Select permissions in the table to perform bulk actions",
+    "allOperationsTooltip": "Grants all available permissions",
+    "confirm": {
+      "revoke": {
+        "title": "Revoke Permissions",
+        "message": "Are you sure you want to revoke the selected permissions?"
+      },
+      "changeExpiration": {
+        "title": "Change Expiration Date",
+        "message": "Are you sure you want to change the expiration date to"
+      },
+      "changeOperations": {
+        "title": "Change Operations",
+        "message": "Are you sure you want to update the allowed operations to"
+      }
+    },
+    "success": {
+      "revoke": "Permissions revoked successfully",
+      "changeExpiration": "Expiration date changed successfully"
+    },
+    "error": "Error performing bulk action",
+    "exportTitle": "Export Permissions",
+    "exportDescription": "Choose the format to export the selected permissions",
+    "exportFormat": "Export Format",
+    "exportButton": "Export",
+    "importTitle": "Import Permissions",
+    "importDescription": "Select a file to import permissions",
+    "importFormatInfo": "We support CSV, JSON, or XLSX files",
+    "selectFile": "Select File",
+    "selectedFile": "Selected file",
+    "importButton": "Import"
+  },
+  "managedDatabases": "Managed Databases",
+  "selectDatabaseHelp": "Click on a database to view users with permissions",
+  "selectUserHelp": "Select a user to view and manage their permissions",
+  "noUsersWithPermissions": "No users have permissions for this database yet",
+  "userPermissionsInDatabase": "Permissions for {{user}} in {{database}}",
+  "noReadOperations": "No read permissions granted",
+  "noWriteOperations": "No write permissions granted",
+  "noAdminOperations": "No administrative permissions granted",
+  "noPermissionsForUser": "This user doesn't have any permissions for this database yet",
+  "addReadPermission": "Add Read Permission",
+  "addWritePermission": "Add Write Permission",
+  "addAdminPermission": "Add Admin Permission",
+  "addFirstPermission": "Add First Permission",
+  "permissionDetails": "Permission Details",
+  "expiresAt": "Expires at"
+}

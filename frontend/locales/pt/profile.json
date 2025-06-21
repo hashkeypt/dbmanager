@@ -1,0 +1,141 @@
+{
+  "title": "Perfil do Usuário",
+  "generalInfo": "Informações Gerais",
+  "securitySettings": "Configurações de Segurança",
+  "databaseCredentials": "Credenciais de Banco de Dados",
+  "error": {
+    "loadingUser": "Erro ao carregar perfil do usuário"
+  },
+  "avatar": {
+    "sizeError": "A imagem do avatar deve ter menos de 5MB",
+    "typeError": "O arquivo deve ser uma imagem",
+    "success": "Avatar atualizado com sucesso",
+    "error": "Falha ao enviar avatar"
+  },
+  "personalInfo": {
+    "title": "Informações Pessoais",
+    "username": "Nome de Usuário",
+    "email": "Email",
+    "role": "Função",
+    "status": "Status",
+    "lastLogin": "Último Login"
+  },
+  "settings": {
+    "title": "Configurações",
+    "language": "Idioma",
+    "theme": "Tema",
+    "saveButton": "Salvar Configurações",
+    "saveSuccess": "Configurações salvas com sucesso",
+    "saveError": "Erro ao salvar configurações"
+  },
+  "security": {
+    "title": "Segurança",
+    "changePassword": "Alterar Senha",
+    "currentPassword": "Senha Atual",
+    "newPassword": "Nova Senha",
+    "confirmPassword": "Confirmar Senha",
+    "saveButton": "Atualizar Senha",
+    "passwordSuccess": "Senha alterada com sucesso",
+    "passwordError": "Erro ao alterar senha"
+  },
+  "universalCredentials": "Credenciais Universais de Banco de Dados",
+  "universalCredentialsDescription": "Gerencie suas credenciais universais de conexão a bancos de dados. Estas credenciais serão usadas para todas as conexões de banco de dados, fornecendo um único conjunto de detalhes de autenticação para sincronização de permissões.",
+  "noUniversalCredentials": "Você ainda não configurou credenciais universais de banco de dados.",
+  "universalCredentialDetails": "Detalhes da Credencial Universal",
+  "universalCredentialsForm": {
+    "addTitle": "Definir Credenciais Universais",
+    "updateTitle": "Atualizar Credenciais Universais",
+    "description": "Estas credenciais serão usadas para todas as conexões de banco de dados. Certifique-se de que você tenha o mesmo nome de usuário e senha em todos os seus servidores de banco de dados."
+  },
+  "requiredCredentials": {
+    "title": "Credenciais de Banco de Dados Necessárias",
+    "warning": "Você precisa configurar suas credenciais de banco de dados antes de usar o sistema",
+    "description": "Para garantir a sincronização adequada e o acesso aos recursos do banco de dados, você precisa configurar suas credenciais universais de banco de dados. Elas serão usadas para todas as operações no sistema."
+  },
+  "credentialsForm": {
+    "username": "Nome de Usuário",
+    "password": "Senha",
+    "usernameHelp": "Seu nome de usuário será usado em todos os bancos de dados",
+    "passwordHelp": "A senha deve ser forte e segura",
+    "updateButton": "Atualizar Credenciais",
+    "saveButton": "Salvar Credenciais",
+    "addButton": "Definir Credenciais",
+    "error": {
+      "fieldsRequired": "Todos os campos são obrigatórios",
+      "invalidPassword": "A senha não atende aos requisitos de segurança"
+    },
+    "passwordRequirements": "Requisitos da senha:",
+    "title": "Credenciais Universais de Banco de Dados",
+    "updateTitle": "Atualizar Credenciais Universais",
+    "addTitle": "Definir Credenciais Universais",
+    "description": "Estas credenciais serão usadas para todas as conexões de banco de dados. Certifique-se de que você tenha o mesmo nome de usuário e senha em todos os seus servidores de banco de dados."
+  },
+  "noDatabases": "Nenhum banco de dados conectado ainda",
+  "activity": "Atividade Recente",
+  "credentialsDescription": "Gerencie suas credenciais de conexão a bancos de dados. Estas credenciais são usadas para sincronização de usuários e permissões entre o DB-Manager e seus servidores de banco de dados.",
+  "noCredentials": "Você não tem nenhuma credencial de banco de dados configurada.",
+  "permissions": {
+    "title": "Minhas Permissões de Banco de Dados",
+    "noPermissions": "Você ainda não possui permissões de banco de dados."
+  },
+  "databaseCredentialsForm": {
+    "username": "Nome de Usuário",
+    "password": "Senha",
+    "usernameHelp": "Seu nome de usuário será usado em todos os bancos de dados",
+    "passwordHelp": "A senha deve ser forte e segura",
+    "passwordRequirements": "Requisitos da senha:",
+    "title": "Credenciais de Banco de Dados",
+    "updateTitle": "Atualizar Credenciais de Banco de Dados",
+    "addTitle": "Definir Credenciais de Banco de Dados",
+    "description": "Estas credenciais serão usadas para conexões de banco de dados",
+    "saveButton": "Salvar Credenciais",
+    "updateButton": "Atualizar Credenciais",
+    "addButton": "Definir Credenciais",
+    "error": {
+      "fieldsRequired": "Todos os campos são obrigatórios",
+      "invalidPassword": "A senha não atende aos requisitos de segurança"
+    }
+  },
+  "form": {
+    "username": "Nome de Usuário",
+    "email": "Email",
+    "fullName": "Nome Completo",
+    "role": "Função",
+    "status": "Status",
+    "lastLogin": "Último Login",
+    "currentPassword": "Senha Atual",
+    "newPassword": "Nova Senha",
+    "confirmPassword": "Confirmar Nova Senha",
+    "changePassword": "Alterar Senha",
+    "enable2FA": "Ativar Autenticação de Dois Fatores",
+    "disable2FA": "Desativar Autenticação de Dois Fatores",
+    "setup2FA": "Configurar Autenticação de Dois Fatores",
+    "backupCodes": "Códigos de Backup"
+  },
+  "passwordSuccess": "Senha alterada com sucesso!",
+  "passwordError": "Falha ao alterar senha",
+  "2FASuccess": "Configuração de autenticação de dois fatores concluída com sucesso!",
+  "2FAError": "Falha ao configurar autenticação de dois fatores",
+  "credentialsTable": {
+    "database": "Banco de Dados",
+    "type": "Tipo",
+    "username": "Nome de Usuário",
+    "lastUpdated": "Última Atualização",
+    "connectedDatabases": "Será usado para todos os bancos de dados",
+    "actions": "Ações"
+  },
+  "legacyCredentialsForm": {
+    "title": "Atualizar Credenciais de Banco de Dados",
+    "database": "Banco de Dados",
+    "username": "Nome de Usuário",
+    "password": "Senha do Banco de Dados",
+    "updateButton": "Atualizar Credenciais",
+    "saveButton": "Salvar Credenciais",
+    "addButton": "Definir Credenciais",
+    "error": {
+      "fieldsRequired": "Todos os campos são obrigatórios"
+    }
+  },
+  "credentialsSuccess": "Credenciais universais atualizadas com sucesso!",
+  "credentialsError": "Falha ao atualizar credenciais"
+}

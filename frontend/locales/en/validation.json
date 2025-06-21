@@ -1,0 +1,6 @@
+{
+  "required": "This field is required",
+  "serviceUserInvalidChars": "Username cannot contain dots, spaces or special characters",
+  "serviceUserMinLength": "Username must be at least 3 characters long",
+  "serviceUserMaxLength": "Username cannot be longer than 30 characters"
+}

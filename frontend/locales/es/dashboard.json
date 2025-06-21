@@ -1,0 +1,136 @@
+{
+  "title": "Panel de Control",
+  "tabs": {
+    "overview": "Resumen",
+    "myPermissions": "Mis Permisos",
+    "myRequests": "Mis Solicitudes"
+  },
+  "cards": {
+    "users": {
+      "title": "Usuarios",
+      "totalUsers": "Total de Usuarios",
+      "manageButton": "Gestionar Usuarios"
+    },
+    "databases": {
+      "title": "Bases de Datos",
+      "connectedDatabases": "Bases de Datos Conectadas",
+      "manageButton": "Gestionar Bases de Datos",
+      "newCount": "+{{count}} nuevas"
+    },
+    "requests": {
+      "title": "Solicitudes de Acceso",
+      "pendingRequests": "Solicitudes Pendientes",
+      "viewButton": "Ver Solicitudes"
+    },
+    "approvalRate": {
+      "title": "Tasa de Aprobación",
+      "period": "Últimos 30 días",
+      "viewReports": "Ver Informes"
+    },
+    "discrepancyHistory": {
+      "title": "Historial de Discrepancias",
+      "thisMonth": "Este mes"
+    },
+    "requestDistribution": {
+      "title": "Distribución de Solicitudes",
+      "thisMonth": "Este mes",
+      "approved": "Aprobadas",
+      "pending": "Pendientes",
+      "rejected": "Rechazadas"
+    }
+  },
+  "recentActivity": {
+    "title": "Actividad Reciente",
+    "operations": "Operaciones",
+    "noActivity": "Sin actividad reciente"
+  },
+  "systemStatus": {
+    "title": "Estado del Sistema",
+    "status": "Estado",
+    "uptime": "Tiempo de Actividad",
+    "version": "Versión",
+    "license": "Licencia",
+    "licenseExpiresIn": "Expira en",
+    "serverLimit": "Límite de Servidores",
+    "userLimit": "Límite de Usuarios",
+    "serverUsage": "Servidores en Uso",
+    "userUsage": "Usuarios en Uso",
+    "requests": "Solicitudes"
+  },
+  "requester": {
+    "lastLogin": "Último inicio de sesión",
+    "cards": {
+      "permissions": {
+        "title": "Mis Permisos",
+        "total": "Total de permisos activos",
+        "viewButton": "Ver Permisos"
+      },
+      "requests": {
+        "title": "Mis Solicitudes",
+        "pending": "Solicitudes pendientes",
+        "approved": "Solicitudes aprobadas",
+        "viewButton": "Ver Solicitudes"
+      },
+      "newRequest": {
+        "title": "Nueva Solicitud",
+        "description": "Solicitar acceso a base de datos",
+        "button": "Crear Nueva Solicitud"
+      }
+    },
+    "requestStats": {
+      "title": "Estadísticas de Solicitudes",
+      "pending": "Solicitudes Pendientes",
+      "approved": "Solicitudes Aprobadas",
+      "rejected": "Solicitudes Rechazadas",
+      "total": "Total de Solicitudes",
+      "totalRequests": "Total de Solicitudes",
+      "approvalRate": "Tasa de Aprobación"
+    },
+    "recentActivity": {
+      "title": "Actividad Reciente",
+      "operations": "Operaciones",
+      "noActivity": "Sin actividad reciente",
+      "realTime": "Tiempo real"
+    },
+    "permissionsByDatabase": {
+      "title": "Permisos por Base de Datos",
+      "noData": "No se encontraron permisos"
+    },
+    "expiringPermissions": {
+      "title": "Permisos por Expirar",
+      "expires": "Expira el",
+      "days": "días",
+      "noData": "No hay permisos que expiren en los próximos 30 días"
+    },
+    "myRequests": {
+      "title": "Mis Solicitudes de Acceso",
+      "newRequest": "Nueva Solicitud",
+      "noRequests": "No se encontraron solicitudes",
+      "viewAll": "Ver Todas las Solicitudes"
+    },
+    "credentials": {
+      "configureButton": "Configurar Credenciales",
+      "notConfigured": {
+        "title": "Credenciales Universales No Configuradas",
+        "message": "Configure sus credenciales universales de base de datos para gestionar adecuadamente los permisos y la sincronización."
+      },
+      "outdated": {
+        "title": "Credenciales Universales Desactualizadas",
+        "message": "Sus credenciales universales fueron actualizadas hace {{months}} meses. Por motivos de seguridad, recomendamos actualizarlas."
+      }
+    }
+  },
+  "pendingApproval": "Esperando aprobación",
+  "growthTrends": "Tendencias de Crecimiento",
+  "credentialsOutdated": "Credenciales Desactualizadas",
+  "passwordsUpdated": "Contraseñas Actualizadas",
+  "live": "En Vivo",
+  "active": "Activo",
+  "subtitle": "Resumen del sistema",
+  "loading": "Cargando...",
+  "discrepancies": {
+    "unmanagedUser": "Usuarios No Gestionados",
+    "permissionMismatch": "Discrepancia de Permisos",
+    "missingPermission": "Permisos Faltantes"
+  }
+}

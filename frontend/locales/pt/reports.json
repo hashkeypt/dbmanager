@@ -1,0 +1,32 @@
+{
+  "title": "Relatórios de Queries por Usuário",
+  "subtitle": "Visualize e analise a atividade de queries dos usuários em todos os bancos de dados",
+  "generateReport": "Gerar Relatório",
+  "export": "Exportar",
+  "totalUsers": "Total de Usuários",
+  "totalQueries": "Total de Queries",
+  "avgQueriesPerUser": "Média Queries/Usuário",
+  "mostActiveUser": "Usuário Mais Ativo",
+  "onServer": "No servidor",
+  "filterByServer": "Filtrar por Servidor",
+  "filterByUser": "Filtrar por Usuário",
+  "usernamePlaceholder": "Nome de usuário",
+  "user": "Usuário",
+  "server": "Servidor",
+  "date": "Data",
+  "queryBreakdown": "Detalhamento de Queries",
+  "avgTime": "Tempo Médio",
+  "slowQueries": "Queries Lentas",
+  "failedQueries": "Queries com Falha",
+  "noReportsFound": "Nenhum relatório encontrado para os critérios selecionados",
+  "errors": {
+    "generateFailed": "Falha ao gerar relatório"
+  },
+  "exportError": "Falha ao exportar relatório como PDF",
+  "filters": "Filtros",
+  "showAdvancedFilters": "Mostrar Filtros Avançados",
+  "hideAdvancedFilters": "Ocultar Filtros Avançados",
+  "filterByQueryType": "Filtrar por Tipo de Query",
+  "minQueries": "Mínimo de Queries",
+  "minQueriesPlaceholder": "ex: 100"
+}

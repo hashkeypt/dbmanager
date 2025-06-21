@@ -1,0 +1,54 @@
+{
+  "title": "Monitoramento do Sistema",
+  "realtime": "Monitoramento em Tempo Real",
+  "historical": "Dados Históricos",
+  "metrics": {
+    "cpu": "Uso de CPU",
+    "memory": "Uso de Memória",
+    "disk": "Uso de Disco",
+    "network": "Tráfego de Rede",
+    "connections": "Conexões Ativas",
+    "queries": "Consultas por Segundo",
+    "responseTime": "Tempo Médio de Resposta",
+    "errorRate": "Taxa de Erro"
+  },
+  "status": {
+    "healthy": "Saudável",
+    "warning": "Alerta",
+    "critical": "Crítico"
+  },
+  "charts": {
+    "timeRange": "Período",
+    "lastHour": "Última Hora",
+    "last6Hours": "Últimas 6 Horas",
+    "last24Hours": "Últimas 24 Horas",
+    "last7Days": "Últimos 7 Dias",
+    "custom": "Período Personalizado"
+  },
+  "alerts": {
+    "title": "Alertas Recentes",
+    "table": {
+      "timestamp": "Data/Hora",
+      "level": "Nível",
+      "message": "Mensagem",
+      "source": "Origem"
+    },
+    "level": {
+      "info": "Informação",
+      "warning": "Alerta",
+      "error": "Erro",
+      "critical": "Crítico"
+    }
+  },
+  "databases": {
+    "title": "Saúde dos Bancos de Dados",
+    "table": {
+      "name": "Nome",
+      "status": "Status",
+      "uptime": "Tempo de Atividade",
+      "connections": "Conexões",
+      "queriesPerSecond": "Consultas/Seg",
+      "responseTime": "Tempo de Resposta"
+    }
+  }
+}

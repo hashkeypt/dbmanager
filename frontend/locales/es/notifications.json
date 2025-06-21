@@ -1,0 +1,15 @@
+{
+  "title": "Notificaciones",
+  "viewAll": "Ver todas las notificaciones",
+  "markAsRead": "Marcar como leída",
+  "markAllAsRead": "Marcar todas como leídas",
+  "empty": "Sin notificaciones",
+  "loading": "Cargando notificaciones...",
+  "types": {
+    "access_request": "Solicitud de Acceso",
+    "approval": "Aprobación",
+    "rejection": "Rechazo",
+    "system": "Sistema",
+    "alert": "Alerta"
+  }
+}

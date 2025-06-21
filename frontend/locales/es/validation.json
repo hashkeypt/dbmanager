@@ -1,0 +1,6 @@
+{
+  "required": "Este campo es requerido",
+  "serviceUserInvalidChars": "El nombre de usuario no puede contener puntos, espacios o caracteres especiales",
+  "serviceUserMinLength": "El nombre de usuario debe tener al menos 3 caracteres",
+  "serviceUserMaxLength": "El nombre de usuario no puede tener más de 30 caracteres"
+}

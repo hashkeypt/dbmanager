@@ -1,0 +1,32 @@
+{
+  "activateAccount": "Activate Your Account",
+  "welcome": "Welcome! Complete your profile to activate your account.",
+  "invitedEmail": "Invited Email:",
+  "username": "Username:",
+  "fullName": "Full Name",
+  "password": "Create Password",
+  "confirmPassword": "Confirm Password",
+  "activationError": "Error activating account",
+  "tokenError": "Error validating activation token",
+  "tokenInvalid": "Invalid Activation Link",
+  "tokenMissing": "Activation token is missing",
+  "invalidToken": "Invalid or expired activation token",
+  "passwordRequirements": {
+    "minLength": "At least 12 characters",
+    "uppercase": "At least one uppercase letter",
+    "number": "At least one number",
+    "strength": "Password Strength:",
+    "weak": "Weak",
+    "medium": "Medium",
+    "strong": "Strong",
+    "mismatch": "Passwords do not match",
+    "requirementsNotMet": "Password does not meet all requirements"
+  },
+  "activating": "Activating...",
+  "activate": "Activate Account",
+  "checkingToken": "Validating your activation link...",
+  "backToLogin": "Go to Login",
+  "success": "Account Activated!",
+  "successMessage": "Your account has been successfully activated. You will be redirected to the login page in a few seconds.",
+  "goToLogin": "Go to Login Now"
+}
