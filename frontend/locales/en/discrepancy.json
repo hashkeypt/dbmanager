@@ -25,7 +25,11 @@
   "types": {
     "extra_permission": "Extra Permission",
     "missing_permission": "Missing Permission",
-    "unmanaged_user": "Unmanaged User"
+    "unmanaged_user": "Unmanaged User",
+    "extra_database": "Extra Database",
+    "missing_database": "Missing Database",
+    "extra_table": "Extra Table",
+    "missing_table": "Missing Table"
   },
   "status": {
     "pending": "Pending",

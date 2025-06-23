@@ -15,6 +15,7 @@ echo -e "${GREEN}DB-Manager - Database Schema Setup${NC}"
 echo -e "${GREEN}==================================${NC}"
 echo ""
 
+# Check for .env file
 if [ ! -f ".env" ]; then
     echo -e "${RED}Error: .env file not found!${NC}"
     echo ""
@@ -24,16 +25,18 @@ if [ ! -f ".env" ]; then
     exit 1
 fi
 
+# Load .env file
 echo -e "${YELLOW}Loading configuration from .env...${NC}"
 export $(grep -v '^#' .env | xargs)
 
-# Support both DB_ and DBMANAGER_DB_ prefixes
+# Get database variables (support both DB_ and DBMANAGER_DB_ prefixes)
 DB_HOST=${DB_HOST:-${DBMANAGER_DB_HOST:-localhost}}
 DB_PORT=${DB_PORT:-${DBMANAGER_DB_PORT:-5432}}
 DB_NAME=${DB_NAME:-${DBMANAGER_DB_NAME:-dbmanager_users}}
 DB_USER=${DB_USER:-${DBMANAGER_DB_USER:-dbmanager_admin}}
 DB_PASSWORD=${DB_PASSWORD:-${DBMANAGER_DB_PASSWORD}}
 
+# Find schema file
 SCHEMA_FILE=""
 for path in "scripts/db/complete-schema.sql" "complete-schema.sql" "../scripts/db/complete-schema.sql"; do
     if [ -f "$path" ]; then
@@ -93,6 +96,7 @@ test_connection() {
 if test_connection "$DB_HOST" "$DB_PORT"; then
     echo -e "${GREEN}✓ Connected to $DB_HOST:$DB_PORT${NC}"
 elif [[ "$DB_HOST" == *"dbmanager"* ]] || [[ "$DB_HOST" == *"postgres"* ]]; then
+    # Fallback to localhost with mapped port
     echo -e "${YELLOW}Container hostname failed, trying localhost:5432...${NC}"
     if test_connection "localhost" "5432"; then
         DB_HOST="localhost"
@@ -116,6 +120,7 @@ if psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -f "$SCHEMA_FILE
     echo ""
     echo -e "${GREEN}✓ Schema applied successfully!${NC}"
     
+    # Show statistics
     echo ""
     echo "Database statistics:"
     psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -t -c "
@@ -125,20 +130,16 @@ if psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -f "$SCHEMA_FILE
     echo ""
     echo -e "${GREEN}Database is ready!${NC}"
     
+    # Create admin user
     echo ""
     echo -e "${YELLOW}Creating default admin user...${NC}"
     
+    # Check if admin already exists
     ADMIN_EXISTS=$(psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -t -c "SELECT COUNT(*) FROM users WHERE username = 'admin';" | tr -d ' ')
     
     if [ "$ADMIN_EXISTS" -eq "0" ]; then
-        # Generate a random password for the admin user
-        ADMIN_PASSWORD=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-16)
-        
-        # Hash the password using Python bcrypt
-        PASSWORD_HASH=$(python3 -c "import bcrypt; print(bcrypt.hashpw('$ADMIN_PASSWORD'.encode('utf-8'), bcrypt.gensalt(12)).decode('utf-8'))")
-        
-        # Use environment variable for admin email, with fallback
-        ADMIN_EMAIL=${ADMIN_EMAIL:-"admin@localhost"}
+        # Hash for password "password" using bcrypt
+        PASSWORD_HASH='$2b$12$19rnT5/blFYqPAtCWSVDeuF3kdtwxBH5ouYXN94MFJp6Vma2ghcgO'
         
         # Create admin user
         psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "
@@ -147,7 +148,7 @@ if psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -f "$SCHEMA_FILE
             gen_random_uuid(),
             'admin',
             '$PASSWORD_HASH',
-            '$ADMIN_EMAIL',
+            'admin@db-manager.com',
             'Administrator',
             'Admin',
             'active',
@@ -157,13 +158,11 @@ if psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -f "$SCHEMA_FILE
         
         echo -e "${GREEN}✓ Admin user created successfully!${NC}"
         echo ""
-        echo "Admin credentials:"
+        echo "Default credentials:"
         echo "  Username: admin"
-        echo "  Password: $ADMIN_PASSWORD"
-        echo "  Email: $ADMIN_EMAIL"
+        echo "  Password: password"
         echo ""
-        echo -e "${RED}IMPORTANT: Save this password securely. It will not be shown again!${NC}"
-        echo -e "${YELLOW}Please change the password after first login!${NC}"
+        echo -e "${YELLOW}IMPORTANT: Change the password after first login!${NC}"
     else
         echo -e "${GREEN}✓ Admin user already exists${NC}"
     fi

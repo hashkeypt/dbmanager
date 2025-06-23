@@ -100,8 +100,21 @@
     "removeUserFailed": "Failed to remove user",
     "syncDatabaseFailed": "Failed to synchronize database",
     "tooManyResults": "Too many results ({{count}}). Showing only the first {{max}}",
-    "triggerSyncFailed": "Failed to trigger synchronization"
+    "triggerSyncFailed": "Failed to trigger synchronization",
+    "acceptStructureFailed": "Failed to accept structure change"
   },
   "serverConnectionUser": "Server connection user - automatically accepted",
-  "corrected": "Corrected"
+  "corrected": "Corrected",
+  "cleanupPermissions": "Cleanup Permissions",
+  "acceptStructure": "Accept",
+  "discrepancy": {
+    "corrected": "Discrepancy corrected successfully"
+  },
+  "structure": {
+    "accepted": "Structure change accepted and snapshot updated"
+  },
+  "cleanup": {
+    "completed": "Cleanup completed: {{affected_rows}} orphaned permissions removed",
+    "noPermissions": "No orphaned permissions found to cleanup"
+  }
 }

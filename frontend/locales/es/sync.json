@@ -103,5 +103,17 @@
     "triggerSyncFailed": "Error al iniciar sincronización"
   },
   "serverConnectionUser": "Usuario de conexión del servidor - aceptado automáticamente",
-  "corrected": "Corregida"
+  "corrected": "Corregida",
+  "cleanupPermissions": "Limpiar Permisos",
+  "acceptStructure": "Aceptar",
+  "discrepancy": {
+    "corrected": "Discrepancia corregida exitosamente"
+  },
+  "structure": {
+    "accepted": "Cambio de estructura aceptado y snapshot actualizado"
+  },
+  "cleanup": {
+    "completed": "Limpieza completada: {{affected_rows}} permisos huérfanos eliminados",
+    "noPermissions": "No se encontraron permisos huérfanos para limpiar"
+  }
 }

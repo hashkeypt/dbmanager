@@ -100,8 +100,21 @@
     "removeUserFailed": "Falha ao remover usuário",
     "syncDatabaseFailed": "Falha ao sincronizar banco de dados",
     "tooManyResults": "Muitos resultados ({{count}}). Mostrando apenas os primeiros {{max}}",
-    "triggerSyncFailed": "Falha ao iniciar sincronização"
+    "triggerSyncFailed": "Falha ao iniciar sincronização",
+    "acceptStructureFailed": "Falha ao aceitar mudança de estrutura"
   },
   "serverConnectionUser": "Usuário de conexão do servidor - aceito automaticamente",
-  "corrected": "Corrigida"
+  "corrected": "Corrigida",
+  "cleanupPermissions": "Limpar Permissões",
+  "acceptStructure": "Aceitar",
+  "discrepancy": {
+    "corrected": "Discrepância corrigida com sucesso"
+  },
+  "structure": {
+    "accepted": "Mudança de estrutura aceita e snapshot atualizado"
+  },
+  "cleanup": {
+    "completed": "Limpeza concluída: {{affected_rows}} permissões órfãs removidas",
+    "noPermissions": "Nenhuma permissão órfã encontrada para limpar"
+  }
 }
