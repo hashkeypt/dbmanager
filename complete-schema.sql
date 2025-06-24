@@ -1586,6 +1586,15 @@ CREATE TABLE IF NOT EXISTS metrics_configuration (
     pg_stat_statements_enabled BOOLEAN NOT NULL DEFAULT false,
     pg_stat_statements_track VARCHAR(10) NOT NULL DEFAULT 'top',
     pg_slow_query_threshold INTEGER NOT NULL DEFAULT 1000, -- Em milissegundos
+    pg_collect_slow_queries BOOLEAN NOT NULL DEFAULT true,
+    pg_collect_table_stats BOOLEAN NOT NULL DEFAULT true,
+    pg_collect_index_stats BOOLEAN NOT NULL DEFAULT true,
+    pg_collect_database_stats BOOLEAN NOT NULL DEFAULT true,
+    -- Campos para SQL Server
+    mssql_query_store_enabled BOOLEAN NOT NULL DEFAULT true,
+    mssql_collect_wait_stats BOOLEAN NOT NULL DEFAULT true,
+    mssql_collect_io_stats BOOLEAN NOT NULL DEFAULT true,
+    mssql_clear_plan_cache BOOLEAN NOT NULL DEFAULT false,
     auto_collect_enabled BOOLEAN NOT NULL DEFAULT false,
     auto_collect_interval INTEGER NOT NULL DEFAULT 3600, -- Em segundos
     history_retention_days INTEGER NOT NULL DEFAULT 30,
