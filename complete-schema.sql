@@ -290,6 +290,7 @@ CREATE TABLE IF NOT EXISTS sync_discrepancies (
     username VARCHAR(100) NOT NULL,
     server_id VARCHAR(36) NOT NULL REFERENCES servers(id) ON DELETE CASCADE,
     database_name VARCHAR(100) DEFAULT 'Unknown Database', -- Adicionado valor padrão
+    schema_name VARCHAR(100),
     table_name VARCHAR(100),
     type VARCHAR(50) NOT NULL,
     details TEXT,  -- Removido NOT NULL
@@ -323,6 +324,11 @@ CREATE INDEX IF NOT EXISTS idx_sync_discrepancies_updated_at ON sync_discrepanci
 CREATE INDEX IF NOT EXISTS idx_sync_discrepancies_perm_db ON sync_discrepancies(permission_database_name);
 CREATE INDEX IF NOT EXISTS idx_sync_discrepancies_perm_table ON sync_discrepancies(permission_table_name);
 CREATE INDEX IF NOT EXISTS idx_sync_discrepancies_perm_schema ON sync_discrepancies(permission_schema_name);
+
+-- Add constraint for discrepancy types
+ALTER TABLE sync_discrepancies ADD CONSTRAINT sync_discrepancies_type_check 
+CHECK (type IN ('extra_permission', 'missing_permission', 'expired_permission', 'unmanaged_user', 
+                'extra_database', 'missing_database', 'extra_table', 'missing_table'));
 
 -- Add comments explaining important fields
 COMMENT ON COLUMN user_permissions.database_name IS 'Nome do banco de dados dentro do servidor onde a permissão se aplica';
@@ -707,6 +713,46 @@ COMMENT ON COLUMN accepted_unmanaged_users.server_id IS 'ID do servidor onde o u
 COMMENT ON COLUMN accepted_unmanaged_users.username IS 'Nome de usuário no servidor';
 COMMENT ON COLUMN accepted_unmanaged_users.accepted_at IS 'Quando o usuário foi aceito na lista';
 COMMENT ON COLUMN accepted_unmanaged_users.accepted_by IS 'Usuário que aceitou este usuário não gerenciado';
+
+-- Create server_structure_snapshot table for tracking database and table changes
+CREATE TABLE IF NOT EXISTS server_structure_snapshot (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    server_id VARCHAR(255) NOT NULL REFERENCES servers(id) ON DELETE CASCADE,
+    snapshot_type VARCHAR(50) NOT NULL, -- 'database' ou 'table'
+    database_name VARCHAR(255),
+    schema_name VARCHAR(255),
+    table_name VARCHAR(255),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(server_id, snapshot_type, database_name, schema_name, table_name)
+);
+
+-- Add indexes for better performance
+CREATE INDEX idx_server_structure_snapshot_server_id ON server_structure_snapshot(server_id);
+CREATE INDEX idx_server_structure_snapshot_type ON server_structure_snapshot(snapshot_type);
+CREATE INDEX idx_server_structure_snapshot_database ON server_structure_snapshot(database_name);
+
+-- Add function to update the updated_at timestamp
+CREATE OR REPLACE FUNCTION update_server_structure_snapshot_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create trigger to update timestamp
+CREATE TRIGGER update_server_structure_snapshot_updated_at
+    BEFORE UPDATE ON server_structure_snapshot
+    FOR EACH ROW
+    EXECUTE FUNCTION update_server_structure_snapshot_timestamp();
+
+-- Add comments for documentation
+COMMENT ON TABLE server_structure_snapshot IS 'Armazena snapshot da estrutura de databases e tabelas dos servidores para detectar mudanças';
+COMMENT ON COLUMN server_structure_snapshot.snapshot_type IS 'Tipo do snapshot: database ou table';
+COMMENT ON COLUMN server_structure_snapshot.database_name IS 'Nome do database (para todos os SGBDs)';
+COMMENT ON COLUMN server_structure_snapshot.schema_name IS 'Nome do schema (principalmente para PostgreSQL)';
+COMMENT ON COLUMN server_structure_snapshot.table_name IS 'Nome da tabela (quando snapshot_type = table)';
 COMMENT ON COLUMN accepted_unmanaged_users.created_at IS 'Quando o registro foi criado';
 COMMENT ON COLUMN accepted_unmanaged_users.updated_at IS 'Última atualização do registro';
 COMMENT ON COLUMN accepted_unmanaged_users.note IS 'Nota opcional sobre por que este usuário foi aceito';

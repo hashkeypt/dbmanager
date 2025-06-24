@@ -1,0 +1,12 @@
+{
+  "emptyLicense": "Por favor, insira uma chave de licença",
+  "uploadLicense": "Erro ao carregar licença",
+  "licenseDuplicate": "Licença Bloqueada - Uso Duplicado Detectado",
+  "duplicateHelp": "Para usar esta licença neste servidor, primeiro desative-a nos outros servidores listados acima.",
+  "licenseAlreadyInUse": "Esta licença já está sendo usada em outro servidor",
+  "licenseRevoked": "Esta licença foi revogada",
+  "licenseExpired": "Esta licença expirou",
+  "licenseInvalid": "Esta licença é inválida",
+  "connectionError": "Erro de conexão com o servidor",
+  "unexpectedError": "Erro inesperado. Por favor, tente novamente."
+}

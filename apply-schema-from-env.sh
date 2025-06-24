@@ -143,7 +143,7 @@ if psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -f "$SCHEMA_FILE
         
         # Create admin user
         psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "
-        INSERT INTO users (id, username, password, email, full_name, role, status, created_at, updated_at)
+        INSERT INTO users (id, username, password, email, full_name, role, active, created_at, updated_at)
         VALUES (
             gen_random_uuid(),
             'admin',
@@ -151,7 +151,7 @@ if psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -f "$SCHEMA_FILE
             'admin@db-manager.com',
             'Administrator',
             'Admin',
-            'active',
+            true,
             CURRENT_TIMESTAMP,
             CURRENT_TIMESTAMP
         );"

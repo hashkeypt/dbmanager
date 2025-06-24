@@ -50,6 +50,7 @@
     "uptime": "Tiempo de Actividad",
     "version": "Versión",
     "license": "Licencia",
+    "hardwareHash": "ID del Hardware",
     "licenseExpiresIn": "Expira en",
     "serverLimit": "Límite de Servidores",
     "userLimit": "Límite de Usuarios",

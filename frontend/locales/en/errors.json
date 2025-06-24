@@ -1,0 +1,12 @@
+{
+  "emptyLicense": "Please enter a license key",
+  "uploadLicense": "Error uploading license",
+  "licenseDuplicate": "License Blocked - Duplicate Usage Detected",
+  "duplicateHelp": "To use this license on this server, first deactivate it on the other servers listed above.",
+  "licenseAlreadyInUse": "This license is already being used on another server",
+  "licenseRevoked": "This license has been revoked",
+  "licenseExpired": "This license has expired",
+  "licenseInvalid": "This license is invalid",
+  "connectionError": "Server connection error",
+  "unexpectedError": "Unexpected error. Please try again."
+}

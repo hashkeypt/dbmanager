@@ -50,6 +50,7 @@
     "uptime": "Uptime",
     "version": "Version",
     "license": "License",
+    "hardwareHash": "Hardware ID",
     "licenseExpiresIn": "Expires in",
     "serverLimit": "Server Limit",
     "userLimit": "User Limit",
