@@ -165,7 +165,7 @@ curl -X POST \
   "tables": ["orders", "customers"],
   "operations": ["SELECT"],
   "is_permanent": false,
-  "secret_path": "dbmanager/service-users/service-user-ci_pipeline_user-6e9a2171-8fb2-45b0-8b8b-713971357211",
+  "secret_path": "dbmanager/service-users/ci-pipeline-user-abc123def456",
   "secret_provider": "aws",
   "message": "Service user created successfully"
 }
@@ -590,11 +590,18 @@ Use expiration times to automatically clean up:
 
 #### Manual Cleanup
 For long-running service users, implement cleanup in your pipeline:
+
+**⚠️ IMPORTANT**: Deleting a service user will:
+- Remove the user from ALL database servers where it has permissions
+- Revoke ALL database permissions granted to this user
+- Delete the user credentials from the secrets manager (if configured)
+- This action is irreversible
+
 ```bash
 # Store service user ID
 SERVICE_USER_ID=$(echo $RESPONSE | jq -r .service_user_id)
 
-# After tests complete
+# After tests complete - this will remove the user and ALL its permissions
 curl -X DELETE \
   -H "X-Api-Key: $API_KEY" \
   $DBMANAGER_URL/api/v1/service-users/$SERVICE_USER_ID
