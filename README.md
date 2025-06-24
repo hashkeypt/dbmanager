@@ -376,6 +376,14 @@ docker compose build --no-cache
 ```
 
 ### 2. Iniciar Serviços
+## Criar Estrutura do banco e criar o usuario admin inicial:
+# Mova o arquivo .env de exemplo e edite ele com as chaves de produção
+mv .env.example .env
+
+# Aplique o Schema inicial do banco de dados
+./apply-schema-from-env.sh
+
+# O script acima vai listar as variáveis que precisa do banco de dados e criar o usuario admin inicial para poder configurar o sistema e subir a licença, depois de criar seu novo usuario ou configurar o SSO, eleimine o usuario admin ou gere uma senha forte e guarde em um cofre de senha.
 
 ```bash
 # Iniciar todos os serviços
@@ -406,25 +414,7 @@ curl -f http://localhost/health
 ```
 
 ## 🔧 Pós-Configuração
-
-### 1. Criar Usuário Administrador
-
-```bash
-# Acessar container da API
-docker compose exec api sh
-
-# Criar usuário admin (dentro do container)
-./dbmanager-api create-admin \
-  --username admin \
-  --email admin@suaempresa.com \
-  --password SuaSenhaSegura
-
-# Sair do container
-exit
-```
-
-### 2. Configurar Sincronização
-
+### 1. Configurar Sincronização
 Acesse o sistema via navegador:
 - URL: `http://localhost` (desenvolvimento) ou `https://seu-dominio.com` (produção)
 - Faça login com o usuário administrador criado
@@ -436,10 +426,10 @@ Configure os servidores de banco de dados:
 4. Teste a conexão
 5. Ative a sincronização automática
 
-### 3. Configurar Notificações
+### 2. Configurar Notificações
 
 Configure notificações por email:
-1. Navegue para **Configurações** → **Notificações**
+1. Navegue para **Configurações** → **Configuração SMTP**
 2. Configure servidor SMTP:
    - Host SMTP
    - Porta (587 para TLS, 465 para SSL)
@@ -447,91 +437,24 @@ Configure notificações por email:
    - Remetente padrão
 3. Teste o envio de email
 
-### 4. Configurar API Keys
+### 3. Configurar API Keys (se necessário)
 
 Para integração com CI/CD:
-1. Navegue para **Configurações** → **API Keys**
+1. Navegue para **Configurações** → **Chaves de API**
 2. Clique em **Nova API Key**
 3. Defina nome e permissões
 4. Copie a chave gerada (não será mostrada novamente)
 
-### 5. Configurar Backup Automático
+### 4. Configurar Backup Automático
 
-```bash
-# Criar script de backup
-cat > /opt/dbmanager/backup.sh << 'EOF'
-#!/bin/bash
-BACKUP_DIR="/opt/dbmanager/backups"
-DATE=$(date +%Y%m%d_%H%M%S)
-
-# Criar diretório de backup
-mkdir -p $BACKUP_DIR
-
-# Backup do banco de dados
-docker compose exec -T postgres pg_dump -U dbmanager dbmanager | gzip > $BACKUP_DIR/db_$DATE.sql.gz
-
-# Backup dos volumes
-docker run --rm -v dbmanager_postgres_data:/data -v $BACKUP_DIR:/backup alpine tar czf /backup/postgres_data_$DATE.tar.gz -C /data .
-
-# Manter apenas últimos 7 dias
-find $BACKUP_DIR -name "*.gz" -mtime +7 -delete
-EOF
-
-chmod +x /opt/dbmanager/backup.sh
-
-# Agendar no cron
-echo "0 2 * * * /opt/dbmanager/backup.sh" | crontab -
-```
-
-## 📊 Administração
-
-### Comandos Úteis
-
-```bash
-# Parar todos os serviços
-docker compose down
-
-# Parar e remover volumes (CUIDADO: remove dados!)
-docker compose down -v
-
-# Reiniciar um serviço específico
-docker compose restart api
-
-# Escalar serviços (se configurado)
-docker compose up -d --scale api=3
+1. Navegue para **Configurações** → **Backup do sistema**
+2. habilite o botão de Backups Automáticos
+3. habilite o S3 AWS para armazenamento (recomendável)
+4. Escolha o que quer fazer backup e clique em salvar.
 
 # Executar comandos no container
 docker compose exec api sh
 docker compose exec postgres psql -U dbmanager
-
-# Fazer backup manual do banco
-docker compose exec postgres pg_dump -U dbmanager dbmanager > backup.sql
-
-# Restaurar backup
-docker compose exec -T postgres psql -U dbmanager dbmanager < backup.sql
-```
-
-### Manutenção do Banco de Dados
-
-```bash
-# Acessar PostgreSQL
-docker compose exec postgres psql -U dbmanager -d dbmanager
-
-# Comandos SQL úteis
--- Verificar tamanho do banco
-SELECT pg_database_size('dbmanager');
-
--- Listar tabelas grandes
-SELECT schemaname,tablename,pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) AS size
-FROM pg_tables ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC LIMIT 10;
-
--- Verificar conexões ativas
-SELECT pid, usename, application_name, client_addr, state 
-FROM pg_stat_activity WHERE datname = 'dbmanager';
-
--- Vacuum e análise
-VACUUM ANALYZE;
-```
 
 ## 📈 Monitoramento
 
@@ -594,8 +517,12 @@ chmod +x /opt/dbmanager/health-check.sh
 # Agendar verificação a cada 5 minutos
 echo "*/5 * * * * /opt/dbmanager/health-check.sh" | crontab -
 ```
-
 ### 4. Integração com Prometheus (Opcional)
+Você opode integrar o sistema para enviar logs para o elasticsearch via configurações
+1. Navegue para **Configurações** → **ElasticSearch**
+2. Ative o botão e insira os dados de conexão e credenciais de acesso.
+
+### 5. Integração com Prometheus (Opcional)
 
 ```yaml
 # Adicionar ao docker-compose.yml
@@ -615,28 +542,6 @@ prometheus:
 2. **Volumes Docker**: Backup semanal
 3. **Configurações**: Versionamento com Git
 4. **Logs**: Rotação automática com retenção de 90 dias
-
-### Procedimento de Recuperação
-
-```bash
-# 1. Parar serviços
-docker compose down
-
-# 2. Restaurar banco de dados
-docker compose up -d postgres
-docker compose exec -T postgres psql -U dbmanager -c "DROP DATABASE IF EXISTS dbmanager;"
-docker compose exec -T postgres psql -U dbmanager -c "CREATE DATABASE dbmanager;"
-gunzip -c backup_20240115.sql.gz | docker compose exec -T postgres psql -U dbmanager dbmanager
-
-# 3. Restaurar volumes (se necessário)
-docker run --rm -v dbmanager_postgres_data:/data -v /opt/dbmanager/backups:/backup alpine tar xzf /backup/postgres_data_20240115.tar.gz -C /data
-
-# 4. Reiniciar todos os serviços
-docker compose up -d
-
-# 5. Verificar integridade
-docker compose exec api ./dbmanager-api verify-db
-```
 
 ## 🔧 Solução de Problemas
 
@@ -715,55 +620,13 @@ docker compose logs -f api | grep -E "(DEBUG|ERROR)"
 
 ## 📞 Suporte
 
-### Documentação
-
-- Manual do Usuário: `/docs/user-manual.pdf`
-- API Reference: `http://localhost:8082/swagger`
-- Wiki: `https://wiki.suaempresa.com/dbmanager`
-
 ### Contatos
 
-- **Suporte Técnico**: suporte@suaempresa.com
-- **Emergências**: +55 11 9999-9999 (24/7 para clientes Enterprise)
-- **Issues**: https://github.com/sua-organizacao/dbmanager/issues
-
-### Informações para Suporte
-
-Ao contatar o suporte, forneça:
-
-```bash
-# Gerar relatório de diagnóstico
-cat > /tmp/dbmanager-report.txt << EOF
-=== DB-Manager Diagnostic Report ===
-Date: $(date)
-Version: $(docker compose exec api ./dbmanager-api --version)
-
-=== Environment ===
-$(uname -a)
-$(docker --version)
-$(docker compose version)
-
-=== Container Status ===
-$(docker compose ps)
-
-=== Recent Logs ===
-$(docker compose logs --tail=50)
-
-=== Disk Usage ===
-$(df -h)
-$(docker system df)
-EOF
-
-# Comprimir e enviar
-tar czf dbmanager-report-$(date +%Y%m%d).tar.gz /tmp/dbmanager-report.txt
-```
+- **Suporte Técnico**: suport@hashkey.pt
 
 ## 📄 Licença
 
 DB-Manager é um software proprietário. Para informações sobre licenciamento:
-- Email: vendas@suaempresa.com
-- Telefone: +55 11 8888-8888
-
+- Email: sales@hashkey.pt | Site: www.hashkey.pt
 ---
-
 © 2024 DB-Manager. Todos os direitos reservados.
