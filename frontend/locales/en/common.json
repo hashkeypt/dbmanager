@@ -200,5 +200,13 @@
         "pageDescription": "Configure system security policies, including password rules, session management, and API security."
       }
     }
+  },
+  "environment": {
+    "label": "Environment",
+    "dev": "Development",
+    "qa": "Quality",
+    "prod": "Production",
+    "all": "All environments",
+    "filterByEnvironment": "Filter by environment"
   }
 }

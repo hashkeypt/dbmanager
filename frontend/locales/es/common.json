@@ -200,5 +200,13 @@
         "pageDescription": "Configure las políticas de seguridad del sistema, incluyendo reglas de contraseña, gestión de sesiones y seguridad de API."
       }
     }
+  },
+  "environment": {
+    "label": "Ambiente",
+    "dev": "Desarrollo",
+    "qa": "Calidad",
+    "prod": "Producción",
+    "all": "Todos los ambientes",
+    "filterByEnvironment": "Filtrar por ambiente"
   }
 }

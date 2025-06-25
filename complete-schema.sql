@@ -78,7 +78,8 @@ CREATE TABLE IF NOT EXISTS servers (
     sync_enabled BOOLEAN NOT NULL DEFAULT false,
     last_sync TIMESTAMP WITH TIME ZONE,
     next_sync TIMESTAMP WITH TIME ZONE,
-    performance_schema_status TEXT
+    performance_schema_status TEXT,
+    environment VARCHAR(10) DEFAULT 'prod' CHECK (environment IN ('dev', 'qa', 'prod'))
 );
 
 -- ====================================================================================================
@@ -345,6 +346,7 @@ SELECT
     s.type AS database_type,
     s.sync_enabled,
     s.last_sync,
+    s.environment,
     (
         SELECT id
         FROM sync_results

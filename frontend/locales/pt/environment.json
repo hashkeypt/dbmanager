@@ -1,0 +1,8 @@
+{
+  "label": "Ambiente",
+  "dev": "Desenvolvimento",
+  "qa": "Qualidade",
+  "prod": "Produção",
+  "all": "Todos os ambientes",
+  "filterByEnvironment": "Filtrar por ambiente"
+}
