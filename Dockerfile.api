@@ -16,7 +16,9 @@ RUN mkdir -p /opt/oracle && cd /opt/oracle && \
     ldconfig
 
 # Create ubuntu user with specific UID/GID for compatibility
-RUN groupadd -g 1000 ubuntu && useradd -u 1000 -g ubuntu -m -s /bin/bash ubuntu
+# Check if user/group exists before creating
+RUN (getent group ubuntu || groupadd -g 1000 ubuntu) && \
+    (id -u ubuntu &>/dev/null || useradd -u 1000 -g ubuntu -m -s /bin/bash ubuntu)
 
 # Create necessary directories
 RUN mkdir -p /app/data /app/logs /app/upload /app/upload/avatars
