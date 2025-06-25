@@ -19,7 +19,7 @@ RUN mkdir -p /opt/oracle && cd /opt/oracle && \
 RUN groupadd -r dbmanager && useradd -r -g dbmanager dbmanager
 
 # Create necessary directories
-RUN mkdir -p /app/{data,logs,upload/avatars}
+RUN mkdir -p /app/data /app/logs /app/upload /app/upload/avatars
 
 # Copy binary
 COPY dbmanager-api /app/
@@ -27,8 +27,10 @@ COPY dbmanager-api /app/
 # Copy frontend
 COPY frontend /app/frontend
 
-# Set permissions
-RUN chown -R dbmanager:dbmanager /app
+# Set permissions for entire /app directory recursively
+RUN chown -R dbmanager:dbmanager /app && \
+    chmod -R 755 /app && \
+    chmod -R 775 /app/data /app/logs /app/upload
 
 USER dbmanager
 
