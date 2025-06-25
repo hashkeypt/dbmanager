@@ -15,8 +15,8 @@ RUN mkdir -p /opt/oracle && cd /opt/oracle && \
     echo /opt/oracle/instantclient_21_10 > /etc/ld.so.conf.d/oracle-instantclient.conf && \
     ldconfig
 
-# Create non-root user
-RUN groupadd -r dbmanager && useradd -r -g dbmanager dbmanager
+# Create ubuntu user with specific UID/GID for compatibility
+RUN groupadd -g 1000 ubuntu && useradd -u 1000 -g ubuntu -m -s /bin/bash ubuntu
 
 # Create necessary directories
 RUN mkdir -p /app/data /app/logs /app/upload /app/upload/avatars
@@ -28,11 +28,11 @@ COPY dbmanager-api /app/
 COPY frontend /app/frontend
 
 # Set permissions for entire /app directory recursively
-RUN chown -R dbmanager:dbmanager /app && \
+RUN chown -R ubuntu:ubuntu /app && \
     chmod -R 755 /app && \
     chmod -R 775 /app/data /app/logs /app/upload
 
-USER dbmanager
+USER ubuntu
 
 ENV LD_LIBRARY_PATH=/opt/oracle/instantclient_21_10
 ENV ORACLE_HOME=/opt/oracle/instantclient_21_10

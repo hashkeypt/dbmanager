@@ -59,6 +59,7 @@
     "provider": "Proveedor",
     "providerLocal": "Local",
     "servers": "Servidores",
+    "configuredServers": "Configurados",
     "host": "Host",
     "port": "Puerto",
     "useTLS": "TLS"
