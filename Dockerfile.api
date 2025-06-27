@@ -21,7 +21,7 @@ RUN (getent group ubuntu || groupadd -g 1000 ubuntu) && \
     (id -u ubuntu &>/dev/null || useradd -u 1000 -g ubuntu -m -s /bin/bash ubuntu)
 
 # Create necessary directories
-RUN mkdir -p /app/data /app/logs /app/upload /app/upload/avatars
+RUN mkdir -p /app/data /app/logs /app/uploads /app/uploads/avatars
 
 # Copy binary
 COPY dbmanager-api /app/
@@ -32,7 +32,7 @@ COPY frontend /app/frontend
 # Set permissions for entire /app directory recursively
 RUN chown -R ubuntu:ubuntu /app && \
     chmod -R 755 /app && \
-    chmod -R 775 /app/data /app/logs /app/upload
+    chmod -R 775 /app/data /app/logs /app/uploads
 
 USER ubuntu
 
