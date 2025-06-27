@@ -28,6 +28,7 @@ O DB-Manager é uma plataforma enterprise para gerenciamento centralizado de per
 - **Auditoria Completa**: Logs detalhados para conformidade com SOX, PCI-DSS, LGPD
 - **API RESTful**: Integração com pipelines CI/CD e sistemas externos
 - **Sincronização Automática**: Detecção e correção de divergências de permissões
+- **Separação de Ambientes**: Classificação e filtragem de servidores por ambiente (Produção, QA, Desenvolvimento)
 
 ## 🏗️ Arquitetura
 
@@ -414,7 +415,7 @@ curl -f http://localhost/health
 ```
 
 ## 🔧 Pós-Configuração
-### 1. Configurar Sincronização
+### 1. Configurar Servidores e Ambientes
 Acesse o sistema via navegador:
 - URL: `http://localhost` (desenvolvimento) ou `https://seu-dominio.com` (produção)
 - Faça login com o usuário administrador criado
@@ -423,8 +424,29 @@ Configure os servidores de banco de dados:
 1. Navegue para **Configurações** → **Servidores**
 2. Adicione cada servidor de banco de dados
 3. Configure as credenciais de acesso
-4. Teste a conexão
-5. Ative a sincronização automática
+4. **Defina o ambiente do servidor**:
+   - **Produção**: Servidores críticos com dados de produção
+   - **QA**: Servidores de teste e homologação
+   - **Desenvolvimento**: Servidores de desenvolvimento local
+5. Teste a conexão
+6. Ative a sincronização automática
+
+### Funcionalidade de Separação por Ambientes
+
+O DB-Manager permite classificar cada servidor de banco de dados por ambiente, oferecendo:
+
+#### Benefícios:
+- **Segregação Visual**: Identificação clara do ambiente através de badges coloridos
+- **Filtros por Ambiente**: Visualize apenas servidores de um ambiente específico
+- **Segurança Aprimorada**: Evita operações acidentais em produção
+- **Compliance**: Facilita auditorias ao separar claramente os ambientes
+- **Gestão Simplificada**: Agrupe e gerencie servidores por seu ciclo de vida
+
+#### Como Usar:
+1. Ao adicionar/editar um servidor, selecione o ambiente apropriado
+2. Use os filtros na tela de servidores para visualizar por ambiente
+3. Os dashboards e relatórios respeitam a separação de ambientes
+4. As permissões podem ser configuradas diferentemente por ambiente
 
 ### 2. Configurar Notificações
 
