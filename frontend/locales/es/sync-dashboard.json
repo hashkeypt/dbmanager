@@ -19,7 +19,10 @@
       "compliantDetails": "Servidores Conformes",
       "nonCompliant": "Con Discrepancias",
       "nonCompliantDetails": "Servidores con Discrepancias",
+      "serversWithDiscrepancies": "Servidores con Discrepancias",
+      "serversWithDiscrepanciesDetails": "Detalles de Servidores con Discrepancias",
       "discrepancies": "Total de Discrepancias",
+      "permissionDiscrepancies": "Discrepancias de Permisos",
       "unmanagedUsers": "Usuarios No Gestionados",
       "neverSynced": "Nunca Sincronizado",
       "neverSyncedDetails": "Servidores Nunca Sincronizados"
@@ -122,6 +125,7 @@
     "statusLabel": "Estado",
     "discrepancies": "Discrepancias",
     "unmanagedUsers": "Usuarios No Gestionados",
+    "permissionDiscrepancies": "Discrepancias de Permisos",
     "correctAll": "Corregir Todo",
     "results": "Historial de Resultados",
     "noResults": "No se encontraron resultados",
