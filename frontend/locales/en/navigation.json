@@ -7,6 +7,7 @@
   "requests": "Access Requests",
   "logs": "Logs",
   "reports": "Reports",
+  "queryAudit": "Query Audit",
   "sync": "Synchronization",
   "settings": "Settings",
   "profile": "Profile",

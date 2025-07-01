@@ -5,6 +5,14 @@
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 
+-- Criar função para gerar UUIDs (para compatibilidade com versões mais antigas do PostgreSQL)
+CREATE OR REPLACE FUNCTION generate_uuid()
+RETURNS text AS $$
+BEGIN
+    RETURN md5(random()::text || clock_timestamp()::text);
+END;
+$$ LANGUAGE plpgsql;
+
 -- Criação de tabelas
 CREATE TABLE IF NOT EXISTS users (
     id VARCHAR(36) PRIMARY KEY,
@@ -185,14 +193,6 @@ CREATE TABLE IF NOT EXISTS system_configuration (
     data_type VARCHAR(50) DEFAULT 'json',
     description TEXT
 );
-
--- Criar função para gerar UUIDs (para compatibilidade com versões mais antigas do PostgreSQL)
-CREATE OR REPLACE FUNCTION generate_uuid()
-RETURNS text AS $$
-BEGIN
-    RETURN md5(random()::text || clock_timestamp()::text);
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE TABLE IF NOT EXISTS notifications (
     id VARCHAR(36) PRIMARY KEY DEFAULT generate_uuid(),
@@ -388,14 +388,22 @@ SELECT
         FROM sync_discrepancies
         WHERE server_id = s.id AND type = 'permission_mismatch' 
             AND (status = 'pending' OR status IS NULL)
-    ) AS permission_mismatches
+    ) AS permission_mismatches,
+    -- Nova coluna: apenas discrepâncias de permissões pendentes (sem usuários não gerenciados)
+    (
+        SELECT COUNT(*)
+        FROM sync_discrepancies
+        WHERE server_id = s.id 
+            AND type IN ('missing_permission', 'extra_permission', 'permission_mismatch')
+            AND (status = 'pending' OR status IS NULL)
+    ) AS pending_permission_discrepancies
 FROM
     servers s
 ORDER BY
     s.name;
 
 -- Adicionar comentário para documentar a view
-COMMENT ON VIEW sync_status_view IS 'Visão que fornece status de sincronização para todos os servidores de banco de dados, contando apenas discrepâncias pendentes (status = pending ou NULL)';
+COMMENT ON VIEW sync_status_view IS 'Visão que fornece status de sincronização para todos os servidores de banco de dados, contando discrepâncias pendentes totais e separando discrepâncias de permissões de usuários não gerenciados';
 
 -- Tabela de auditoria para mudanças de permissões
 CREATE TABLE IF NOT EXISTS permission_audit_log (
@@ -845,20 +853,7 @@ CREATE TABLE IF NOT EXISTS password_history (
 CREATE INDEX IF NOT EXISTS idx_password_history_user ON password_history(user_id);
 CREATE INDEX IF NOT EXISTS idx_password_history_created ON password_history(created_at);
 
--- Tabela para auditoria de tentativas de login
-CREATE TABLE IF NOT EXISTS login_attempts (
-    id VARCHAR(36) PRIMARY KEY DEFAULT gen_random_uuid()::VARCHAR,
-    username VARCHAR(255) NOT NULL,
-    ip_address VARCHAR(45) NOT NULL,
-    user_agent TEXT,
-    success BOOLEAN NOT NULL,
-    failure_reason VARCHAR(255),
-    attempted_at TIMESTAMP NOT NULL DEFAULT NOW()
-);
-
-CREATE INDEX IF NOT EXISTS idx_login_attempts_username ON login_attempts(username);
-CREATE INDEX IF NOT EXISTS idx_login_attempts_ip ON login_attempts(ip_address);
-CREATE INDEX IF NOT EXISTS idx_login_attempts_time ON login_attempts(attempted_at);
+-- Índices para login_attempts (tabela já criada anteriormente)
 
 -- Tabela para blacklist de IPs
 CREATE TABLE IF NOT EXISTS ip_blacklist (
@@ -1701,3 +1696,342 @@ COMMENT ON COLUMN user_query_reports.query_types IS 'Contagem de queries por tip
 COMMENT ON COLUMN user_query_reports.top_queries IS 'Lista das top queries mais executadas ou custosas';
 COMMENT ON COLUMN user_query_reports.failed_queries IS 'Número de queries que falharam durante o período';
 COMMENT ON COLUMN user_query_reports.hourly_distribution IS 'Distribuição de queries por hora do dia';
+
+-- ====================================================================================================
+-- VIEW PARA DASHBOARD DE DISCREPÂNCIAS
+-- ====================================================================================================
+
+-- View para fornecer dados estruturados para o dashboard de discrepâncias
+CREATE OR REPLACE VIEW discrepancy_dashboard_view AS
+WITH server_stats AS (
+    -- Estatísticas por servidor
+    SELECT 
+        sd.server_id,
+        s.name as server_name,
+        s.type as server_type,
+        s.host as server_host,
+        s.port as server_port,
+        s.environment as server_environment,
+        COUNT(DISTINCT sd.id) as total_discrepancies,
+        COUNT(DISTINCT CASE WHEN sd.type = 'unmanaged_user' THEN sd.id END) as unmanaged_users,
+        COUNT(DISTINCT CASE WHEN sd.type = 'missing_permission' THEN sd.id END) as missing_permissions,
+        COUNT(DISTINCT CASE WHEN sd.type = 'extra_permission' THEN sd.id END) as extra_permissions,
+        COUNT(DISTINCT CASE WHEN sd.type = 'expired_permission' THEN sd.id END) as expired_permissions,
+        COUNT(DISTINCT CASE WHEN sd.status = 'pending' OR sd.status IS NULL THEN sd.id END) as pending_discrepancies,
+        COUNT(DISTINCT CASE WHEN sd.status = 'corrected' THEN sd.id END) as corrected_discrepancies,
+        COUNT(DISTINCT CASE WHEN sd.status = 'ignored' THEN sd.id END) as ignored_discrepancies,
+        COUNT(DISTINCT sd.username) as affected_users,
+        MAX(sd.detected_at) as last_detected
+    FROM sync_discrepancies sd
+    INNER JOIN servers s ON sd.server_id = s.id
+    WHERE s.status = 'active'
+    GROUP BY sd.server_id, s.name, s.type, s.host, s.port, s.environment
+),
+recent_syncs AS (
+    -- Últimas sincronizações por servidor
+    SELECT DISTINCT ON (server_id)
+        server_id,
+        id as sync_id,
+        start_time as last_sync_time,
+        status as last_sync_status,
+        duration as last_sync_duration,
+        error_message as last_sync_error
+    FROM sync_results
+    ORDER BY server_id, start_time DESC
+),
+user_impact AS (
+    -- Usuários mais afetados
+    SELECT 
+        username,
+        COUNT(DISTINCT server_id) as servers_affected,
+        COUNT(DISTINCT id) as total_discrepancies,
+        STRING_AGG(DISTINCT type, ', ' ORDER BY type) as discrepancy_types,
+        MAX(detected_at) as last_detected
+    FROM sync_discrepancies
+    WHERE status = 'pending' OR status IS NULL
+    GROUP BY username
+),
+database_stats AS (
+    -- Estatísticas por database
+    SELECT 
+        server_id,
+        database_name,
+        COUNT(DISTINCT id) as discrepancies_count,
+        COUNT(DISTINCT username) as affected_users,
+        COUNT(DISTINCT table_name) as affected_tables
+    FROM sync_discrepancies
+    WHERE (status = 'pending' OR status IS NULL)
+      AND database_name IS NOT NULL
+    GROUP BY server_id, database_name
+)
+-- Resultado final combinado
+SELECT 
+    ss.server_id,
+    ss.server_name,
+    ss.server_type,
+    ss.server_host,
+    ss.server_port,
+    ss.server_environment,
+    ss.total_discrepancies,
+    ss.unmanaged_users,
+    ss.missing_permissions,
+    ss.extra_permissions,
+    ss.expired_permissions,
+    ss.pending_discrepancies,
+    ss.corrected_discrepancies,
+    ss.ignored_discrepancies,
+    ss.affected_users,
+    ss.last_detected,
+    rs.last_sync_time,
+    rs.last_sync_status,
+    rs.last_sync_duration,
+    rs.last_sync_error,
+    CASE 
+        WHEN ss.pending_discrepancies = 0 THEN 'healthy'
+        WHEN ss.pending_discrepancies <= 5 THEN 'warning'
+        ELSE 'critical'
+    END as health_status,
+    -- Dados agregados como JSON para facilitar o consumo no frontend
+    (
+        SELECT json_agg(json_build_object(
+            'database_name', ds.database_name,
+            'discrepancies_count', ds.discrepancies_count,
+            'affected_users', ds.affected_users,
+            'affected_tables', ds.affected_tables
+        ) ORDER BY ds.discrepancies_count DESC)
+        FROM database_stats ds
+        WHERE ds.server_id = ss.server_id
+    ) as databases_summary,
+    -- Top 5 usuários mais afetados neste servidor
+    (
+        SELECT json_agg(user_data ORDER BY user_data->>'discrepancy_count' DESC)
+        FROM (
+            SELECT json_build_object(
+                'username', username,
+                'discrepancy_count', COUNT(*),
+                'types', STRING_AGG(DISTINCT type, ', ')
+            ) as user_data
+            FROM sync_discrepancies
+            WHERE server_id = ss.server_id
+              AND (status = 'pending' OR status IS NULL)
+            GROUP BY username
+            ORDER BY COUNT(*) DESC
+            LIMIT 5
+        ) top_users
+    ) as top_affected_users
+FROM server_stats ss
+LEFT JOIN recent_syncs rs ON ss.server_id = rs.server_id
+ORDER BY ss.pending_discrepancies DESC, ss.server_name;
+
+-- Comentários para documentação
+COMMENT ON VIEW discrepancy_dashboard_view IS 'View consolidada para o dashboard de discrepâncias, fornecendo estatísticas agregadas por servidor';
+
+-- View para detalhes de discrepâncias (para drill-down)
+CREATE OR REPLACE VIEW discrepancy_details_view AS
+SELECT 
+    sd.id,
+    sd.server_id,
+    s.name as server_name,
+    s.type as server_type,
+    sd.username,
+    sd.database_name,
+    sd.schema_name,
+    sd.table_name,
+    sd.type as discrepancy_type,
+    sd.details,
+    sd.status,
+    sd.detected_at,
+    sd.corrected_at,
+    sd.reason,
+    sd.error,
+    CASE 
+        WHEN sd.user_id IS NOT NULL THEN u.full_name
+        ELSE sd.username
+    END as user_display_name,
+    u.email as user_email,
+    u.role as user_role,
+    -- Tempo desde a detecção
+    EXTRACT(EPOCH FROM (NOW() - sd.detected_at)) / 3600 as hours_since_detection,
+    -- Informações de permissão relacionada
+    sd.permission_database_name,
+    sd.permission_schema_name,
+    sd.permission_table_name,
+    -- Se é um usuário aceito como não gerenciado
+    EXISTS (
+        SELECT 1 FROM accepted_unmanaged_users auu 
+        WHERE auu.server_id = sd.server_id 
+        AND auu.username = sd.username
+    ) as is_accepted_unmanaged
+FROM sync_discrepancies sd
+INNER JOIN servers s ON sd.server_id = s.id
+LEFT JOIN users u ON sd.user_id = u.id
+WHERE s.status = 'active';
+
+-- Índice para melhorar performance da view
+CREATE INDEX IF NOT EXISTS idx_discrepancy_dashboard_view ON sync_discrepancies(server_id, status, detected_at) 
+WHERE status = 'pending' OR status IS NULL;
+
+COMMENT ON VIEW discrepancy_details_view IS 'View detalhada de discrepâncias para análise individual e ações corretivas';-- ====================================================================================================
+-- TABELAS DE AUDITORIA DE QUERIES
+-- ====================================================================================================
+
+-- Table to store query audit configuration
+CREATE TABLE IF NOT EXISTS query_audit_config (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    server_id VARCHAR(36) NOT NULL REFERENCES servers(id) ON DELETE CASCADE,
+    enabled BOOLEAN DEFAULT true,
+    retention_days INTEGER DEFAULT 7 CHECK (retention_days > 0 AND retention_days <= 30),
+    excluded_users TEXT[], -- Array of usernames to exclude from auditing
+    excluded_query_patterns TEXT[], -- Array of regex patterns to exclude
+    min_duration_ms INTEGER DEFAULT 0, -- Only capture queries taking longer than this
+    capture_select BOOLEAN DEFAULT true,
+    capture_insert BOOLEAN DEFAULT true,
+    capture_update BOOLEAN DEFAULT true,
+    capture_delete BOOLEAN DEFAULT true,
+    capture_ddl BOOLEAN DEFAULT true,
+    capture_dcl BOOLEAN DEFAULT true,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(server_id)
+);
+
+-- Table to store captured queries
+CREATE TABLE IF NOT EXISTS query_audit_log (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    server_id VARCHAR(36) NOT NULL REFERENCES servers(id) ON DELETE CASCADE,
+    query_hash VARCHAR(64), -- SHA256 hash of normalized query
+    query_text TEXT NOT NULL,
+    query_type VARCHAR(20) NOT NULL, -- SELECT, INSERT, UPDATE, DELETE, DDL, DCL, OTHER
+    username VARCHAR(255) NOT NULL,
+    database_name VARCHAR(255),
+    schema_name VARCHAR(255),
+    table_names TEXT[], -- Array of affected tables
+    execution_time_ms BIGINT,
+    rows_affected BIGINT,
+    error_code VARCHAR(50),
+    error_message TEXT,
+    client_address INET,
+    application_name VARCHAR(255),
+    parameters JSONB, -- For parameterized queries
+    executed_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    captured_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    -- Metadata from database-specific sources
+    metadata JSONB
+);
+
+-- Create indexes for performance
+CREATE INDEX idx_query_audit_log_server_id_executed_at ON query_audit_log(server_id, executed_at DESC);
+CREATE INDEX idx_query_audit_log_username ON query_audit_log(username);
+CREATE INDEX idx_query_audit_log_query_type ON query_audit_log(query_type);
+CREATE INDEX idx_query_audit_log_query_hash ON query_audit_log(query_hash);
+CREATE INDEX idx_query_audit_log_captured_at ON query_audit_log(captured_at);
+CREATE INDEX idx_query_audit_log_execution_time ON query_audit_log(execution_time_ms) WHERE execution_time_ms > 1000;
+
+-- Table to store query templates/patterns for grouping similar queries
+CREATE TABLE IF NOT EXISTS query_audit_templates (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    server_id VARCHAR(36) NOT NULL REFERENCES servers(id) ON DELETE CASCADE,
+    template_hash VARCHAR(64) NOT NULL, -- Hash of normalized template
+    template_text TEXT NOT NULL, -- Query with parameters replaced by ?
+    query_type VARCHAR(20) NOT NULL,
+    first_seen TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    last_seen TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    execution_count BIGINT DEFAULT 1,
+    total_execution_time_ms BIGINT DEFAULT 0,
+    avg_execution_time_ms BIGINT DEFAULT 0,
+    max_execution_time_ms BIGINT DEFAULT 0,
+    min_execution_time_ms BIGINT DEFAULT 0,
+    UNIQUE(server_id, template_hash)
+);
+
+-- Table for query audit alerts
+CREATE TABLE IF NOT EXISTS query_audit_alerts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    server_id VARCHAR(36) NOT NULL REFERENCES servers(id) ON DELETE CASCADE,
+    alert_type VARCHAR(50) NOT NULL, -- UNAUTHORIZED_ACCESS, SUSPICIOUS_QUERY, HIGH_VOLUME, SLOW_QUERY, etc
+    severity VARCHAR(20) NOT NULL CHECK (severity IN ('low', 'medium', 'high', 'critical')),
+    query_audit_log_id UUID REFERENCES query_audit_log(id) ON DELETE CASCADE,
+    alert_message TEXT NOT NULL,
+    details JSONB,
+    acknowledged BOOLEAN DEFAULT false,
+    acknowledged_by VARCHAR(36) REFERENCES users(id),
+    acknowledged_at TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create function to automatically update updated_at
+CREATE OR REPLACE FUNCTION update_query_audit_config_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER query_audit_config_updated_at
+    BEFORE UPDATE ON query_audit_config
+    FOR EACH ROW
+    EXECUTE FUNCTION update_query_audit_config_updated_at();
+
+-- Function to cleanup old query audit logs
+CREATE OR REPLACE FUNCTION cleanup_old_query_audit_logs()
+RETURNS VOID AS $$
+BEGIN
+    -- Delete logs older than retention period for each server
+    DELETE FROM query_audit_log qal
+    WHERE EXISTS (
+        SELECT 1 FROM query_audit_config qac
+        WHERE qac.server_id = qal.server_id
+        AND qal.captured_at < (CURRENT_TIMESTAMP - (qac.retention_days || ' days')::INTERVAL)
+    );
+    
+    -- Delete orphaned alerts
+    DELETE FROM query_audit_alerts
+    WHERE query_audit_log_id IS NOT NULL
+    AND query_audit_log_id NOT IN (SELECT id FROM query_audit_log);
+    
+    -- Update template statistics (remove old entries)
+    DELETE FROM query_audit_templates
+    WHERE last_seen < (CURRENT_TIMESTAMP - INTERVAL '30 days');
+END;
+$$ LANGUAGE plpgsql;
+
+-- View for query audit statistics
+CREATE OR REPLACE VIEW query_audit_statistics AS
+SELECT 
+    qal.server_id,
+    s.name as server_name,
+    DATE_TRUNC('hour', qal.executed_at) as hour,
+    qal.query_type,
+    COUNT(*) as query_count,
+    COUNT(DISTINCT qal.username) as unique_users,
+    AVG(qal.execution_time_ms) as avg_execution_time_ms,
+    MAX(qal.execution_time_ms) as max_execution_time_ms,
+    MIN(qal.execution_time_ms) as min_execution_time_ms,
+    SUM(CASE WHEN qal.error_code IS NOT NULL THEN 1 ELSE 0 END) as error_count,
+    COUNT(DISTINCT qal.database_name) as databases_accessed,
+    COUNT(DISTINCT ARRAY_TO_STRING(qal.table_names, ',')) as tables_accessed
+FROM query_audit_log qal
+JOIN servers s ON s.id = qal.server_id
+WHERE qal.captured_at > (CURRENT_TIMESTAMP - INTERVAL '24 hours')
+GROUP BY qal.server_id, s.name, DATE_TRUNC('hour', qal.executed_at), qal.query_type;
+
+-- Comentários para documentação
+COMMENT ON TABLE query_audit_config IS 'Configuração de auditoria de queries por servidor';
+COMMENT ON TABLE query_audit_log IS 'Log de queries capturadas para auditoria';
+COMMENT ON TABLE query_audit_templates IS 'Templates de queries normalizadas para análise de padrões';
+COMMENT ON TABLE query_audit_alerts IS 'Alertas gerados pela auditoria de queries';
+COMMENT ON VIEW query_audit_statistics IS 'Estatísticas agregadas de queries por hora';
+
+COMMENT ON COLUMN query_audit_config.excluded_users IS 'Lista de usuários excluídos da auditoria';
+COMMENT ON COLUMN query_audit_config.excluded_query_patterns IS 'Padrões regex de queries a serem excluídas';
+COMMENT ON COLUMN query_audit_config.min_duration_ms IS 'Duração mínima em ms para capturar query';
+
+COMMENT ON COLUMN query_audit_log.query_hash IS 'Hash SHA256 da query normalizada para detecção de duplicatas';
+COMMENT ON COLUMN query_audit_log.query_type IS 'Tipo da query: SELECT, INSERT, UPDATE, DELETE, DDL, DCL, OTHER';
+COMMENT ON COLUMN query_audit_log.table_names IS 'Array com nomes das tabelas afetadas pela query';
+COMMENT ON COLUMN query_audit_log.parameters IS 'Parâmetros para queries parametrizadas';
+COMMENT ON COLUMN query_audit_log.metadata IS 'Metadados específicos do SGBD de origem';
+
+COMMENT ON COLUMN query_audit_alerts.alert_type IS 'Tipo do alerta: UNAUTHORIZED_ACCESS, SUSPICIOUS_QUERY, HIGH_VOLUME, SLOW_QUERY';
+COMMENT ON COLUMN query_audit_alerts.severity IS 'Severidade do alerta: low, medium, high, critical';
