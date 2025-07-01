@@ -121,7 +121,7 @@
       "newest": "Mais recente",
       "dailyGrowth": "Crescimento Diário",
       "monthlyGrowth": "Crescimento Mensal",
-      "daysUntilLimit": "{{days}} dias até o limite",
+      "daysUntilLimit": "{{days}} dias até o limite (estimado em 50GB)",
       "noLimit": "Sem limite definido",
       "storageStatus": "Status do Armazenamento",
       "storageUsage": "Uso do Armazenamento",

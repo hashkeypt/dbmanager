@@ -109,7 +109,24 @@
     "duration": "Duration",
     "executedAt": "Executed At",
     "queries": "Queries",
-    "errors": "Errors"
+    "errors": "Errors",
+    "storageMetrics": {
+      "title": "Storage Metrics",
+      "tooltip": "Information about query audit storage usage",
+      "totalSize": "Total Size",
+      "tableSize": "Data",
+      "indexSize": "Indexes",
+      "totalRecords": "Total Records",
+      "oldest": "Oldest",
+      "newest": "Newest",
+      "dailyGrowth": "Daily Growth",
+      "monthlyGrowth": "Monthly Growth",
+      "daysUntilLimit": "{{days}} days until limit (estimated at 50GB)",
+      "noLimit": "No limit defined",
+      "storageStatus": "Storage Status",
+      "storageUsage": "Storage Usage",
+      "recommendation": "Configure data retention to control storage growth"
+    }
   },
   "alerts": {
     "unacknowledgedOnly": "Unacknowledged only",
