@@ -138,6 +138,7 @@
     "acknowledged": "Acknowledged",
     "acknowledgedBy": "Acknowledged by {{name}} on {{date}}",
     "acknowledge": "Acknowledge",
+    "whitelist": "Add to Whitelist",
     "details": "Details",
     "alertDetails": "Alert Details",
     "type": "Type",

@@ -1890,6 +1890,9 @@ CREATE TABLE IF NOT EXISTS query_audit_config (
     capture_delete BOOLEAN DEFAULT true,
     capture_ddl BOOLEAN DEFAULT true,
     capture_dcl BOOLEAN DEFAULT true,
+    last_collected_at TIMESTAMP WITH TIME ZONE, -- Track last collection time
+    last_collected_queryid BIGINT, -- Track position in pg_stat_statements
+    collection_method VARCHAR(50) DEFAULT 'pg_stat_statements', -- Collection method used
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(server_id)
@@ -1916,7 +1919,10 @@ CREATE TABLE IF NOT EXISTS query_audit_log (
     executed_at TIMESTAMP WITH TIME ZONE NOT NULL,
     captured_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     -- Metadata from database-specific sources
-    metadata JSONB
+    metadata JSONB,
+    -- Additional fields for deduplication control
+    source_query_id BIGINT, -- Original query ID from source system
+    source_calls BIGINT DEFAULT 1 -- Number of times query was called
 );
 
 -- Create indexes for performance
@@ -1926,6 +1932,8 @@ CREATE INDEX idx_query_audit_log_query_type ON query_audit_log(query_type);
 CREATE INDEX idx_query_audit_log_query_hash ON query_audit_log(query_hash);
 CREATE INDEX idx_query_audit_log_captured_at ON query_audit_log(captured_at);
 CREATE INDEX idx_query_audit_log_execution_time ON query_audit_log(execution_time_ms) WHERE execution_time_ms > 1000;
+-- Unique index to prevent duplicate entries
+CREATE UNIQUE INDEX idx_query_audit_log_dedup_simple ON query_audit_log(server_id, query_hash, executed_at) WHERE query_hash IS NOT NULL;
 
 -- Table to store query templates/patterns for grouping similar queries
 CREATE TABLE IF NOT EXISTS query_audit_templates (
@@ -2026,6 +2034,9 @@ COMMENT ON VIEW query_audit_statistics IS 'Estatísticas agregadas de queries po
 COMMENT ON COLUMN query_audit_config.excluded_users IS 'Lista de usuários excluídos da auditoria';
 COMMENT ON COLUMN query_audit_config.excluded_query_patterns IS 'Padrões regex de queries a serem excluídas';
 COMMENT ON COLUMN query_audit_config.min_duration_ms IS 'Duração mínima em ms para capturar query';
+COMMENT ON COLUMN query_audit_config.last_collected_at IS 'Timestamp da última coleta bem-sucedida deste servidor';
+COMMENT ON COLUMN query_audit_config.last_collected_queryid IS 'Último queryid coletado do pg_stat_statements para rastrear posição';
+COMMENT ON COLUMN query_audit_config.collection_method IS 'Método usado para coleta: pg_stat_statements, performance_schema, etc';
 
 COMMENT ON COLUMN query_audit_log.query_hash IS 'Hash SHA256 da query normalizada para detecção de duplicatas';
 COMMENT ON COLUMN query_audit_log.query_type IS 'Tipo da query: SELECT, INSERT, UPDATE, DELETE, DDL, DCL, OTHER';
