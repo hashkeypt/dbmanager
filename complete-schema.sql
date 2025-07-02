@@ -1932,8 +1932,11 @@ CREATE INDEX idx_query_audit_log_query_type ON query_audit_log(query_type);
 CREATE INDEX idx_query_audit_log_query_hash ON query_audit_log(query_hash);
 CREATE INDEX idx_query_audit_log_captured_at ON query_audit_log(captured_at);
 CREATE INDEX idx_query_audit_log_execution_time ON query_audit_log(execution_time_ms) WHERE execution_time_ms > 1000;
--- Unique index to prevent duplicate entries
-CREATE UNIQUE INDEX idx_query_audit_log_dedup_simple ON query_audit_log(server_id, query_hash, executed_at) WHERE query_hash IS NOT NULL;
+-- Unique index to prevent duplicate entries (includes username for precision)
+CREATE UNIQUE INDEX idx_query_audit_log_dedup_exact ON query_audit_log(server_id, query_hash, executed_at, username) WHERE query_hash IS NOT NULL;
+
+-- Index for time window duplicate checking
+CREATE INDEX idx_query_audit_log_time_window ON query_audit_log(server_id, query_hash, executed_at, username) WHERE query_hash IS NOT NULL;
 
 -- Table to store query templates/patterns for grouping similar queries
 CREATE TABLE IF NOT EXISTS query_audit_templates (
@@ -2043,6 +2046,12 @@ COMMENT ON COLUMN query_audit_log.query_type IS 'Tipo da query: SELECT, INSERT, 
 COMMENT ON COLUMN query_audit_log.table_names IS 'Array com nomes das tabelas afetadas pela query';
 COMMENT ON COLUMN query_audit_log.parameters IS 'Parâmetros para queries parametrizadas';
 COMMENT ON COLUMN query_audit_log.metadata IS 'Metadados específicos do SGBD de origem';
+COMMENT ON COLUMN query_audit_log.source_query_id IS 'ID original da query no sistema fonte (ex: pg_stat_statements.queryid)';
+COMMENT ON COLUMN query_audit_log.source_calls IS 'Número de vezes que esta query foi executada no sistema fonte';
 
 COMMENT ON COLUMN query_audit_alerts.alert_type IS 'Tipo do alerta: UNAUTHORIZED_ACCESS, SUSPICIOUS_QUERY, HIGH_VOLUME, SLOW_QUERY';
 COMMENT ON COLUMN query_audit_alerts.severity IS 'Severidade do alerta: low, medium, high, critical';
+
+-- Index comments
+-- idx_query_audit_log_dedup_exact: Previne duplicatas exatas incluindo username para precisão de auditoria
+-- idx_query_audit_log_time_window: Suporta busca por janela de tempo para detecção de duplicatas mais flexível
