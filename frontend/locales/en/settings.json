@@ -62,7 +62,14 @@
     "configuredServers": "Configured",
     "host": "Host",
     "port": "Port",
-    "useTLS": "TLS"
+    "useTLS": "TLS",
+    "neverBackedUp": "Never",
+    "hour": "hour",
+    "hours": "hours",
+    "day": "day",
+    "storageType": "Storage",
+    "storageLocal": "Local",
+    "s3Enabled": "S3 Enabled"
   },
   "interface": {
     "saveSuccess": "Interface settings saved successfully",
