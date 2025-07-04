@@ -2057,6 +2057,116 @@ COMMENT ON COLUMN query_audit_alerts.severity IS 'Severidade do alerta: low, med
 -- idx_query_audit_log_time_window: Suporta busca por janela de tempo para detecção de duplicatas mais flexível
 
 -- ====================================================================================================
+-- TABELAS DE SESSION TOKENS PARA LICENSING EM CONTAINERS
+-- ====================================================================================================
+
+-- Tabela para armazenar tokens de sessão do cliente para persistência entre restarts
+CREATE TABLE IF NOT EXISTS client_session_tokens (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    license_id VARCHAR(255) NOT NULL,
+    server_fingerprint VARCHAR(512) NOT NULL,
+    session_token VARCHAR(255) NOT NULL,
+    hostname VARCHAR(255),
+    license_server_url VARCHAR(512),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    last_used_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    is_active BOOLEAN DEFAULT true,
+    
+    -- Garantir apenas uma sessão ativa por licença/fingerprint
+    CONSTRAINT unique_active_session UNIQUE(license_id, server_fingerprint, is_active) 
+    DEFERRABLE INITIALLY DEFERRED
+);
+
+-- Índices para performance de session tokens
+CREATE INDEX IF NOT EXISTS idx_client_session_tokens_license_id 
+ON client_session_tokens(license_id);
+
+CREATE INDEX IF NOT EXISTS idx_client_session_tokens_fingerprint 
+ON client_session_tokens(server_fingerprint);
+
+CREATE INDEX IF NOT EXISTS idx_client_session_tokens_token 
+ON client_session_tokens(session_token);
+
+CREATE INDEX IF NOT EXISTS idx_client_session_tokens_active 
+ON client_session_tokens(is_active, last_used_at) 
+WHERE is_active = true;
+
+CREATE INDEX IF NOT EXISTS idx_client_session_tokens_created_at 
+ON client_session_tokens(created_at);
+
+-- Índice composto para busca rápida de sessão ativa
+CREATE INDEX IF NOT EXISTS idx_client_session_tokens_active_lookup 
+ON client_session_tokens(license_id, server_fingerprint, is_active)
+WHERE is_active = true;
+
+-- Função para atualizar timestamp automaticamente em session tokens
+CREATE OR REPLACE FUNCTION update_session_token_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger para atualizar timestamp em session tokens
+DROP TRIGGER IF EXISTS trigger_update_session_token_timestamp ON client_session_tokens;
+CREATE TRIGGER trigger_update_session_token_timestamp
+    BEFORE UPDATE ON client_session_tokens
+    FOR EACH ROW
+    EXECUTE FUNCTION update_session_token_timestamp();
+
+-- Função para limpeza automática de sessões antigas
+CREATE OR REPLACE FUNCTION cleanup_old_session_tokens()
+RETURNS INTEGER AS $$
+DECLARE
+    deleted_count INTEGER;
+BEGIN
+    -- Marcar como inativas sessões não usadas há mais de 7 dias
+    UPDATE client_session_tokens 
+    SET is_active = false, updated_at = NOW()
+    WHERE is_active = true 
+    AND last_used_at < NOW() - INTERVAL '7 days';
+    
+    GET DIAGNOSTICS deleted_count = ROW_COUNT;
+    
+    -- Deletar registros inativos há mais de 30 dias
+    DELETE FROM client_session_tokens 
+    WHERE is_active = false 
+    AND updated_at < NOW() - INTERVAL '30 days';
+    
+    RETURN deleted_count;
+END;
+$$ LANGUAGE plpgsql;
+
+-- View de sessões ativas de license tokens
+CREATE OR REPLACE VIEW active_client_sessions AS
+SELECT 
+    id,
+    license_id,
+    hostname,
+    LEFT(server_fingerprint, 12) || '...' as fingerprint_short,
+    LEFT(session_token, 8) || '...' as token_short,
+    license_server_url,
+    created_at,
+    last_used_at,
+    NOW() - last_used_at as idle_time
+FROM client_session_tokens 
+WHERE is_active = true
+ORDER BY last_used_at DESC;
+
+-- Comentários para documentação de session tokens
+COMMENT ON TABLE client_session_tokens IS 'Armazena tokens de sessão do cliente DB-Manager para persistência entre restarts de containers';
+COMMENT ON COLUMN client_session_tokens.license_id IS 'ID da licença associada ao token';
+COMMENT ON COLUMN client_session_tokens.server_fingerprint IS 'Fingerprint único do servidor cliente gerado pelo DB-Manager';
+COMMENT ON COLUMN client_session_tokens.session_token IS 'Token da sessão ativa recebido do servidor de licenças';
+COMMENT ON COLUMN client_session_tokens.hostname IS 'Nome do host para identificação visual';
+COMMENT ON COLUMN client_session_tokens.license_server_url IS 'URL do servidor de licenças para validação';
+COMMENT ON COLUMN client_session_tokens.is_active IS 'Se a sessão está ativa (apenas uma por licença/fingerprint)';
+COMMENT ON COLUMN client_session_tokens.last_used_at IS 'Timestamp do último uso da sessão (atualizado a cada heartbeat)';
+COMMENT ON VIEW active_client_sessions IS 'View das sessões de license tokens atualmente ativas com informações resumidas';
+
+-- ====================================================================================================
 -- TABELAS DE TOLERÂNCIA DE LICENÇA
 -- ====================================================================================================
 
