@@ -2055,3 +2055,165 @@ COMMENT ON COLUMN query_audit_alerts.severity IS 'Severidade do alerta: low, med
 -- Index comments
 -- idx_query_audit_log_dedup_exact: Previne duplicatas exatas incluindo username para precisão de auditoria
 -- idx_query_audit_log_time_window: Suporta busca por janela de tempo para detecção de duplicatas mais flexível
+
+-- ====================================================================================================
+-- TABELAS DE TOLERÂNCIA DE LICENÇA
+-- ====================================================================================================
+
+-- Tabela para armazenar períodos de tolerância de licença
+CREATE TABLE IF NOT EXISTS license_tolerance (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    license_id VARCHAR(255) NOT NULL,
+    resource_type VARCHAR(50) NOT NULL,  -- 'servers' ou 'users'
+    tolerance_started_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    grace_period_days INTEGER NOT NULL DEFAULT 15,
+    notification_sent_at TIMESTAMP,
+    blocked_at TIMESTAMP,
+    original_limit INTEGER NOT NULL,
+    current_usage INTEGER NOT NULL,
+    tolerance_percentage DECIMAL(5,2) NOT NULL DEFAULT 30.00,
+    tolerance_minimum INTEGER NOT NULL DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Índices para busca rápida
+CREATE INDEX IF NOT EXISTS idx_license_tolerance_license_id ON license_tolerance(license_id, resource_type);
+CREATE INDEX IF NOT EXISTS idx_license_tolerance_active ON license_tolerance(blocked_at) WHERE blocked_at IS NULL;
+CREATE INDEX IF NOT EXISTS idx_license_tolerance_created ON license_tolerance(created_at DESC);
+
+-- Tabela para histórico de notificações de tolerância
+CREATE TABLE IF NOT EXISTS license_tolerance_notifications (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tolerance_id UUID REFERENCES license_tolerance(id),
+    notification_type VARCHAR(50) NOT NULL, -- 'tolerance_exceeded', 'grace_period_warning', 'resource_blocked'
+    recipient_email VARCHAR(255) NOT NULL,
+    recipient_user_id UUID,
+    sent_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    email_subject TEXT,
+    email_body TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Índices para histórico
+CREATE INDEX IF NOT EXISTS idx_license_tolerance_notifications_tolerance ON license_tolerance_notifications(tolerance_id);
+CREATE INDEX IF NOT EXISTS idx_license_tolerance_notifications_sent ON license_tolerance_notifications(sent_at DESC);
+
+-- View para monitorar tolerâncias ativas
+CREATE OR REPLACE VIEW active_license_tolerances AS
+SELECT 
+    lt.id,
+    lt.license_id,
+    lt.resource_type,
+    lt.tolerance_started_at,
+    lt.grace_period_days,
+    lt.tolerance_started_at + (lt.grace_period_days || ' days')::INTERVAL as grace_deadline,
+    EXTRACT(DAY FROM (lt.tolerance_started_at + (lt.grace_period_days || ' days')::INTERVAL - NOW())) as days_remaining,
+    lt.notification_sent_at,
+    lt.original_limit,
+    lt.current_usage,
+    lt.tolerance_percentage,
+    ROUND(lt.original_limit * (1 + lt.tolerance_percentage/100)) as effective_limit,
+    GREATEST(
+        ROUND(lt.original_limit * (1 + lt.tolerance_percentage/100)), 
+        lt.original_limit + lt.tolerance_minimum
+    ) as tolerance_limit,
+    CASE 
+        WHEN lt.blocked_at IS NOT NULL THEN 'blocked'
+        WHEN NOW() > lt.tolerance_started_at + (lt.grace_period_days || ' days')::INTERVAL THEN 'grace_expired'
+        WHEN lt.notification_sent_at IS NOT NULL THEN 'notified'
+        ELSE 'active'
+    END as status
+FROM license_tolerance lt
+WHERE lt.blocked_at IS NULL
+ORDER BY lt.created_at DESC;
+
+-- Função para verificar se recurso está em período de tolerância
+CREATE OR REPLACE FUNCTION check_license_tolerance(
+    p_license_id VARCHAR(255),
+    p_resource_type VARCHAR(50),
+    p_current_usage INTEGER,
+    p_original_limit INTEGER
+) RETURNS TABLE (
+    in_tolerance BOOLEAN,
+    tolerance_status VARCHAR(50),
+    days_remaining INTEGER,
+    should_block BOOLEAN
+) AS $$
+DECLARE
+    v_tolerance RECORD;
+BEGIN
+    -- Buscar tolerância ativa
+    SELECT * INTO v_tolerance
+    FROM license_tolerance
+    WHERE license_id = p_license_id 
+      AND resource_type = p_resource_type
+      AND blocked_at IS NULL
+    ORDER BY created_at DESC
+    LIMIT 1;
+    
+    -- Se não existe tolerância ativa
+    IF v_tolerance IS NULL THEN
+        RETURN QUERY SELECT 
+            FALSE::BOOLEAN as in_tolerance,
+            'no_tolerance'::VARCHAR(50) as tolerance_status,
+            NULL::INTEGER as days_remaining,
+            FALSE::BOOLEAN as should_block;
+        RETURN;
+    END IF;
+    
+    -- Calcular dias restantes
+    DECLARE
+        v_grace_deadline TIMESTAMP;
+        v_days_remaining INTEGER;
+        v_should_block BOOLEAN;
+        v_status VARCHAR(50);
+    BEGIN
+        v_grace_deadline := v_tolerance.tolerance_started_at + (v_tolerance.grace_period_days || ' days')::INTERVAL;
+        v_days_remaining := GREATEST(0, EXTRACT(DAY FROM (v_grace_deadline - NOW()))::INTEGER);
+        
+        -- Determinar se deve bloquear
+        v_should_block := NOW() > v_grace_deadline;
+        
+        -- Determinar status
+        IF v_should_block THEN
+            v_status := 'grace_expired';
+        ELSIF v_tolerance.notification_sent_at IS NOT NULL THEN
+            v_status := 'notified';
+        ELSE
+            v_status := 'active';
+        END IF;
+        
+        RETURN QUERY SELECT 
+            TRUE::BOOLEAN as in_tolerance,
+            v_status as tolerance_status,
+            v_days_remaining as days_remaining,
+            v_should_block as should_block;
+    END;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Função para atualizar updated_at nas tabelas de tolerância
+CREATE OR REPLACE FUNCTION update_license_tolerance_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger para atualizar updated_at
+CREATE TRIGGER update_license_tolerance_updated_at
+    BEFORE UPDATE ON license_tolerance
+    FOR EACH ROW
+    EXECUTE FUNCTION update_license_tolerance_updated_at();
+
+-- Comentários nas tabelas
+COMMENT ON TABLE license_tolerance IS 'Controla períodos de tolerância quando limites de licença são excedidos';
+COMMENT ON TABLE license_tolerance_notifications IS 'Histórico de notificações enviadas sobre tolerância de licença';
+COMMENT ON VIEW active_license_tolerances IS 'Visualização de todas as tolerâncias ativas no sistema';
+
+COMMENT ON COLUMN license_tolerance.tolerance_percentage IS 'Percentual de tolerância permitido (padrão 30%)';
+COMMENT ON COLUMN license_tolerance.tolerance_minimum IS 'Número mínimo de recursos extras permitidos (padrão 1)';
+COMMENT ON COLUMN license_tolerance.grace_period_days IS 'Dias de carência antes de bloquear (padrão 15)';
+COMMENT ON COLUMN license_tolerance.blocked_at IS 'Timestamp quando o recurso foi bloqueado por exceder o período de carência';
