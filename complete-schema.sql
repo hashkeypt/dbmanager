@@ -1357,12 +1357,17 @@ CREATE TABLE IF NOT EXISTS system_license (
     checksum VARCHAR(64) NOT NULL,       -- SHA256 para verificar integridade
     last_validated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_heartbeat TIMESTAMP,            -- Última validação online
+    installation_hash VARCHAR(64),       -- Hash único da instalação (license_id + server_fingerprint + timestamp)
+    installation_timestamp TIMESTAMP,    -- Timestamp da instalação da licença
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Índice para busca rápida da licença mais recente
 CREATE INDEX idx_system_license_created_at ON system_license(created_at DESC);
+
+-- Índice para busca rápida por installation_hash
+CREATE INDEX idx_system_license_installation_hash ON system_license(installation_hash) WHERE installation_hash IS NOT NULL;
 
 -- Tabela para lista de revogação local
 CREATE TABLE IF NOT EXISTS license_revocation_list (
