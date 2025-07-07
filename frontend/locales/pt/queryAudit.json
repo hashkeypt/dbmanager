@@ -139,6 +139,7 @@
     "acknowledgedBy": "Reconhecido por {{name}} em {{date}}",
     "acknowledge": "Reconhecer",
     "whitelist": "Adicionar à Whitelist",
+    "clearAlerts": "Limpar Alertas (25)",
     "details": "Detalhes",
     "alertDetails": "Detalhes do Alerta",
     "type": "Tipo",
