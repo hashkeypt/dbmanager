@@ -956,6 +956,17 @@ VALUES
         }
     }')
 ON CONFLICT (id) DO NOTHING;
+
+-- Inserir configuração padrão de notificações se não existir
+INSERT INTO system_configuration (id, name, category, value)
+VALUES 
+    ('notifications', 'Notification Configuration', 'communication', '{
+        "email": true,
+        "slack": false,
+        "slack_api_key": "",
+        "slack_channel": ""
+    }')
+ON CONFLICT (id) DO NOTHING;
 COMMENT ON COLUMN notification_tracking.discrepancy_hash IS 'Hash calculado das discrepâncias para detectar mudanças no conteúdo';
 -- Criar tabela security_events que está faltando
 
