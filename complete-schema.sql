@@ -362,10 +362,11 @@ SELECT
         ORDER BY start_time DESC
         LIMIT 1
     ) AS status,
+    -- CORREÇÃO: discrepancy_count agora conta apenas discrepâncias pendentes para compatibilidade com dashboard
     (
         SELECT COUNT(*)
         FROM sync_discrepancies
-        WHERE server_id = s.id
+        WHERE server_id = s.id AND status = 'pending'
     ) AS discrepancy_count,
     (
         SELECT COUNT(*)
@@ -404,7 +405,7 @@ ORDER BY
     s.name;
 
 -- Adicionar comentário para documentar a view
-COMMENT ON VIEW sync_status_view IS 'Visão que fornece status de sincronização para todos os servidores de banco de dados, contando discrepâncias pendentes totais e separando discrepâncias de permissões de usuários não gerenciados';
+COMMENT ON VIEW sync_status_view IS 'Visão que fornece status de sincronização para todos os servidores de banco de dados. IMPORTANTE: discrepancy_count agora conta apenas discrepâncias pendentes para compatibilidade com o dashboard.';
 
 -- Tabela de auditoria para mudanças de permissões
 CREATE TABLE IF NOT EXISTS permission_audit_log (
