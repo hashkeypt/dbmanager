@@ -305,6 +305,7 @@ CREATE TABLE IF NOT EXISTS sync_discrepancies (
     reason TEXT,
     status VARCHAR(50) DEFAULT 'pending',
     detected_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    first_detected_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     corrected_at TIMESTAMP WITH TIME ZONE,
     error TEXT,
     accepted_by VARCHAR(255),
