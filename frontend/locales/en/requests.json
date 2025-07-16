@@ -70,7 +70,8 @@
     "syncError": "Permission sync failed after approval",
     "reasonRequired": "Reason is required",
     "rejectReason": "Rejection Reason",
-    "revokeReason": "Revocation Reason"
+    "revokeReason": "Revocation Reason",
+    "universalPasswordMissing": "Error: User {{user}} has not configured their universal password. Please ask the user to configure their universal password through the profile menu before approving this request."
   },
   "status": {
     "pending": "Pending",

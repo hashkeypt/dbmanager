@@ -70,7 +70,8 @@
     "syncError": "Falha na sincronização de permissão após aprovação",
     "reasonRequired": "Motivo é obrigatório",
     "rejectReason": "Motivo da Rejeição",
-    "revokeReason": "Motivo da Revogação"
+    "revokeReason": "Motivo da Revogação",
+    "universalPasswordMissing": "Erro: O usuário {{user}} não configurou sua senha universal. Por favor, solicite ao usuário que configure sua senha universal através do menu de perfil antes de aprovar esta solicitação."
   },
   "status": {
     "pending": "Pendente",

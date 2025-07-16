@@ -70,7 +70,8 @@
     "syncError": "La sincronización de permisos falló después de la aprobación",
     "reasonRequired": "La razón es requerida",
     "rejectReason": "Razón del Rechazo",
-    "revokeReason": "Razón de la Revocación"
+    "revokeReason": "Razón de la Revocación",
+    "universalPasswordMissing": "Error: El usuario {{user}} no ha configurado su contraseña universal. Por favor, solicite al usuario que configure su contraseña universal a través del menú de perfil antes de aprobar esta solicitud."
   },
   "status": {
     "pending": "Pendiente",
