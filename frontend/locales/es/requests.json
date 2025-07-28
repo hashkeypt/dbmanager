@@ -44,7 +44,8 @@
     "requestId": "ID de Solicitud",
     "requestDate": "Fecha de Solicitud",
     "durationType": "Tipo de Duración",
-    "expirationDate": "Fecha de Expiración"
+    "expirationDate": "Fecha de Expiración",
+    "environment": "Ambiente"
   },
   "userType": {
     "service": "Servicio",
@@ -263,5 +264,13 @@
   "viewMode": {
     "cards": "Vista de Tarjetas",
     "list": "Vista de Lista"
+  },
+  "environment": {
+    "production": "Producción",
+    "prod": "Producción",
+    "qa": "QA",
+    "staging": "Staging",
+    "dev": "Desarrollo",
+    "development": "Desarrollo"
   }
 }

@@ -44,7 +44,8 @@
     "requestId": "Request ID",
     "requestDate": "Request Date",
     "durationType": "Duration Type",
-    "expirationDate": "Expiration Date"
+    "expirationDate": "Expiration Date",
+    "environment": "Environment"
   },
   "userType": {
     "service": "Service",
@@ -263,5 +264,13 @@
   "viewMode": {
     "cards": "Card View",
     "list": "List View"
+  },
+  "environment": {
+    "production": "Production",
+    "prod": "Production",
+    "qa": "QA",
+    "staging": "Staging",
+    "dev": "Development",
+    "development": "Development"
   }
 }
