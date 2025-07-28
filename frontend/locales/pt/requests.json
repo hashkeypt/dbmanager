@@ -110,7 +110,10 @@
     "title": "Detalhes da Solicitação",
     "approved": "Aprovado por {{user}} em {{date}}",
     "rejected": "Rejeitado por {{user}} em {{date}}",
-    "rejectionReason": "Motivo da Rejeição"
+    "rejectionReason": "Motivo da Rejeição",
+    "temporaryPermission": "Permissão Temporária",
+    "permanentPermission": "Permissão Permanente",
+    "expiresOn": "Expira em"
   },
   "wizard": {
     "title": "Criar Solicitação de Acesso",

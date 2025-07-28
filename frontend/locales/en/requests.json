@@ -110,7 +110,10 @@
     "title": "Request Details",
     "approved": "Approved by {{user}} on {{date}}",
     "rejected": "Rejected by {{user}} on {{date}}",
-    "rejectionReason": "Rejection Reason"
+    "rejectionReason": "Rejection Reason",
+    "temporaryPermission": "Temporary Permission",
+    "permanentPermission": "Permanent Permission",
+    "expiresOn": "Expires on"
   },
   "wizard": {
     "title": "Create Access Request",
