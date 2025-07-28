@@ -15,6 +15,8 @@
   "deleteRequestConfirm": "Tem certeza que deseja excluir esta solicitação de acesso?",
   "deleteSuccess": "Solicitação excluída com sucesso!",
   "pending": "Solicitações Pendentes",
+  "history": "Histórico",
+  "noHistoryRequests": "Nenhuma solicitação no histórico",
   "consolidated": "Visão Consolidada",
   "byDatabase": "Por Banco de Dados",
   "byServer": "Por Servidor",
@@ -40,7 +42,9 @@
     "createdAt": "Criado em",
     "actions": "Ações",
     "requestId": "ID da Solicitação",
-    "requestDate": "Data da Solicitação"
+    "requestDate": "Data da Solicitação",
+    "durationType": "Tipo de Duração",
+    "expirationDate": "Data de Expiração"
   },
   "userType": {
     "service": "Serviço",
@@ -78,7 +82,8 @@
     "approved": "Aprovado",
     "rejected": "Rejeitado",
     "canceled": "Cancelado",
-    "revoked": "Revogado"
+    "revoked": "Revogado",
+    "expired": "Expirado"
   },
   "form": {
     "user": "Usuário",

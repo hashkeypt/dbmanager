@@ -15,6 +15,8 @@
   "deleteRequestConfirm": "Are you sure you want to delete this access request?",
   "deleteSuccess": "Request deleted successfully!",
   "pending": "Pending Requests",
+  "history": "History",
+  "noHistoryRequests": "No requests in history",
   "consolidated": "Consolidated View",
   "byDatabase": "By Database",
   "byServer": "By Server",
@@ -40,7 +42,9 @@
     "createdAt": "Created At",
     "actions": "Actions",
     "requestId": "Request ID",
-    "requestDate": "Request Date"
+    "requestDate": "Request Date",
+    "durationType": "Duration Type",
+    "expirationDate": "Expiration Date"
   },
   "userType": {
     "service": "Service",
@@ -78,7 +82,8 @@
     "approved": "Approved",
     "rejected": "Rejected",
     "canceled": "Canceled",
-    "revoked": "Revoked"
+    "revoked": "Revoked",
+    "expired": "Expired"
   },
   "form": {
     "user": "User",
