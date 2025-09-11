@@ -21,13 +21,16 @@ RUN (getent group ubuntu || groupadd -g 1000 ubuntu) && \
     (id -u ubuntu &>/dev/null || useradd -u 1000 -g ubuntu -m -s /bin/bash ubuntu)
 
 # Create necessary directories
-RUN mkdir -p /app/data /app/logs /app/uploads /app/uploads/avatars
+RUN mkdir -p /app/data /app/logs /app/uploads /app/uploads/avatars /app/templates
 
 # Copy binary
 COPY dbmanager-api /app/
 
 # Copy frontend
 COPY frontend /app/frontend
+
+# Copy email templates
+COPY templates /app/templates
 
 # Set permissions for entire /app directory recursively
 RUN chown -R ubuntu:ubuntu /app && \

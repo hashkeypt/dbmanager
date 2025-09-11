@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerta de Auditoria de Queries - DB Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #2c3e50;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+        .header img {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .alert-box {
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .alert-critical {
+            background-color: #fee;
+            border-left: 4px solid #dc3545;
+        }
+        .alert-high {
+            background-color: #fee;
+            border-left: 4px solid #fd7e14;
+        }
+        .alert-medium {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+        }
+        .alert-low {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+        }
+        .info-item {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px 0;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #6c757d;
+        }
+        .details-box {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+        .severity-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .severity-critical { background-color: #dc3545; color: white; }
+        .severity-high { background-color: #fd7e14; color: white; }
+        .severity-medium { background-color: #ffc107; color: #212529; }
+        .severity-low { background-color: #17a2b8; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            {{if .LogoURL}}
+                <img src="{{.LogoURL}}" alt="DB Manager Logo">
+            {{else}}
+                <h1>DB Manager</h1>
+            {{end}}
+            <h2>🚨 Alerta de Auditoria de Queries</h2>
+        </div>
+        
+        <div class="content">
+            <div class="alert-box alert-{{.Severity}}">
+                <h3 style="margin-top: 0;">{{.AlertTypeLabel}}</h3>
+                <p><strong>{{.AlertMessage}}</strong></p>
+                <span class="severity-badge severity-{{.Severity}}">{{.SeverityLabel}}</span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">Servidor:</span> {{.ServerName}}
+            </div>
+
+            {{if .Username}}
+            <div class="info-item">
+                <span class="info-label">Usuário:</span> {{.Username}}
+            </div>
+            {{end}}
+
+            {{if .DatabaseName}}
+            <div class="info-item">
+                <span class="info-label">Banco de Dados:</span> {{.DatabaseName}}
+            </div>
+            {{end}}
+
+            {{if .QueryType}}
+            <div class="info-item">
+                <span class="info-label">Tipo de Query:</span> {{.QueryType}}
+            </div>
+            {{end}}
+
+            {{if .ExecutionTime}}
+            <div class="info-item">
+                <span class="info-label">Tempo de Execução:</span> {{.ExecutionTime}}ms
+            </div>
+            {{end}}
+
+            {{if .ErrorMessage}}
+            <div class="info-item" style="background-color: #fee;">
+                <span class="info-label">Erro:</span> {{.ErrorMessage}}
+            </div>
+            {{end}}
+
+            {{if .QueryText}}
+            <div style="margin-top: 20px;">
+                <span class="info-label">Query:</span>
+                <div class="details-box">
+                    <pre style="margin: 0; white-space: pre-wrap;">{{.QueryText}}</pre>
+                </div>
+            </div>
+            {{end}}
+
+            {{if .Details}}
+            <div style="margin-top: 20px;">
+                <span class="info-label">Detalhes Adicionais:</span>
+                <div class="details-box">
+                    {{range $key, $value := .Details}}
+                        <div><strong>{{$key}}:</strong> {{$value}}</div>
+                    {{end}}
+                </div>
+            </div>
+            {{end}}
+
+            <div style="text-align: center;">
+                <a href="{{.SystemURL}}/servers/{{.ServerID}}/query-audit/alerts" class="btn">
+                    Ver Detalhes no Dashboard
+                </a>
+            </div>
+
+            <p style="margin-top: 30px; font-size: 14px; color: #6c757d;">
+                <strong>Data/Hora:</strong> {{.Timestamp}}<br>
+                <strong>ID do Alerta:</strong> {{.AlertID}}
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>Esta é uma mensagem automática do sistema DB Manager.</p>
+            <p>Por favor, não responda a este email.</p>
+            <p>&copy; {{.Year}} DB Manager. Todos os direitos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>

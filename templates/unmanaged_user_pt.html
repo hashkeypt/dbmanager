@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Alerta de Usuário Não Gerenciado DB-Manager</title>
+</head>
+<body style="background-color: #F8FAFD; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.5; margin: 0; padding: 0; color: #2A3143; -webkit-text-size-adjust: none; -ms-text-size-adjust: none;">
+    <!-- Preheader text (hidden, but useful for email clients) -->
+    <div style="display: none; max-height: 0px; overflow: hidden;">
+        Usuários de banco de dados não gerenciados detectados - Alerta de segurança do DB-Manager.
+    </div>
+    
+    <!-- Main content wrapper -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #F8FAFD;">
+        <tr>
+            <td align="center" style="padding: 20px 0;">
+                <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; margin: 0 auto; background-color: transparent;">
+                    <!-- HEADER WITH LOGO -->
+                    <tr>
+                        <td align="center" bgcolor="#F0F2F5" style="padding: 30px 20px; border-top-left-radius: 16px; border-top-right-radius: 16px; background-color: #F0F2F5;">
+                            <img src="{{.LogoURL}}" alt="Logo DB-Manager" width="200" style="width: 200px; max-width: 80%; height: auto; display: block; margin: 0 auto; border: 0;" />
+                        </td>
+                    </tr>
+                    
+                    <!-- MAIN CONTENT -->
+                    <tr>
+                        <td bgcolor="#FFFFFF" style="padding: 40px; background-color: #FFFFFF; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <!-- ALERT ICON -->
+                                <tr>
+                                    <td align="center">
+                                        <table width="80" height="80" cellpadding="0" cellspacing="0" border="0" style="width: 80px; height: 80px; border-radius: 50%; background-color: #FFECEC; border: 3px solid #FFCBCB; text-align: center; margin: 0 auto 20px auto;">
+                                            <tr>
+                                                <td align="center" valign="middle" style="color: #D32F2F; font-size: 36px; font-weight: bold;">
+                                                    !
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <!-- TITLE -->
+                                <tr>
+                                    <td align="center" style="padding-bottom: 30px;">
+                                        <h1 style="color: #36404A; font-size: 28px; font-weight: bold; margin: 0; text-align: center;">Alerta de Usuário Não Gerenciado</h1>
+                                    </td>
+                                </tr>
+                                
+                                <!-- INTRODUCTION -->
+                                <tr>
+                                    <td style="padding-bottom: 20px;">
+                                        <p style="font-size: 16px; margin: 0; color: #2A3143;">O sistema detectou <strong style="color: #D32F2F;">{{.UnmanagedCount}} usuários não gerenciados</strong> em seu banco de dados que não estão sendo monitorados pelo DB-Manager. Isso pode representar um risco de segurança para seu ambiente.</p>
+                                    </td>
+                                </tr>
+
+                                <!-- DATABASE INFO -->
+                                <tr>
+                                    <td bgcolor="#F0F2F5" style="padding: 20px; background-color: #F0F2F5; border-radius: 10px; margin: 20px 0;">
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td style="padding-bottom: 10px;">
+                                                    <p style="font-size: 18px; margin: 0; color: #36404A; font-weight: bold;">Detalhes do Banco de Dados</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                        <tr>
+                                                            <td width="150" style="color: #6B7A99; padding-bottom: 8px; vertical-align: top;">Tipo do Banco:</td>
+                                                            <td style="color: #2A3143; padding-bottom: 8px; font-weight: bold;">{{.DatabaseType}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="150" style="color: #6B7A99; padding-bottom: 8px; vertical-align: top;">Nome do Banco:</td>
+                                                            <td style="color: #2A3143; padding-bottom: 8px; font-weight: bold;">{{.DatabaseName}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="150" style="color: #6B7A99; padding-bottom: 8px; vertical-align: top;">Servidor:</td>
+                                                            <td style="color: #2A3143; padding-bottom: 8px; font-weight: bold;">{{.ServerName}}</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <!-- SPACER -->
+                                <tr>
+                                    <td style="padding: 15px 0;"></td>
+                                </tr>
+                                
+                                <!-- UNMANAGED USERS SECTION -->
+                                <tr>
+                                    <td bgcolor="#FFECEC" style="padding: 20px; background-color: #FFECEC; border-radius: 10px; border-left: 4px solid #D32F2F;">
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td style="padding-bottom: 15px;">
+                                                    <p style="font-size: 18px; margin: 0; color: #D32F2F; font-weight: bold;">Detalhes dos Usuários Não Gerenciados:</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                        {{range $index, $user := .UnmanagedUsers}}
+                                                        <tr>
+                                                            <td width="25" valign="top" style="padding: 4px 0; color: #D32F2F; font-weight: bold;">{{add $index 1}}.</td>
+                                                            <td style="color: #2A3143; padding-bottom: 12px;">
+                                                                <span style="font-weight: bold;">Nome de usuário:</span> {{$user.Username}}
+                                                                {{if $user.Role}}
+                                                                <br>
+                                                                <span style="color: #6B7A99; font-size: 14px; padding-left: 5px;">Função: {{$user.Role}}</span>
+                                                                {{end}}
+                                                                {{if $user.CreatedDate}}
+                                                                <br>
+                                                                <span style="color: #6B7A99; font-size: 14px; padding-left: 5px;">Criado em: {{$user.CreatedDate}}</span>
+                                                                {{end}}
+                                                                {{if $user.LastLogin}}
+                                                                <br>
+                                                                <span style="color: #6B7A99; font-size: 14px; padding-left: 5px;">Último login: {{$user.LastLogin}}</span>
+                                                                {{end}}
+                                                            </td>
+                                                        </tr>
+                                                        {{end}}
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <!-- SECURITY IMPACT SECTION -->
+                                <tr>
+                                    <td style="padding: 20px 0;">
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td style="padding-bottom: 10px;">
+                                                    <p style="font-size: 18px; margin: 0; color: #36404A; font-weight: bold;">Impacto na Segurança</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-bottom: 10px;">
+                                                    <p style="font-size: 16px; margin: 0; color: #2A3143;">Usuários não gerenciados no banco de dados podem levar a:</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                        <tr>
+                                                            <td width="20" valign="top" style="padding: 4px 0; color: #D32F2F;">&#8226;</td>
+                                                            <td style="color: #2A3143; padding-bottom: 8px;">Acesso não autorizado a dados</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="20" valign="top" style="padding: 4px 0; color: #D32F2F;">&#8226;</td>
+                                                            <td style="color: #2A3143; padding-bottom: 8px;">Falhas em auditorias de segurança</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="20" valign="top" style="padding: 4px 0; color: #D32F2F;">&#8226;</td>
+                                                            <td style="color: #2A3143; padding-bottom: 8px;">Violações de conformidade</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="20" valign="top" style="padding: 4px 0; color: #D32F2F;">&#8226;</td>
+                                                            <td style="color: #2A3143; padding-bottom: 8px;">Controles de acesso inadequados</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <!-- BUTTON -->
+                                <tr>
+                                    <td align="center" style="padding: 10px 0 30px 0;">
+                                        <table cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td align="center" bgcolor="#D32F2F" style="border-radius: 10px; background-color: #D32F2F;">
+                                                    <a href="{{.ActionURL}}" target="_blank" style="display: inline-block; padding: 16px 30px; font-size: 16px; font-weight: bold; color: #FFFFFF; text-decoration: none; border-radius: 10px;">
+                                                        Revisar e Gerenciar Usuários
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <!-- RECOMMENDED ACTIONS -->
+                                <tr>
+                                    <td bgcolor="#E1F5FE" style="padding: 20px; background-color: #E1F5FE; border-radius: 10px; margin: 20px 0;">
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td style="padding-bottom: 10px;">
+                                                    <p style="font-size: 16px; margin: 0; color: #2B87C6; font-weight: bold;">Ações Recomendadas</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                        <tr>
+                                                            <td width="25" valign="top" style="padding: 4px 0;">1.</td>
+                                                            <td style="color: #2A3143; padding-bottom: 8px;">Revisar cada conta de usuário não gerenciada</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="25" valign="top" style="padding: 4px 0;">2.</td>
+                                                            <td style="color: #2A3143; padding-bottom: 8px;">Importar usuários legítimos para o DB-Manager para gerenciamento</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="25" valign="top" style="padding: 4px 0;">3.</td>
+                                                            <td style="color: #2A3143; padding-bottom: 8px;">Remover usuários não autorizados do banco de dados</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="25" valign="top" style="padding: 4px 0;">4.</td>
+                                                            <td style="color: #2A3143; padding-bottom: 8px;">Documentar quaisquer exceções com justificativa</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <!-- DIVIDER -->
+                                <tr>
+                                    <td style="padding: 15px 0; border-top: 1px solid #E4E9F2;"></td>
+                                </tr>
+                                
+                                <!-- CONTACT INFO -->
+                                <tr>
+                                    <td style="padding-bottom: 20px;">
+                                        <p style="font-size: 16px; margin: 0; color: #2A3143;">Se você tiver alguma dúvida, entre em contato com o administrador de segurança do banco de dados.</p>
+                                    </td>
+                                </tr>
+                                
+                                <!-- SIGNATURE -->
+                                <tr>
+                                    <td>
+                                        <p style="font-size: 16px; margin: 0; color: #2A3143;">
+                                            Atenciosamente,<br />
+                                            Equipe de Segurança DB-Manager
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <!-- FOOTER -->
+                    <tr>
+                        <td style="padding: 20px; text-align: center;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td align="center" style="padding: 5px 0;">
+                                        <p style="margin: 0; color: #6B7A99; font-size: 13px;">Esta é uma mensagem de segurança automatizada do sistema DB-Manager.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="padding: 5px 0;">
+                                        <p style="margin: 0; color: #6B7A99; font-size: 13px;">Por favor, não responda a este e-mail.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="padding: 5px 0;">
+                                        <p style="margin: 0; color: #6B7A99; font-size: 13px;">&copy; 2025 DB-Manager - Todos os direitos reservados</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

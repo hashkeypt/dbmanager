@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dbmanager Security Alert</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f5f7;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .severity-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+        .severity-low { background-color: #4caf50; }
+        .severity-medium { background-color: #ff9800; }
+        .severity-high { background-color: #f44336; }
+        .severity-critical { background-color: #9c27b0; }
+        .content {
+            padding: 30px;
+        }
+        .alert-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .alert-box.critical {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        .info-row {
+            display: flex;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .info-label {
+            font-weight: 600;
+            width: 150px;
+            color: #666;
+        }
+        .info-value {
+            flex: 1;
+        }
+        .event-list {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .event-item {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .event-time {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .event-details {
+            font-size: 14px;
+            color: #495057;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .action-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #1e3a8a;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+        .action-button:hover {
+            background-color: #1e3a8a;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 dbmanager Security Alert</h1>
+            <div class="severity-badge severity-{{.Severity}}">{{.Severity}} Severity</div>
+        </div>
+        
+        <div class="content">
+            <div class="alert-box {{if eq .Severity "critical"}}critical{{end}}">
+                <h2 style="margin-top: 0;">{{.AlertName}}</h2>
+                <p style="margin-bottom: 0;">{{.AlertDescription}}</p>
+            </div>
+            
+            <div class="info-section">
+                <div class="info-row">
+                    <div class="info-label">Alert Time:</div>
+                    <div class="info-value">{{.Timestamp}}</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Condition:</div>
+                    <div class="info-value"><code>{{.Condition}}</code></div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">Events Detected:</div>
+                    <div class="info-value">{{.EventCount}}</div>
+                </div>
+            </div>
+            
+            {{if .Events}}
+            <div class="event-list">
+                <h3 style="margin-top: 0;">Recent Events</h3>
+                {{range .Events}}
+                <div class="event-item">
+                    <div class="event-header">
+                        <strong>{{.ActionType}}</strong>
+                        <span class="event-time">{{.Timestamp.Format "2006-01-02 15:04:05"}}</span>
+                    </div>
+                    <div class="event-details">
+                        <div><strong>User:</strong> {{.ActorName}} ({{.ActorID}})</div>
+                        <div><strong>IP Address:</strong> {{.IPAddress}}</div>
+                        {{if .Resource}}
+                        <div><strong>Resource:</strong> {{.ResourceType}} - {{.Resource}}</div>
+                        {{end}}
+                        {{if .Message}}
+                        <div><strong>Message:</strong> {{.Message}}</div>
+                        {{end}}
+                        <div><strong>Status:</strong> <span style="color: {{if eq .Status "success"}}#4caf50{{else}}#f44336{{end}}">{{.Status}}</span></div>
+                    </div>
+                </div>
+                {{end}}
+            </div>
+            {{end}}
+            
+            <div style="text-align: center;">
+                <a href="{{.SystemURL}}/logs/audit" class="action-button">View All Audit Logs</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>This is an automated alert from dbmanager - Database Web Application Firewall</p>
+            <p>To manage alert settings, please visit the <a href="{{.SystemURL}}/settings/alerts">Alert Configuration</a> page.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificação de Limite de Licença</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #dc3545;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header img {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .alert-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .critical-box {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .stats-table th,
+        .stats-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .stats-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #dc3545;
+            transition: width 0.3s ease;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+        .warning-icon {
+            font-size: 48px;
+            color: #dc3545;
+            margin-bottom: 10px;
+        }
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 0;
+            list-style: none;
+        }
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #dee2e6;
+            top: 15px;
+            right: -50%;
+        }
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        .timeline-dot {
+            width: 30px;
+            height: 30px;
+            background-color: #dc3545;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+        .timeline-dot.completed {
+            background-color: #28a745;
+        }
+        .timeline-dot.current {
+            background-color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            {{if .LogoURL}}
+            <img src="{{.LogoURL}}" alt="DB Manager">
+            {{else}}
+            <h1>DB Manager</h1>
+            {{end}}
+            <h2>Notificação de Limite de Licença</h2>
+        </div>
+        
+        <div class="content">
+            <p>Olá {{.AdminName}},</p>
+            
+            {{if eq .DaysRemaining 15}}
+            <div class="alert-box">
+                <div class="warning-icon">⚠️</div>
+                <h3>Limite de {{.ResourceType}} Excedido</h3>
+                <p><strong>{{.CustomerName}}</strong> ultrapassou o limite de {{.ResourceType}} do plano {{.LicensePlan}}.</p>
+                <p>O sistema está operando em <strong>período de tolerância</strong> e você tem <strong>15 dias</strong> para regularizar a situação.</p>
+            </div>
+            {{else if le .DaysRemaining 3}}
+            <div class="critical-box">
+                <div class="warning-icon">🚨</div>
+                <h3>URGENTE: Apenas {{.DaysRemaining}} dias restantes!</h3>
+                <p>O período de tolerância está prestes a expirar. <strong>Ação imediata necessária!</strong></p>
+            </div>
+            {{else if eq .DaysRemaining 0}}
+            <div class="critical-box">
+                <div class="warning-icon">🔒</div>
+                <h3>Sistema Bloqueado</h3>
+                <p>O período de tolerância expirou. O sistema está <strong>bloqueado</strong> para criação de novos {{.ResourceType}}.</p>
+            </div>
+            {{else}}
+            <div class="alert-box">
+                <div class="warning-icon">⚠️</div>
+                <h3>Atualização de Status</h3>
+                <p>Restam <strong>{{.DaysRemaining}} dias</strong> no período de tolerância.</p>
+            </div>
+            {{end}}
+            
+            <h3>Detalhes do Uso</h3>
+            <table class="stats-table">
+                <tr>
+                    <th>Métrica</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td>Tipo de Recurso</td>
+                    <td>{{.ResourceType}}</td>
+                </tr>
+                <tr>
+                    <td>Uso Atual</td>
+                    <td><strong>{{.CurrentUsage}}</strong></td>
+                </tr>
+                <tr>
+                    <td>Limite do Plano</td>
+                    <td>{{.OriginalLimit}}</td>
+                </tr>
+                <tr>
+                    <td>Limite com Tolerância (30%)</td>
+                    <td>{{.ToleranceLimit}}</td>
+                </tr>
+                <tr>
+                    <td>Excesso</td>
+                    <td>{{.ExceedPercentage}}%</td>
+                </tr>
+            </table>
+            
+            <div>
+                <h4>Progresso de Uso</h4>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{if gt .CurrentUsage .ToleranceLimit}}100{{else}}{{mul (div .CurrentUsage .ToleranceLimit) 100}}{{end}}%"></div>
+                </div>
+                <p style="text-align: center; margin-top: 5px;">
+                    {{.CurrentUsage}} / {{.ToleranceLimit}} (incluindo tolerância)
+                </p>
+            </div>
+            
+            <h3>Linha do Tempo</h3>
+            <ul class="timeline">
+                <li class="timeline-item">
+                    <div class="timeline-dot completed">✓</div>
+                    <div>Limite Excedido</div>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-dot {{if le .DaysRemaining 14}}completed{{else}}current{{end}}">{{if le .DaysRemaining 14}}✓{{else}}2{{end}}</div>
+                    <div>Período de Tolerância</div>
+                    <small>15 dias</small>
+                </li>
+                <li class="timeline-item">
+                    <div class="timeline-dot {{if eq .DaysRemaining 0}}completed{{end}}">{{if eq .DaysRemaining 0}}🔒{{else}}3{{end}}</div>
+                    <div>Sistema Bloqueado</div>
+                    {{if gt .DaysRemaining 0}}<small>em {{.DaysRemaining}} dias</small>{{end}}
+                </li>
+            </ul>
+            
+            <h3>Ações Necessárias</h3>
+            <p>Para evitar o bloqueio do sistema, você pode:</p>
+            <ol>
+                <li><strong>Atualizar a Licença:</strong> Faça upgrade do plano para aumentar os limites</li>
+                <li><strong>Reduzir o Uso:</strong> Remova {{.ResourceType}} não utilizados para voltar ao limite permitido</li>
+            </ol>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{{.SystemURL}}/admin/license" class="button">Gerenciar Licença</a>
+                <a href="{{.SystemURL}}/admin/{{if eq .ResourceType "servidores"}}servers{{else}}users{{end}}" class="button">Gerenciar {{.ResourceType}}</a>
+            </div>
+            
+            {{if eq .DaysRemaining 0}}
+            <div class="critical-box">
+                <p><strong>⚠️ IMPORTANTE:</strong> Para desbloquear o sistema, você DEVE:</p>
+                <ol>
+                    <li>Atualizar sua licença para um plano com limites maiores, OU</li>
+                    <li>Reduzir o número de {{.ResourceType}} para ficar dentro do limite permitido</li>
+                </ol>
+                <p>Entre em contato com o suporte se precisar de assistência.</p>
+            </div>
+            {{end}}
+        </div>
+        
+        <div class="footer">
+            <p>Esta é uma notificação automática do sistema DB Manager.</p>
+            <p>Por favor, não responda a este email.</p>
+            <p>© 2024 DB Manager. Todos os direitos reservados.</p>
+            {{if .SystemURL}}
+            <p><a href="{{.SystemURL}}">{{.SystemURL}}</a></p>
+            {{end}}
+        </div>
+    </div>
+</body>
+</html>

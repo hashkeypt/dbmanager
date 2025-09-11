@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Alerta de Cambio en la Estructura de Base de Datos - DB-Manager</title>
+</head>
+<body style="background-color: #F8FAFD; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.5; margin: 0; padding: 0; color: #2A3143; -webkit-text-size-adjust: none; -ms-text-size-adjust: none;">
+    <!-- Preheader text (hidden, but useful for email clients) -->
+    <div style="display: none; max-height: 0px; overflow: hidden;">
+        Cambios detectados en la estructura de la base de datos - Se han agregado o eliminado bases de datos o tablas.
+    </div>
+    
+    <!-- Main content wrapper -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #F8FAFD;">
+        <tr>
+            <td align="center" style="padding: 20px 0;">
+                <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; margin: 0 auto; background-color: transparent;">
+                    <!-- HEADER WITH LOGO -->
+                    <tr>
+                        <td align="center" bgcolor="#F0F2F5" style="padding: 30px 20px; border-top-left-radius: 16px; border-top-right-radius: 16px; background-color: #F0F2F5;">
+                            <img src="{{.LogoURL}}" alt="Logo DB-Manager" width="200" style="width: 200px; max-width: 80%; height: auto; display: block; margin: 0 auto; border: 0;" />
+                        </td>
+                    </tr>
+                    
+                    <!-- MAIN CONTENT -->
+                    <tr>
+                        <td bgcolor="#FFFFFF" style="padding: 40px; background-color: #FFFFFF; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <!-- ALERT ICON -->
+                                <tr>
+                                    <td align="center">
+                                        <table width="80" height="80" cellpadding="0" cellspacing="0" border="0" style="width: 80px; height: 80px; border-radius: 50%; background-color: #FFF3E0; border: 3px solid #FFB74D; text-align: center; margin: 0 auto 20px auto;">
+                                            <tr>
+                                                <td align="center" valign="middle" style="color: #FF9800; font-size: 36px; font-weight: bold;">
+                                                    ⚠
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <!-- TITLE -->
+                                <tr>
+                                    <td align="center" style="padding-bottom: 30px;">
+                                        <h1 style="color: #36404A; font-size: 28px; font-weight: bold; margin: 0; text-align: center;">Cambios en la Estructura de Base de Datos</h1>
+                                    </td>
+                                </tr>
+                                
+                                <!-- INTRODUCTION -->
+                                <tr>
+                                    <td style="padding-bottom: 30px;">
+                                        <p style="color: #586069; font-size: 18px; margin: 0 0 15px 0;">
+                                            Hola,
+                                        </p>
+                                        <p style="color: #586069; font-size: 16px; margin: 0;">
+                                            Durante la sincronización del <strong style="color: #36404A;">{{.Date}}</strong>, DB-Manager detectó cambios en la estructura de la base de datos <strong style="color: #36404A;">{{.ServerName}}</strong>.
+                                        </p>
+                                    </td>
+                                </tr>
+                                
+                                <!-- SUMMARY CARDS -->
+                                <tr>
+                                    <td style="padding-bottom: 30px;">
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td>
+                                                    <!-- STATS GRID -->
+                                                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                        <tr>
+                                                            {{if .HasExtraDatabases}}
+                                                            <td width="48%" valign="top" style="padding-right: 2%;">
+                                                                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #E3F2FD; border-radius: 8px; padding: 20px;">
+                                                                    <tr>
+                                                                        <td align="center">
+                                                                            <div style="color: #1976D2; font-size: 32px; font-weight: bold;">{{.ExtraDatabasesCount}}</div>
+                                                                            <div style="color: #424242; font-size: 14px; margin-top: 5px;">Bases de Datos Nuevas</div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                            {{end}}
+                                                            
+                                                            {{if .HasMissingDatabases}}
+                                                            <td width="48%" valign="top" style="padding-left: 2%;">
+                                                                <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #FFEBEE; border-radius: 8px; padding: 20px;">
+                                                                    <tr>
+                                                                        <td align="center">
+                                                                            <div style="color: #D32F2F; font-size: 32px; font-weight: bold;">{{.MissingDatabasesCount}}</div>
+                                                                            <div style="color: #424242; font-size: 14px; margin-top: 5px;">Bases de Datos Eliminadas</div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                            {{end}}
+                                                        </tr>
+                                                        
+                                                        {{if or .HasExtraTables .HasMissingTables}}
+                                                        <tr>
+                                                            <td colspan="2" style="padding-top: 10px;">
+                                                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                                    <tr>
+                                                                        {{if .HasExtraTables}}
+                                                                        <td width="48%" valign="top" style="padding-right: 2%;">
+                                                                            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #E8F5E9; border-radius: 8px; padding: 20px;">
+                                                                                <tr>
+                                                                                    <td align="center">
+                                                                                        <div style="color: #388E3C; font-size: 32px; font-weight: bold;">{{.ExtraTablesCount}}</div>
+                                                                                        <div style="color: #424242; font-size: 14px; margin-top: 5px;">Tablas Nuevas</div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                        {{end}}
+                                                                        
+                                                                        {{if .HasMissingTables}}
+                                                                        <td width="48%" valign="top" style="padding-left: 2%;">
+                                                                            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #FFF3E0; border-radius: 8px; padding: 20px;">
+                                                                                <tr>
+                                                                                    <td align="center">
+                                                                                        <div style="color: #F57C00; font-size: 32px; font-weight: bold;">{{.MissingTablesCount}}</div>
+                                                                                        <div style="color: #424242; font-size: 14px; margin-top: 5px;">Tablas Eliminadas</div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                        {{end}}
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        {{end}}
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <!-- DISCREPANCY DETAILS -->
+                                <tr>
+                                    <td style="padding-bottom: 30px;">
+                                        <h2 style="color: #36404A; font-size: 20px; font-weight: bold; margin: 0 0 20px 0;">Detalles de los Cambios</h2>
+                                        
+                                        {{if .ExtraDatabases}}
+                                        <div style="background-color: #F8F9FA; border-left: 4px solid #1976D2; padding: 15px; margin-bottom: 15px;">
+                                            <h3 style="color: #1976D2; font-size: 16px; font-weight: bold; margin: 0 0 10px 0;">Bases de Datos Nuevas Detectadas:</h3>
+                                            <ul style="margin: 0; padding-left: 20px;">
+                                                {{range .ExtraDatabases}}
+                                                <li style="color: #586069; margin-bottom: 5px;">{{.}}</li>
+                                                {{end}}
+                                            </ul>
+                                        </div>
+                                        {{end}}
+                                        
+                                        {{if .MissingDatabases}}
+                                        <div style="background-color: #F8F9FA; border-left: 4px solid #D32F2F; padding: 15px; margin-bottom: 15px;">
+                                            <h3 style="color: #D32F2F; font-size: 16px; font-weight: bold; margin: 0 0 10px 0;">Bases de Datos Eliminadas:</h3>
+                                            <ul style="margin: 0; padding-left: 20px;">
+                                                {{range .MissingDatabases}}
+                                                <li style="color: #586069; margin-bottom: 5px;">{{.}}</li>
+                                                {{end}}
+                                            </ul>
+                                        </div>
+                                        {{end}}
+                                        
+                                        {{if .ExtraTables}}
+                                        <div style="background-color: #F8F9FA; border-left: 4px solid #388E3C; padding: 15px; margin-bottom: 15px;">
+                                            <h3 style="color: #388E3C; font-size: 16px; font-weight: bold; margin: 0 0 10px 0;">Tablas Nuevas Detectadas:</h3>
+                                            <ul style="margin: 0; padding-left: 20px;">
+                                                {{range .ExtraTables}}
+                                                <li style="color: #586069; margin-bottom: 5px;">{{.Database}}{{if .Schema}}.{{.Schema}}{{end}}.{{.Table}}</li>
+                                                {{end}}
+                                            </ul>
+                                        </div>
+                                        {{end}}
+                                        
+                                        {{if .MissingTables}}
+                                        <div style="background-color: #F8F9FA; border-left: 4px solid #F57C00; padding: 15px; margin-bottom: 15px;">
+                                            <h3 style="color: #F57C00; font-size: 16px; font-weight: bold; margin: 0 0 10px 0;">Tablas Eliminadas:</h3>
+                                            <ul style="margin: 0; padding-left: 20px;">
+                                                {{range .MissingTables}}
+                                                <li style="color: #586069; margin-bottom: 5px;">{{.Database}}{{if .Schema}}.{{.Schema}}{{end}}.{{.Table}}</li>
+                                                {{end}}
+                                            </ul>
+                                        </div>
+                                        {{end}}
+                                    </td>
+                                </tr>
+                                
+                                <!-- ACTION REQUIRED -->
+                                <tr>
+                                    <td style="padding-bottom: 30px;">
+                                        <div style="background-color: #FFF3E0; border-radius: 8px; padding: 20px;">
+                                            <h3 style="color: #F57C00; font-size: 18px; font-weight: bold; margin: 0 0 10px 0;">Acción Recomendada</h3>
+                                            <p style="color: #586069; font-size: 14px; margin: 0 0 10px 0;">
+                                                Estos cambios fueron detectados automáticamente por DB-Manager. Por favor revise los cambios y:
+                                            </p>
+                                            <ul style="margin: 0 0 10px 0; padding-left: 20px;">
+                                                <li style="color: #586069; margin-bottom: 5px;">Verifique si los cambios son esperados y forman parte del desarrollo planificado</li>
+                                                <li style="color: #586069; margin-bottom: 5px;">Para nuevas bases de datos o tablas, configure los permisos necesarios en DB-Manager</li>
+                                                <li style="color: #586069; margin-bottom: 5px;">Para elementos eliminados, verifique si las eliminaciones fueron intencionales</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- CTA BUTTON -->
+                                <tr>
+                                    <td align="center" style="padding-bottom: 30px;">
+                                        <table cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td align="center" bgcolor="#007BFF" style="border-radius: 6px; background-color: #007BFF;">
+                                                    <a href="{{.AppURL}}/sync-results" target="_blank" style="display: inline-block; padding: 16px 32px; font-size: 16px; color: #FFFFFF; text-decoration: none; border-radius: 6px; font-weight: bold;">
+                                                        Ver Detalles en DB-Manager
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                
+                                <!-- FOOTER -->
+                                <tr>
+                                    <td style="border-top: 1px solid #E1E4E8; padding-top: 30px;">
+                                        <p style="color: #808590; font-size: 14px; margin: 0; text-align: center;">
+                                            Este es un mensaje automático de DB-Manager.<br />
+                                            Por favor no responda a este correo.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

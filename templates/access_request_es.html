@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Solicitud de Acceso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #2c3e50;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .request-type {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .service-user-type {
+            background-color: #9b59b6;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .info-box {
+            background-color: #ecf0f1;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .service-user-info {
+            background-color: #f3e5f5;
+            border-left: 4px solid #9b59b6;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .table-list {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .table-item {
+            padding: 5px;
+            margin: 2px 0;
+            border-left: 2px solid #3498db;
+            padding-left: 10px;
+        }
+        .operations {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            margin: 2px;
+            font-size: 14px;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #3498db;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .cta-button:hover {
+            background-color: #2980b9;
+        }
+        .footer {
+            background-color: #ecf0f1;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            {{if .LogoURL}}
+            <img src="{{.LogoURL}}" alt="DB-Manager" style="max-height: 50px; margin-bottom: 10px;">
+            {{end}}
+            <h1>Nueva Solicitud de Acceso</h1>
+        </div>
+        
+        <div class="content">
+            {{if .IsServiceUser}}
+            <span class="service-user-type">SOLICITUD DE USUARIO DE SERVICIO</span>
+            {{else}}
+            <span class="request-type">SOLICITUD DE ACCESO</span>
+            {{end}}
+            
+            <h2>Hola Administrador,</h2>
+            
+            <p>Se ha enviado una nueva solicitud de acceso que requiere su revisión.</p>
+            
+            <div class="info-box">
+                <p><span class="detail-label">ID de Solicitud:</span> {{.RequestID}}</p>
+                <p><span class="detail-label">Solicitado Por:</span> {{.RequestedBy}}</p>
+                <p><span class="detail-label">Servidor:</span> {{.ServerName}}</p>
+                <p><span class="detail-label">Base de Datos:</span> {{.DatabaseName}}</p>
+            </div>
+            
+            {{if .IsServiceUser}}
+            <div class="service-user-info">
+                <h3>Detalles del Usuario de Servicio</h3>
+                <p><span class="detail-label">Nombre del Usuario de Servicio:</span> {{.ServiceUserName}}</p>
+                <p><span class="detail-label">Propósito:</span> {{.ServiceUserDescription}}</p>
+            </div>
+            
+            <div class="warning">
+                <strong>⚠️ Importante:</strong> Aprobar esta solicitud creará una nueva cuenta de usuario de servicio con los permisos especificados.
+            </div>
+            {{end}}
+            
+            <h3>Acceso Solicitado</h3>
+            
+            <div class="table-list">
+                <p><span class="detail-label">Tablas:</span></p>
+                {{range .Tables}}
+                <div class="table-item">{{.}}</div>
+                {{end}}
+            </div>
+            
+            <p><span class="detail-label">Operaciones:</span>
+                {{range .Operations}}
+                <span class="operations">{{.}}</span>
+                {{end}}
+            </p>
+            
+            <div class="info-box">
+                <p><span class="detail-label">Justificación:</span></p>
+                <p>{{.Reason}}</p>
+            </div>
+            
+            <p style="text-align: center;">
+                <a href="{{.SystemURL}}/requests" class="cta-button">Revisar Solicitud</a>
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>Esta es una notificación automática de DB-Manager.</p>
+            <p>Por favor, no responda a este correo electrónico.</p>
+            <p>&copy; {{.Year}} DB-Manager. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>
