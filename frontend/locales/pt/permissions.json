@@ -50,8 +50,8 @@
     "deleteError": "Erro ao excluir permissão"
   },
   "noDatabaseTables": "Este banco de dados ainda não possui tabelas. Você pode conceder permissões a nível de banco de dados.",
-  "grantDatabaseLevel": "Conceder permissão a nível de banco de dados (permitir criação de tabelas)"
-  },
+  "grantDatabaseLevel": "Conceder permissão a nível de banco de dados (permitir criação de tabelas)",
+  "databaseLevelInfo": "Permissões a nível de banco de dados serão concedidas. O usuário poderá criar tabelas neste banco de dados.",
   "enhancedManagement": "Gerenciamento Avançado de Permissões",
   "grantRevoke": "Conceder/Revogar Permissões",
   "currentPermissions": "Permissões Atuais",
