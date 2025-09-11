@@ -48,6 +48,8 @@
   "noDatabaseTables": "This database doesn't have any tables yet. You can grant database-level permissions.",
   "grantDatabaseLevel": "Grant database-level permissions (allow table creation)",
   "databaseLevelInfo": "Database-level permissions will be granted. The user will be able to create tables in this database.",
+  "databaseLevelOption": "Database-level permissions",
+  "databaseLevelDescription": "Grant permissions to create new tables",
   "detailedPermissions": "Detailed Permissions",
   "selectPrivilege": "Select Privilege",
   "readDataDesc": "Allows reading data from the selected tables",
