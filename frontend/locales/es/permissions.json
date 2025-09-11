@@ -45,6 +45,8 @@
     "deleteSuccess": "Permiso eliminado exitosamente",
     "deleteError": "Error al eliminar permiso"
   },
+  "noDatabaseTables": "Esta base de datos aún no tiene tablas. Puede otorgar permisos a nivel de base de datos.",
+  "grantDatabaseLevel": "Otorgar permisos a nivel de base de datos (permitir creación de tablas)",
   "detailedPermissions": "Permisos Detallados",
   "selectPrivilege": "Seleccionar Privilegio",
   "readDataDesc": "Permite leer datos de las tablas seleccionadas",
