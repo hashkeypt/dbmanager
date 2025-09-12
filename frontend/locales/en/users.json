@@ -95,6 +95,7 @@
   "stats": {
     "totalUsers": "Total Users",
     "activeUsers": "Active Users",
+    "inactiveUsers": "Inactive Users",
     "pendingUsers": "Pending",
     "administrators": "Administrators"
   },
