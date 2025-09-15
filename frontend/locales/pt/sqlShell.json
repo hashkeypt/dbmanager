@@ -1,0 +1,30 @@
+{
+  "title": "SQL Shell",
+  "welcome": "DBManager SQL Shell v1.0.0",
+  "helpHint": "Digite 'help' para comandos disponíveis ou 'connect <server_id>' para conectar a um banco de dados.",
+  "availableServers": "Servidores disponíveis",
+  "connected": "Conectado com sucesso!",
+  "serverName": "Nome do Servidor",
+  "serverType": "Tipo do Servidor",
+  "database": "Banco de Dados",
+  "selectServer": "Selecione um servidor...",
+  "clearTerminal": "Limpar Terminal",
+  "executing": "Executando...",
+  "typeCommand": "Digite seu comando SQL...",
+  "executionTime": "Tempo de execução",
+  "helpText": "Digite 'help' para comandos disponíveis",
+  "helpContent": "Comandos disponíveis:\n  help                      - Mostra esta mensagem de ajuda\n  list                      - Lista servidores de banco de dados disponíveis\n  connect <nome_ou_id>      - Conectar a um servidor por nome ou ID\n  disconnect                - Desconectar do servidor atual\n  clear                     - Limpar o terminal\n  exit                      - Sair do shell\n\nQuando conectado a um servidor:\n  - Execute qualquer query SQL\n  - Use setas CIMA/BAIXO para navegar no histórico de comandos\n  - Use Ctrl+C para cancelar a entrada atual\n  - Use Ctrl+L para limpar a tela",
+  "noServersAvailable": "Nenhum servidor disponível. Por favor, adicione servidores na página de Servidores.",
+  "serverNotFound": "Servidor \"{{server}}\" não encontrado.",
+  "disconnected": "Desconectado de {{server}}",
+  "notConnected": "Não conectado a nenhum servidor",
+  "notConnectedHint": "Não conectado a nenhum banco de dados. Use \"connect <server_id>\" primeiro.",
+  "goodbye": "Até logo!",
+  "queryExecutedSuccessfully": "Query executada com sucesso",
+  "queryExecutionFailed": "Falha na execução da query",
+  "networkError": "Erro de rede ocorreu",
+  "showingFirst100Rows": "Mostrando primeiras 100 linhas",
+  "errors": {
+    "loadServersFailed": "Falha ao carregar servidores"
+  }
+}

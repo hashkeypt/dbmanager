@@ -8,6 +8,7 @@
   "logs": "Logs",
   "reports": "Relatórios",
   "queryAudit": "Auditoria de Queries",
+  "sqlShell": "SQL Shell",
   "sync": "Sincronização",
   "settings": "Configurações",
   "profile": "Perfil",

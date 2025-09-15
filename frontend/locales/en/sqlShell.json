@@ -1,0 +1,30 @@
+{
+  "title": "SQL Shell",
+  "welcome": "DBManager SQL Shell v1.0.0",
+  "helpHint": "Type 'help' for available commands or 'connect <server_id>' to connect to a database.",
+  "availableServers": "Available servers",
+  "connected": "Successfully connected!",
+  "serverName": "Server Name",
+  "serverType": "Server Type",
+  "database": "Database",
+  "selectServer": "Select a server...",
+  "clearTerminal": "Clear Terminal",
+  "executing": "Executing...",
+  "typeCommand": "Type your SQL command...",
+  "executionTime": "Execution time",
+  "helpText": "Type 'help' for available commands",
+  "helpContent": "Available commands:\n  help                      - Show this help message\n  list                      - List available database servers\n  connect <name_or_id>      - Connect to a server by name or ID\n  disconnect                - Disconnect from current server\n  clear                     - Clear the terminal\n  exit                      - Exit the shell\n\nWhen connected to a server:\n  - Execute any SQL query\n  - Use UP/DOWN arrows to navigate command history\n  - Use Ctrl+C to cancel current input\n  - Use Ctrl+L to clear screen",
+  "noServersAvailable": "No servers available. Please add servers in the Servers page.",
+  "serverNotFound": "Server \"{{server}}\" not found.",
+  "disconnected": "Disconnected from {{server}}",
+  "notConnected": "Not connected to any server",
+  "notConnectedHint": "Not connected to any database. Use \"connect <server_id>\" first.",
+  "goodbye": "Goodbye!",
+  "queryExecutedSuccessfully": "Query executed successfully",
+  "queryExecutionFailed": "Query execution failed",
+  "networkError": "Network error occurred",
+  "showingFirst100Rows": "Showing first 100 rows",
+  "errors": {
+    "loadServersFailed": "Failed to load servers"
+  }
+}

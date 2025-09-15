@@ -1,0 +1,30 @@
+{
+  "title": "SQL Shell",
+  "welcome": "DBManager SQL Shell v1.0.0",
+  "helpHint": "Escriba 'help' para comandos disponibles o 'connect <server_id>' para conectar a una base de datos.",
+  "availableServers": "Servidores disponibles",
+  "connected": "¡Conectado exitosamente!",
+  "serverName": "Nombre del Servidor",
+  "serverType": "Tipo de Servidor",
+  "database": "Base de Datos",
+  "selectServer": "Seleccione un servidor...",
+  "clearTerminal": "Limpiar Terminal",
+  "executing": "Ejecutando...",
+  "typeCommand": "Escriba su comando SQL...",
+  "executionTime": "Tiempo de ejecución",
+  "helpText": "Escriba 'help' para comandos disponibles",
+  "helpContent": "Comandos disponibles:\n  help                      - Muestra este mensaje de ayuda\n  list                      - Lista servidores de bases de datos disponibles\n  connect <nombre_o_id>     - Conectar a un servidor por nombre o ID\n  disconnect                - Desconectar del servidor actual\n  clear                     - Limpiar el terminal\n  exit                      - Salir del shell\n\nCuando esté conectado a un servidor:\n  - Ejecute cualquier consulta SQL\n  - Use flechas ARRIBA/ABAJO para navegar el historial de comandos\n  - Use Ctrl+C para cancelar la entrada actual\n  - Use Ctrl+L para limpiar la pantalla",
+  "noServersAvailable": "No hay servidores disponibles. Por favor, agregue servidores en la página de Servidores.",
+  "serverNotFound": "Servidor \"{{server}}\" no encontrado.",
+  "disconnected": "Desconectado de {{server}}",
+  "notConnected": "No conectado a ningún servidor",
+  "notConnectedHint": "No conectado a ninguna base de datos. Use \"connect <server_id>\" primero.",
+  "goodbye": "¡Adiós!",
+  "queryExecutedSuccessfully": "Consulta ejecutada exitosamente",
+  "queryExecutionFailed": "Fallo en la ejecución de la consulta",
+  "networkError": "Ocurrió un error de red",
+  "showingFirst100Rows": "Mostrando las primeras 100 filas",
+  "errors": {
+    "loadServersFailed": "Error al cargar servidores"
+  }
+}
