@@ -2,7 +2,13 @@
   "title": "Servers",
   "subtitle": "Manage database servers",
   "addTitle": "Add New Server",
-  "editTitle": "Edit Server", 
+  "editTitle": "Edit Server",
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "checking": "Checking...",
+    "unknown": "Unknown"
+  },
   "statusActive": "Active",
   "statusInactive": "Inactive",
   "statusInactiveMessage": "Server is inactive",
@@ -156,5 +162,9 @@
   "noServersFoundSearch": "No servers found for this search",
   "tryDifferentSearch": "Try searching for another term",
   "addFirstServer": "Click \"Add Server\" button to get started",
-  "viewMetrics": "View Metrics"
+  "viewMetrics": "View Metrics",
+  "type": {
+    "all": "All Types",
+    "filterByType": "Filter by Type"
+  }
 }

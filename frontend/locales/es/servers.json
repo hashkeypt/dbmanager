@@ -2,7 +2,13 @@
   "title": "Servidores",
   "subtitle": "Gestionar servidores de base de datos",
   "addTitle": "Agregar Nuevo Servidor",
-  "editTitle": "Editar Servidor", 
+  "editTitle": "Editar Servidor",
+  "status": {
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "checking": "Verificando...",
+    "unknown": "Desconocido"
+  },
   "statusActive": "Activo",
   "statusInactive": "Inactivo",
   "statusInactiveMessage": "El servidor está inactivo",
@@ -147,5 +153,9 @@
   "noServersFoundSearch": "No se encontraron servidores para esta búsqueda",
   "tryDifferentSearch": "Intente buscar con otro término",
   "addFirstServer": "Haga clic en el botón \"Agregar Servidor\" para comenzar",
-  "viewMetrics": "Ver Métricas"
+  "viewMetrics": "Ver Métricas",
+  "type": {
+    "all": "Todos los Tipos",
+    "filterByType": "Filtrar por Tipo"
+  }
 }
