@@ -83,6 +83,7 @@
   "table": {
     "name": "Nombre",
     "type": "Tipo",
+    "environment": "Ambiente",
     "host": "Host",
     "port": "Puerto",
     "status": "Estado",

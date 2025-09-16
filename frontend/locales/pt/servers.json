@@ -85,6 +85,7 @@
   "table": {
     "name": "Nome",
     "type": "Tipo",
+    "environment": "Ambiente",
     "host": "Host",
     "port": "Porta",
     "status": "Status",
