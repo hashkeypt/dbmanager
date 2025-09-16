@@ -1,6 +1,7 @@
 {
   "sync": {
     "title": "Dashboard de Sincronização",
+    "searchByServerName": "Buscar por nome do servidor...",
     "trigger": "Executar Sincronização",
     "inProgress": "Sincronizando...",
     "refresh": "Atualizar",

@@ -1,6 +1,7 @@
 {
   "sync": {
     "title": "Synchronization Dashboard",
+    "searchByServerName": "Search by server name...",
     "trigger": "Run Synchronization",
     "inProgress": "Synchronizing...",
     "refresh": "Refresh",
