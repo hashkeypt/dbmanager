@@ -118,6 +118,7 @@
     },
     
     "type": "Type",
+    "environment": "Environment",
     "server": "Server",
     "username": "Username",
     "table": "Table",

@@ -118,6 +118,7 @@
     },
     
     "type": "Tipo",
+    "environment": "Ambiente",
     "server": "Servidor",
     "username": "Nombre de Usuario",
     "table": "Tabla",
