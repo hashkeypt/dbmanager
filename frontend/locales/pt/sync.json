@@ -1,6 +1,13 @@
 {
   "title": "Sincronização",
   "subtitle": "Gerenciamento de sincronização de banco de dados",
+  "searchByServerName": "Buscar por nome do servidor...",
+  "server": "Servidor",
+  "type": "Tipo",
+  "environment": "Ambiente",
+  "viewAsCards": "Visualizar como Cards",
+  "viewAsList": "Visualizar como Lista",
+  "noServersFound": "Nenhum servidor encontrado",
   "running": "Em execução",
   "stopped": "Parado",
   "start": "Iniciar",

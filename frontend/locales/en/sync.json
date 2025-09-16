@@ -1,6 +1,13 @@
 {
   "title": "Synchronization",
   "subtitle": "Database synchronization management",
+  "searchByServerName": "Search by server name...",
+  "server": "Server",
+  "type": "Type",
+  "environment": "Environment",
+  "viewAsCards": "View as Cards",
+  "viewAsList": "View as List",
+  "noServersFound": "No servers found",
   "running": "Running",
   "stopped": "Stopped",
   "start": "Start",
