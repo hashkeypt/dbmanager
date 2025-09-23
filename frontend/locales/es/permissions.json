@@ -132,6 +132,7 @@
     "insert": "INSERT",
     "update": "UPDATE",
     "delete": "DELETE",
+    "dump": "DUMP",
     "all": "TODAS",
     "read": "LECTURA",
     "write": "ESCRITURA",
