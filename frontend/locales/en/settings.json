@@ -262,6 +262,10 @@
       "title": "License Management",
       "description": "View and manage your system license"
     },
+    "cloud": {
+      "title": "Cloud Provisioning",
+      "description": "Configure cloud providers to provision databases"
+    },
     "metrics": {
       "title": "Database Metrics",
       "description": "Configure metrics collection and monitoring for servers"

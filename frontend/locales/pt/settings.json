@@ -262,6 +262,10 @@
       "title": "Gerenciamento de Licença",
       "description": "Visualize e gerencie a licença do sistema"
     },
+    "cloud": {
+      "title": "Provisionamento em Nuvem",
+      "description": "Configure provedores de nuvem para provisionar bancos de dados"
+    },
     "metrics": {
       "title": "Métricas de Banco de Dados",
       "description": "Configure coleta e monitoramento de métricas dos servidores"

@@ -262,6 +262,10 @@
       "title": "Gestión de Licencias",
       "description": "Vea y gestione su licencia del sistema"
     },
+    "cloud": {
+      "title": "Aprovisionamiento en la Nube",
+      "description": "Configure proveedores de nube para aprovisionar bases de datos"
+    },
     "metrics": {
       "title": "Métricas de Base de Datos",
       "description": "Configure la recolección de métricas y monitoreo para servidores"
