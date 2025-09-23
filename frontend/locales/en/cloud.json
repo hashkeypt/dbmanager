@@ -13,6 +13,8 @@
     "editProvider": "Edit Provider",
     "deleteProvider": "Delete Provider",
     "deleteConfirm": "Are you sure you want to delete this provider?",
+    "selectProvider": "Select Provider",
+    "selectProviderHelp": "Choose the cloud provider for these credentials",
     "testConnection": "Test Connection",
     "connectionSuccess": "Connection successful",
     "connectionFailed": "Connection failed"

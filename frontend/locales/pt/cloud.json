@@ -12,6 +12,9 @@
     "addProvider": "Adicionar Provedor",
     "editProvider": "Editar Provedor",
     "deleteProvider": "Excluir Provedor",
+    "deleteConfirm": "Tem certeza que deseja excluir este provedor?",
+    "selectProvider": "Selecionar Provedor",
+    "selectProviderHelp": "Escolha o provedor de nuvem para essas credenciais",
     "testConnection": "Testar Conexão",
     "connectionSuccess": "Conexão bem-sucedida",
     "connectionFailed": "Falha na conexão"

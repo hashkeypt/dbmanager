@@ -13,6 +13,8 @@
     "editProvider": "Editar Proveedor",
     "deleteProvider": "Eliminar Proveedor",
     "deleteConfirm": "¿Está seguro de que desea eliminar este proveedor?",
+    "selectProvider": "Seleccionar Proveedor",
+    "selectProviderHelp": "Elija el proveedor de nube para estas credenciales",
     "testConnection": "Probar Conexión",
     "connectionSuccess": "Conexión exitosa",
     "connectionFailed": "Falló la conexión"
