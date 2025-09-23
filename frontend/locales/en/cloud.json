@@ -21,6 +21,14 @@
     "title": "Credentials",
     "name": "Credential Name",
     "description": "Description",
+    "environment": "Environment",
+    "environmentHelp": "Select the environment for these credentials",
+    "environments": {
+      "dev": "Development",
+      "qa": "QA/Testing",
+      "staging": "Staging",
+      "prod": "Production"
+    },
     "accessKeyId": "Access Key ID",
     "secretAccessKey": "Secret Access Key",
     "clientId": "Client ID",
