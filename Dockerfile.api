@@ -50,17 +50,19 @@ COPY dbmanager-api /app/
 # Copy frontend
 COPY frontend /app/frontend
 
-# Copy email templates
-COPY templates /app/templates
+# Create scripts directory first
+RUN mkdir -p /app/backend/scripts /app/templates
 
-# Copy scripts directory if exists
-COPY scripts /app/backend/scripts
+# Copy scripts that are included in the docker directory
+COPY scripts/* /app/backend/scripts/
+
+# Note: Email templates can be mounted as volume or copied during deployment
 
 # Set permissions for entire /app directory recursively
 RUN chown -R ubuntu:ubuntu /app && \
     chmod -R 755 /app && \
     chmod -R 775 /app/data /app/logs /app/uploads && \
-    chmod +x /app/backend/scripts/*.sh 2>/dev/null || true
+    find /app/backend/scripts -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
 
 # Switch to ubuntu user
 USER ubuntu
