@@ -275,9 +275,20 @@
     "deleteError": "Erro ao excluir permissão",
     "requestRevokedSuccess": "Solicitação revogada com sucesso",
     "requestRevokeError": "Erro ao revogar solicitação",
-    "revokeReasonRequired": "O motivo da revogação é obrigatório"
+    "revokeReasonRequired": "O motivo da revogação é obrigatório",
+    "requestDeletedSuccess": "Solicitação excluída permanentemente com sucesso",
+    "requestDeleteError": "Erro ao excluir solicitação permanentemente"
   },
   "revokeReason": "Motivo da Revogação",
   "revokeReasonPlaceholder": "Por favor, informe o motivo da revogação...",
-  "revokeReasonRequired": "O motivo é obrigatório"
+  "revokeReasonRequired": "O motivo é obrigatório",
+  "deleteWarning": "ATENÇÃO: Esta ação irá",
+  "deleteWarning1": "Remover todas as permissões associadas do banco de dados",
+  "deleteWarning2": "Excluir o registro da solicitação permanentemente",
+  "deleteWarning3": "Remover o usuário do banco de dados se não tiver outras permissões",
+  "deleteWarningFinal": "Esta ação NÃO pode ser desfeita!",
+  "deleteConfirm": "Excluir Permanentemente",
+  "server": "Servidor",
+  "database": "Banco de Dados",
+  "tables": "Tabelas"
 }
