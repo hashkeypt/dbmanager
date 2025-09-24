@@ -274,6 +274,10 @@
     "deleteSuccess": "Permissão excluída com sucesso",
     "deleteError": "Erro ao excluir permissão",
     "requestRevokedSuccess": "Solicitação revogada com sucesso",
-    "requestRevokeError": "Erro ao revogar solicitação"
-  }
+    "requestRevokeError": "Erro ao revogar solicitação",
+    "revokeReasonRequired": "O motivo da revogação é obrigatório"
+  },
+  "revokeReason": "Motivo da Revogação",
+  "revokeReasonPlaceholder": "Por favor, informe o motivo da revogação...",
+  "revokeReasonRequired": "O motivo é obrigatório"
 }
