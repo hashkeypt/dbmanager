@@ -67,7 +67,7 @@ RUN chown -R ubuntu:ubuntu /app && \
 USER ubuntu
 
 # Environment variables
-ENV LD_LIBRARY_PATH=/opt/oracle/instantclient_21_10:$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH=/opt/oracle/instantclient_21_10
 ENV ORACLE_HOME=/opt/oracle/instantclient_21_10
 
 # Expose API port
