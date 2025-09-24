@@ -37,9 +37,8 @@ RUN echo /opt/oracle/instantclient_21_10 > /etc/ld.so.conf.d/oracle-instantclien
     ln -sf /opt/oracle/instantclient_21_10/sqlplus /usr/local/bin/sqlplus 2>/dev/null || true
 
 # Create ubuntu user with specific UID/GID for compatibility
-# Check if user/group exists before creating
-RUN (getent group ubuntu || groupadd -g 1000 ubuntu) && \
-    (id -u ubuntu &>/dev/null || useradd -u 1000 -g ubuntu -m -s /bin/bash ubuntu)
+RUN groupadd -g 1000 ubuntu || true && \
+    useradd -u 1000 -g ubuntu -m -s /bin/bash ubuntu || true
 
 # Create necessary directories
 RUN mkdir -p /app/data /app/logs /app/uploads /app/uploads/avatars /app/templates /app/backend/scripts
