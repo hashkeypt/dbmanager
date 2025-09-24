@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Install runtime dependencies including database client tools
 RUN apt-get update && apt-get install -y \
-    ca-certificates tzdata netcat-openbsd bash wget \
+    ca-certificates tzdata netcat-openbsd bash wget unzip \
     postgresql-client default-mysql-client \
     libaio1 curl gnupg2 software-properties-common && \
     rm -rf /var/lib/apt/lists/*
