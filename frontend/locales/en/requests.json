@@ -145,6 +145,7 @@
     "temporaryAccessDesc": "Select an expiration date for access",
     "expirationDate": "Expiration Date",
     "expirationDateInfo": "Access will be automatically revoked after this date",
+    "expirationDateTimeHelp": "Select date and time for automatic expiration",
     "durationSummary": "Duration Summary",
     "permanentAccessTitle": "Permanent Access",
     "temporaryAccessTitle": "Temporary Access",
