@@ -1,19 +1,40 @@
-FROM ubuntu:24.04
+# Production Dockerfile for DB-Manager API (based on source Dockerfile)
+FROM debian:bookworm-slim
 
 WORKDIR /app
 
-# Install runtime dependencies including Oracle client
+# Install runtime dependencies including database client tools
 RUN apt-get update && apt-get install -y \
-    ca-certificates tzdata wget libaio1t64 unzip && \
+    ca-certificates tzdata netcat-openbsd bash wget \
+    postgresql-client default-mysql-client \
+    libaio1 curl gnupg2 software-properties-common && \
     rm -rf /var/lib/apt/lists/*
 
-# Download minimal Oracle Instant Client
-RUN mkdir -p /opt/oracle && cd /opt/oracle && \
-    wget -q https://download.oracle.com/otn_software/linux/instantclient/2110000/instantclient-basiclite-linux.x64-21.10.0.0.0dbru.zip && \
-    unzip -q instantclient-basiclite-linux.x64-21.10.0.0.0dbru.zip && \
-    rm -f *.zip && \
-    echo /opt/oracle/instantclient_21_10 > /etc/ld.so.conf.d/oracle-instantclient.conf && \
-    ldconfig
+# Install SQL Server tools (sqlcmd)
+RUN curl -fsSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg && \
+    curl -fsSL https://packages.microsoft.com/config/debian/12/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+    apt-get update && \
+    ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Add SQL Server tools to PATH
+ENV PATH="$PATH:/opt/mssql-tools18/bin"
+
+# Download and install Oracle Instant Client with SQLPlus and Tools
+RUN mkdir -p /opt/oracle && \
+    cd /opt/oracle && \
+    wget -q https://download.oracle.com/otn_software/linux/instantclient/2110000/instantclient-basic-linux.x64-21.10.0.0.0dbru.zip && \
+    wget -q https://download.oracle.com/otn_software/linux/instantclient/2110000/instantclient-sqlplus-linux.x64-21.10.0.0.0dbru.zip && \
+    wget -q https://download.oracle.com/otn_software/linux/instantclient/2110000/instantclient-tools-linux.x64-21.10.0.0.0dbru.zip && \
+    unzip -q instantclient-basic-linux.x64-21.10.0.0.0dbru.zip && \
+    unzip -q instantclient-sqlplus-linux.x64-21.10.0.0.0dbru.zip && \
+    unzip -q instantclient-tools-linux.x64-21.10.0.0.0dbru.zip && \
+    rm -f *.zip
+
+# Configure Oracle runtime and create symlink for sqlplus
+RUN echo /opt/oracle/instantclient_21_10 > /etc/ld.so.conf.d/oracle-instantclient.conf && \
+    ldconfig && \
+    ln -sf /opt/oracle/instantclient_21_10/sqlplus /usr/local/bin/sqlplus 2>/dev/null || true
 
 # Create ubuntu user with specific UID/GID for compatibility
 # Check if user/group exists before creating
@@ -21,9 +42,9 @@ RUN (getent group ubuntu || groupadd -g 1000 ubuntu) && \
     (id -u ubuntu &>/dev/null || useradd -u 1000 -g ubuntu -m -s /bin/bash ubuntu)
 
 # Create necessary directories
-RUN mkdir -p /app/data /app/logs /app/uploads /app/uploads/avatars /app/templates
+RUN mkdir -p /app/data /app/logs /app/uploads /app/uploads/avatars /app/templates /app/backend/scripts
 
-# Copy binary
+# Copy binary (already compiled)
 COPY dbmanager-api /app/
 
 # Copy frontend
@@ -32,19 +53,29 @@ COPY frontend /app/frontend
 # Copy email templates
 COPY templates /app/templates
 
+# Copy scripts if available
+COPY scripts/* /app/backend/scripts/ 2>/dev/null || true
+
 # Set permissions for entire /app directory recursively
 RUN chown -R ubuntu:ubuntu /app && \
     chmod -R 755 /app && \
-    chmod -R 775 /app/data /app/logs /app/uploads
+    chmod -R 775 /app/data /app/logs /app/uploads && \
+    chmod +x /app/backend/scripts/*.sh 2>/dev/null || true
 
+# Switch to ubuntu user
 USER ubuntu
 
-ENV LD_LIBRARY_PATH=/opt/oracle/instantclient_21_10
+# Environment variables
+ENV LD_LIBRARY_PATH=/opt/oracle/instantclient_21_10:$LD_LIBRARY_PATH
 ENV ORACLE_HOME=/opt/oracle/instantclient_21_10
 
+# Expose API port
 EXPOSE 8082
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD wget -qO- http://localhost:8082/api/health || exit 1
+# Health check removido para evitar reinicializações durante operações pesadas
+# Use /api/health/detailed para monitoramento manual
+# HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+#     CMD wget -qO- http://localhost:8082/api/health || exit 1
 
+# Run the API server
 CMD ["./dbmanager-api"]
