@@ -110,7 +110,9 @@
     "apply": "Aplicar Filtros",
     "user": "Filtrar por Usuario",
     "database": "Filtrar por Base de Datos",
-    "status": "Filtrar por Estado"
+    "status": "Filtrar por Estado",
+    "all": "Todos",
+    "results": "resultados encontrados"
   },
   "details": {
     "title": "Detalles de la Solicitud",

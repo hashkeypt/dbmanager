@@ -110,7 +110,9 @@
     "apply": "Apply Filters",
     "user": "Filter by User",
     "database": "Filter by Database",
-    "status": "Filter by Status"
+    "status": "Filter by Status",
+    "all": "All",
+    "results": "results found"
   },
   "details": {
     "title": "Request Details",
