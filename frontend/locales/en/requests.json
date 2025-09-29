@@ -123,6 +123,12 @@
     "permanentPermission": "Permanent Permission",
     "expiresOn": "Expires on"
   },
+  "legend": {
+    "title": "Existing Permissions:",
+    "read": "Read (SELECT)",
+    "write": "Write (INSERT/UPDATE/DELETE)",
+    "admin": "Admin (CREATE/ALTER/DROP)"
+  },
   "wizard": {
     "title": "Create Access Request",
     "neverExpires": "Never Expires",
