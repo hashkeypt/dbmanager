@@ -1238,64 +1238,30 @@ COMMENT ON COLUMN user_permissions.service_user_id IS 'ID do usuário de serviç
 -- View unificada de permissões (usuários regulares + service users)
 DROP VIEW IF EXISTS unified_permissions CASCADE;
 
+-- CORREÇÃO IMPORTANTE: Adicionada coluna id no início para compatibilidade com queries de sincronização
+-- Esta estrutura simplificada é a que funciona em produção
 CREATE VIEW unified_permissions AS
-SELECT 
-    'regular'::VARCHAR(20) as user_type,
-    u.id as user_id,
-    u.username,
-    NULL::VARCHAR as encrypted_password,
-    u.active as user_active,
-    up.id as permission_id,
+SELECT
+    up.id,                      -- IMPORTANTE: Coluna id que estava faltando em produção!
+    up.user_id,
     up.server_id,
     up.database_name,
     up.schema_name,
     up.table_name,
     up.operations,
-    up.status as permission_status,
-    up.created_at,
-    up.updated_at,
+    up.is_permanent,
     up.expires_at,
-    up.created_by,
-    s.name as server_name,
-    s.type as server_type,
-    s.host as server_host,
-    s.port as server_port
-FROM users u
-INNER JOIN user_permissions up ON u.id = up.user_id
-INNER JOIN servers s ON up.server_id = s.id
-WHERE (up.status = 'active' OR up.status IS NULL)
-  AND u.status = 'active'
-
-UNION ALL
-
--- Permissões de service users (user_permissions com service_user_id)
-SELECT 
-    'service'::VARCHAR(20) as user_type,
-    su.id as user_id,
-    su.username,
-    su.encrypted_password,
-    su.is_active as user_active,
-    up.id as permission_id,
-    up.server_id,
-    up.database_name,
-    up.schema_name,
-    up.table_name,
-    up.operations,
-    up.status as permission_status,
     up.created_at,
-    up.updated_at,
-    up.expires_at,
-    up.created_by,
-    s.name as server_name,
-    s.type as server_type,
-    s.host as server_host,
-    s.port as server_port
-FROM service_users su
-INNER JOIN user_permissions up ON su.id = up.service_user_id
-INNER JOIN servers s ON up.server_id = s.id
-WHERE (up.status = 'active' OR up.status IS NULL)
-  AND su.is_active = true
-  AND up.service_user_id IS NOT NULL;
+    up.status,
+    COALESCE(u.username, su.username) AS username,  -- Username de user ou service_user
+    u.email,
+    s.name AS server_name,
+    s.type AS server_type
+FROM user_permissions up
+    LEFT JOIN users u ON up.user_id = u.id
+    LEFT JOIN service_users su ON up.service_user_id = su.id
+    JOIN servers s ON up.server_id = s.id
+WHERE up.status = 'active';
 
 -- View unificada de usuários gerenciados (regulares + service)
 DROP VIEW IF EXISTS unified_managed_users CASCADE;
