@@ -1,8 +1,3 @@
-{"timestamp":"2025-07-07T09:23:26.801691423Z","level":"INFO","message":"Reading logs from database","component":"logs-api","file":"??","line":1}
-{"timestamp":"2025-07-07T09:23:26.801749214Z","level":"INFO","message":"Buscando logs do sistema de auditoria com filtros: timeRange=24h, database=, user=, operation=, status=, offset=0, limit=20","component":"logs-api","file":"??","line":1}
-{"timestamp":"2025-07-07T09:23:26.802643099Z","level":"INFO","message":"Found 4 audit logs matching the criteria","component":"logs-api","file":"??","line":1}
-{"timestamp":"2025-07-07T09:23:26.803201228Z","level":"INFO","message":"Found total of 4 audit logs matching the criteria","component":"logs-api","file":"??","line":1}
-{"timestamp":"2025-07-07T09:30:47.646160916Z","level":"INFO","message":"Reading logs from database","component":"logs-api","file":"??","line":1}
-{"timestamp":"2025-07-07T09:30:47.646185996Z","level":"INFO","message":"Buscando logs do sistema de auditoria com filtros: timeRange=24h, database=, user=, operation=, status=, offset=0, limit=20","component":"logs-api","file":"??","line":1}
-{"timestamp":"2025-07-07T09:30:47.648243705Z","level":"INFO","message":"Found 4 audit logs matching the criteria","component":"logs-api","file":"??","line":1}
-{"timestamp":"2025-07-07T09:30:47.648597703Z","level":"INFO","message":"Found total of 4 audit logs matching the criteria","component":"logs-api","file":"??","line":1}
+version https://git-lfs.github.com/spec/v1
+oid sha256:35026a981e9ebef43da41015b86a4f251135c0e2ac776c7b97e3e7f77423e25a
+size 1428

@@ -31,7 +31,20 @@ CREATE TABLE IF NOT EXISTS users (
     last_used TIMESTAMP WITH TIME ZONE,
     avatar_url VARCHAR(255),
     is_object_owner BOOLEAN DEFAULT FALSE,
-    object_count INTEGER DEFAULT 0
+    object_count INTEGER DEFAULT 0,
+    -- Colunas de autenticação
+    auth_provider VARCHAR(50) DEFAULT 'local',
+    sso_provider VARCHAR(50),
+    sso_user_id VARCHAR(500),
+    -- Colunas de senha
+    password_changed_at TIMESTAMP WITH TIME ZONE,
+    password_reset_token VARCHAR(255),
+    password_reset_expires_at TIMESTAMP WITH TIME ZONE,
+    -- Colunas de segurança
+    failed_login_attempts INTEGER DEFAULT 0,
+    locked_until TIMESTAMP WITH TIME ZONE,
+    last_password_change_reminder TIMESTAMP WITH TIME ZONE,
+    require_password_change BOOLEAN DEFAULT FALSE
 );
 
 -- Tabela para registrar tentativas de login
@@ -87,7 +100,12 @@ CREATE TABLE IF NOT EXISTS servers (
     last_sync TIMESTAMP WITH TIME ZONE,
     next_sync TIMESTAMP WITH TIME ZONE,
     performance_schema_status TEXT,
-    environment VARCHAR(10) DEFAULT 'prod' CHECK (environment IN ('dev', 'qa', 'prod'))
+    environment VARCHAR(10) DEFAULT 'prod' CHECK (environment IN ('dev', 'qa', 'prod')),
+    -- Colunas adicionais
+    use_ssl BOOLEAN DEFAULT false,
+    query_audit_enabled BOOLEAN DEFAULT false,
+    db_type VARCHAR(50),
+    database_name VARCHAR(100)
 );
 
 -- ====================================================================================================
@@ -140,7 +158,8 @@ CREATE TABLE IF NOT EXISTS user_permissions (
     status VARCHAR(20) NOT NULL DEFAULT 'active',
     revoked_by VARCHAR(36) REFERENCES users(id) ON DELETE SET NULL,
     revoked_at TIMESTAMP WITH TIME ZONE,
-    service_user_id VARCHAR(36) REFERENCES service_users(id) ON DELETE CASCADE
+    service_user_id VARCHAR(36) REFERENCES service_users(id) ON DELETE CASCADE,
+    request_id VARCHAR(36) -- FK será adicionada após criar access_requests
 );
 
 CREATE TABLE IF NOT EXISTS access_requests (
@@ -172,13 +191,29 @@ CREATE TABLE IF NOT EXISTS access_requests (
     service_user_description TEXT,
     create_service_user BOOLEAN DEFAULT false,
     service_user_username VARCHAR(100),
+    -- Colunas de dump/export
+    dump_url TEXT,
+    download_count INTEGER DEFAULT 0,
+    first_downloaded_at TIMESTAMP WITH TIME ZONE,
+    last_downloaded_at TIMESTAMP WITH TIME ZONE,
+    dump_created_at TIMESTAMP WITH TIME ZONE,
+    dump_expires_at TIMESTAMP WITH TIME ZONE,
+    dump_size_bytes BIGINT,
+    -- Colunas de revogação
+    revoked_at TIMESTAMP WITH TIME ZONE,
+    revoked_by VARCHAR(36) REFERENCES users(id),
+    revoke_reason TEXT,
     -- Constraint to ensure proper user/service user relationship
     CONSTRAINT check_user_or_service_user CHECK (
-        (user_id IS NOT NULL AND service_user_id IS NULL) OR 
-        (user_id IS NULL AND service_user_id IS NOT NULL) OR 
+        (user_id IS NOT NULL AND service_user_id IS NULL) OR
+        (user_id IS NULL AND service_user_id IS NOT NULL) OR
         (user_id IS NOT NULL AND is_service_user = true)
     )
 );
+
+-- Adicionar FK de user_permissions para access_requests após criar a tabela
+ALTER TABLE user_permissions ADD CONSTRAINT fk_user_permissions_request_id
+    FOREIGN KEY (request_id) REFERENCES access_requests(id) ON DELETE SET NULL;
 
 -- A tabela 'logs' foi removida em favor da 'audit_logs'
 
@@ -311,7 +346,8 @@ CREATE TABLE IF NOT EXISTS sync_discrepancies (
     accepted_by VARCHAR(255),
     permission_database_name VARCHAR(100),
     permission_table_name VARCHAR(100),
-    permission_schema_name VARCHAR(100)
+    permission_schema_name VARCHAR(100),
+    detection_count INTEGER DEFAULT 1
 );
 
 -- Create indexes for better performance
@@ -344,12 +380,19 @@ WHERE corrected = false;
 CREATE INDEX IF NOT EXISTS idx_disc_username_status
 ON sync_discrepancies(username, status, detected_at DESC);
 
+-- Índices adicionais para otimização de queries
 CREATE INDEX IF NOT EXISTS idx_disc_accepted
 ON sync_discrepancies(status, accepted_by, detected_at DESC)
 WHERE status = 'accepted';
 
 CREATE INDEX IF NOT EXISTS idx_disc_detected_at_partition
 ON sync_discrepancies(detected_at, server_id);
+
+CREATE INDEX IF NOT EXISTS idx_sync_discrepancies_created_at
+ON sync_discrepancies(created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_sync_discrepancies_server_status
+ON sync_discrepancies(server_id, status);
 
 -- Add constraint for discrepancy types
 ALTER TABLE sync_discrepancies ADD CONSTRAINT sync_discrepancies_type_check 
@@ -371,7 +414,6 @@ SELECT
     s.type AS database_type,
     s.sync_enabled,
     s.last_sync,
-    s.environment,
     (
         SELECT id
         FROM sync_results
@@ -379,12 +421,15 @@ SELECT
         ORDER BY start_time DESC
         LIMIT 1
     ) AS last_sync_id,
-    (
-        SELECT status
-        FROM sync_results
-        WHERE server_id = s.id
-        ORDER BY start_time DESC
-        LIMIT 1
+    COALESCE(
+        (
+            SELECT status
+            FROM sync_results
+            WHERE server_id = s.id
+            ORDER BY start_time DESC
+            LIMIT 1
+        ),
+        'never_synced'
     ) AS status,
     -- CORREÇÃO: discrepancy_count agora conta apenas discrepâncias pendentes para compatibilidade com dashboard
     (
@@ -422,9 +467,11 @@ SELECT
         WHERE server_id = s.id 
             AND type IN ('missing_permission', 'extra_permission', 'permission_mismatch')
             AND (status = 'pending' OR status IS NULL)
-    ) AS pending_permission_discrepancies
+    ) AS pending_permission_discrepancies,
+    s.environment
 FROM
     servers s
+WHERE s.status IN ('active', 'connected')
 ORDER BY
     s.name;
 
@@ -1390,12 +1437,14 @@ COMMENT ON COLUMN token_blacklist.reason IS 'Motivo da revogação (logout, secu
 -- Tabela para armazenar a licença atual do sistema
 CREATE TABLE IF NOT EXISTS system_license (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    license_id VARCHAR(100),             -- ID da licença
     encrypted_data TEXT NOT NULL,        -- Licença em Base64
     checksum VARCHAR(64) NOT NULL,       -- SHA256 para verificar integridade
     last_validated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_heartbeat TIMESTAMP,            -- Última validação online
     installation_hash VARCHAR(64),       -- Hash único da instalação (license_id + server_fingerprint + timestamp)
     installation_timestamp TIMESTAMP,    -- Timestamp da instalação da licença
+    expires_at TIMESTAMP,                -- Data de expiração da licença
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -2099,6 +2148,26 @@ COMMENT ON COLUMN query_audit_alerts.severity IS 'Severidade do alerta: low, med
 -- idx_query_audit_log_time_window: Suporta busca por janela de tempo para detecção de duplicatas mais flexível
 
 -- ====================================================================================================
+-- TABELA DE FILA DE ATUALIZAÇÃO DE SENHAS
+-- ====================================================================================================
+
+CREATE TABLE IF NOT EXISTS password_update_queue (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id VARCHAR(36) NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    server_id VARCHAR(36) NOT NULL REFERENCES servers(id) ON DELETE CASCADE,
+    new_password_encrypted VARCHAR(500) NOT NULL,
+    processed BOOLEAN DEFAULT false,
+    processed_at TIMESTAMP WITH TIME ZONE,
+    error_message TEXT,
+    retry_count INTEGER DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, server_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_password_queue_processed ON password_update_queue(processed);
+CREATE INDEX IF NOT EXISTS idx_password_queue_user_server ON password_update_queue(user_id, server_id);
+
+-- ====================================================================================================
 -- TABELAS DE SESSION TOKENS PARA LICENSING EM CONTAINERS
 -- ====================================================================================================
 
@@ -2225,6 +2294,13 @@ CREATE TABLE IF NOT EXISTS license_tolerance (
     current_usage INTEGER NOT NULL,
     tolerance_percentage DECIMAL(5,2) NOT NULL DEFAULT 30.00,
     tolerance_minimum INTEGER NOT NULL DEFAULT 1,
+    customer_id VARCHAR(255),
+    tolerance_start TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    tolerance_end TIMESTAMP WITH TIME ZONE,
+    tolerance_days INTEGER DEFAULT 7,
+    tolerance_type VARCHAR(50) DEFAULT 'EXPIRATION',
+    grace_actions JSONB,
+    notification_sent BOOLEAN DEFAULT false,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -2529,9 +2605,201 @@ BEGIN
     END IF;
 END $$;
 
+-- ====================================================================================================
+-- FUNÇÃO DE CLEANUP PARA QUERY AUDIT LOGS
+-- ====================================================================================================
+
+CREATE OR REPLACE FUNCTION cleanup_old_query_audit_logs()
+RETURNS void AS $$
+BEGIN
+    DELETE FROM query_audit_log
+    WHERE captured_at < NOW() - INTERVAL '30 days';
+END;
+$$ LANGUAGE plpgsql;
+
+-- ====================================================================================================
+-- ÍNDICES ADICIONAIS PARA PERFORMANCE
+-- ====================================================================================================
+
+-- Índices para a tabela users
+CREATE INDEX IF NOT EXISTS idx_users_auth_provider ON users(auth_provider);
+CREATE INDEX IF NOT EXISTS idx_users_password_changed_at ON users(password_changed_at);
+CREATE INDEX IF NOT EXISTS idx_users_locked_until ON users(locked_until) WHERE locked_until IS NOT NULL;
+
+-- Índices para a tabela access_requests
+CREATE INDEX IF NOT EXISTS idx_access_requests_dump_url ON access_requests(dump_url) WHERE dump_url IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_access_requests_download_count ON access_requests(download_count) WHERE download_count > 0;
+CREATE INDEX IF NOT EXISTS idx_access_requests_first_downloaded ON access_requests(first_downloaded_at) WHERE first_downloaded_at IS NOT NULL;
+
+-- ====================================================================================================
+-- PERMISSÕES E PRIVILÉGIOS
+-- ====================================================================================================
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO dbmanager;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO dbmanager;
+GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO dbmanager;
+
 -- Comentários de documentação para as novas funcionalidades
 COMMENT ON TABLE sync_discrepancy_stats IS 'Tabela de cache para estatísticas agregadas de discrepâncias por servidor e data';
 COMMENT ON FUNCTION analyze_discrepancy_performance IS 'Analisa métricas de performance do sistema de discrepâncias';
 COMMENT ON FUNCTION cleanup_old_discrepancies IS 'Remove discrepâncias antigas de forma eficiente em lotes';
 COMMENT ON FUNCTION update_discrepancy_stats IS 'Atualiza estatísticas agregadas de discrepâncias por servidor';
 COMMENT ON FUNCTION trigger_update_discrepancy_stats IS 'Trigger para manter estatísticas atualizadas automaticamente';
+
+-- ====================================================================================================
+-- CORREÇÕES APLICADAS EM 29/09/2025
+-- ====================================================================================================
+
+-- 1. Função check_license_tolerance (necessária para o sistema de licenciamento)
+CREATE OR REPLACE FUNCTION check_license_tolerance(
+    p_license_id VARCHAR(255),
+    p_customer_id VARCHAR(255),
+    p_current_servers INTEGER DEFAULT 0,
+    p_current_users INTEGER DEFAULT 0
+) RETURNS TABLE(
+    in_tolerance BOOLEAN,
+    tolerance_status VARCHAR(50),
+    days_remaining INTEGER,
+    should_block BOOLEAN
+) AS $$
+DECLARE
+    v_tolerance_days INTEGER DEFAULT 7; -- Período de tolerância padrão
+    v_expires_at TIMESTAMP;
+    v_in_tolerance BOOLEAN DEFAULT FALSE;
+    v_status VARCHAR(50);
+    v_days_remaining INTEGER;
+    v_should_block BOOLEAN DEFAULT FALSE;
+BEGIN
+    -- Buscar data de expiração da licença
+    SELECT expires_at INTO v_expires_at
+    FROM system_license
+    WHERE license_id = p_license_id
+    ORDER BY created_at DESC
+    LIMIT 1;
+
+    -- Se não encontrar licença, não está em tolerância
+    IF v_expires_at IS NULL THEN
+        RETURN QUERY SELECT FALSE, 'NO_LICENSE'::VARCHAR(50), 0, TRUE;
+        RETURN;
+    END IF;
+
+    -- Calcular dias restantes
+    v_days_remaining := EXTRACT(DAY FROM v_expires_at - NOW())::INTEGER;
+
+    -- Determinar status
+    IF v_expires_at > NOW() THEN
+        -- Licença ainda válida
+        v_in_tolerance := FALSE;
+        v_status := 'VALID';
+        v_should_block := FALSE;
+    ELSIF v_expires_at > NOW() - INTERVAL '7 days' THEN
+        -- Dentro do período de tolerância
+        v_in_tolerance := TRUE;
+        v_status := 'IN_TOLERANCE';
+        v_should_block := FALSE;
+    ELSE
+        -- Período de tolerância expirado
+        v_in_tolerance := FALSE;
+        v_status := 'EXPIRED';
+        v_should_block := TRUE;
+    END IF;
+
+    RETURN QUERY SELECT v_in_tolerance, v_status, v_days_remaining, v_should_block;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 2. Adicionar coluna accepted_at na tabela accepted_unmanaged_users (se não existir)
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                   WHERE table_name='accepted_unmanaged_users' AND column_name='accepted_at') THEN
+        ALTER TABLE accepted_unmanaged_users ADD COLUMN accepted_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP;
+    END IF;
+END $$;
+
+-- 3. Correção da view sync_status_view para incluir servidores com status 'connected'
+-- (já foi aplicada acima na definição da view)
+
+-- 4. View unified_managed_users (se não existir)
+CREATE OR REPLACE VIEW unified_managed_users AS
+SELECT DISTINCT
+    COALESCE(u.id, su.id) as user_id,
+    COALESCE(u.username, su.username) as username,
+    CASE
+        WHEN u.id IS NOT NULL THEN 'regular'
+        ELSE 'service'
+    END as user_type,
+    COALESCE(u.email, '') as email,
+    COALESCE(u.role, 'service_user') as role,
+    COALESCE(u.active, su.is_active) as is_active
+FROM users u
+FULL OUTER JOIN service_users su ON FALSE -- Não há join direto, apenas união
+WHERE (u.id IS NOT NULL AND u.active = true)
+   OR (su.id IS NOT NULL AND su.is_active = true);
+
+-- 5. View user_owned_objects (se não existir)
+CREATE OR REPLACE VIEW user_owned_objects AS
+SELECT
+    u.id as user_id,
+    u.username,
+    COUNT(DISTINCT up.server_id) as server_count,
+    COUNT(DISTINCT CONCAT(up.server_id, ':', up.database_name)) as database_count,
+    COUNT(DISTINCT CONCAT(up.server_id, ':', up.database_name, ':', up.table_name)) as table_count,
+    u.is_object_owner,
+    u.object_count
+FROM users u
+LEFT JOIN user_permissions up ON u.id = up.user_id AND up.status = 'active'
+GROUP BY u.id, u.username, u.is_object_owner, u.object_count;
+
+-- 6. Tabela server_structure_snapshot (para armazenar estrutura dos bancos)
+CREATE TABLE IF NOT EXISTS server_structure_snapshot (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    server_id VARCHAR(36) NOT NULL REFERENCES servers(id) ON DELETE CASCADE,
+    database_name VARCHAR(100) NOT NULL,
+    schema_name VARCHAR(100),
+    table_name VARCHAR(100), -- Removido NOT NULL para permitir snapshot de databases
+    column_name VARCHAR(100),
+    data_type VARCHAR(100),
+    is_nullable BOOLEAN DEFAULT true,
+    column_default TEXT,
+    character_maximum_length INTEGER,
+    numeric_precision INTEGER,
+    numeric_scale INTEGER,
+    snapshot_type VARCHAR(50) DEFAULT 'structure',
+    snapshot_timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(server_id, database_name, schema_name, table_name, column_name)
+);
+
+CREATE INDEX IF NOT EXISTS idx_server_structure_snapshot_server_id ON server_structure_snapshot(server_id);
+CREATE INDEX IF NOT EXISTS idx_server_structure_snapshot_timestamp ON server_structure_snapshot(snapshot_timestamp);
+
+-- 7. Tabela notification_tracking (para rastrear notificações enviadas)
+CREATE TABLE IF NOT EXISTS notification_tracking (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    server_id VARCHAR(36) NOT NULL REFERENCES servers(id) ON DELETE CASCADE,
+    notification_type VARCHAR(50) NOT NULL,
+    last_sent_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    discrepancy_hash TEXT,
+    discrepancy_count INTEGER DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(server_id, notification_type)
+);
+
+CREATE INDEX IF NOT EXISTS idx_notification_tracking_server ON notification_tracking(server_id);
+CREATE INDEX IF NOT EXISTS idx_notification_tracking_type ON notification_tracking(notification_type);
+
+-- 8. Adicionar colunas faltantes na tabela users
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                   WHERE table_name='users' AND column_name='preferred_language') THEN
+        ALTER TABLE users ADD COLUMN preferred_language VARCHAR(10) DEFAULT 'pt';
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns
+                   WHERE table_name='users' AND column_name='name') THEN
+        ALTER TABLE users ADD COLUMN name VARCHAR(255);
+    END IF;
+END $$;
