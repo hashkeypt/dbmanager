@@ -269,6 +269,10 @@
     "metrics": {
       "title": "Database Metrics",
       "description": "Configure metrics collection and monitoring for servers"
+    },
+    "containers": {
+      "title": "Container Monitoring",
+      "description": "Monitor health and manage Docker containers"
     }
   },
   "tabs": {

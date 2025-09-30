@@ -269,6 +269,10 @@
     "metrics": {
       "title": "Métricas de Banco de Dados",
       "description": "Configure coleta e monitoramento de métricas dos servidores"
+    },
+    "containers": {
+      "title": "Monitoramento de Containers",
+      "description": "Monitore a saúde e gerencie containers Docker"
     }
   },
   "tabs": {
